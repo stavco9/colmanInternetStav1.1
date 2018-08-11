@@ -47,7 +47,7 @@ namespace colmanInternetStav1._1
                 app.UseExceptionHandler("/Home/Error");
             }
 
-            app.UseStaticFiles();
+            app.UseStaticFiles();   
 
             app.UseMvc(routes =>
             {

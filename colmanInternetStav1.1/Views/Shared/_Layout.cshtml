@@ -37,14 +37,6 @@
                     <li><a asp-area="" asp-controller="Home" asp-action="Contact">Contact</a></li>
                     <li><a asp-area="" asp-controller="Home" asp-action="Account">Account</a></li>
                 </ul>
-                @if (User.Identity.IsAuthenticated)
-                {
-                    <p style="color:white">Hello, @User.Identity.Name</p>
-                }
-                else
-                {
-                    <p style="color:white">Please login to the application</p>
-                }
             </div>
         </div>
     </nav>

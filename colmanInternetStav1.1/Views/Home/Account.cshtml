@@ -1,0 +1,17 @@
+
+@{
+    ViewData["Title"] = "Account";
+}
+
+<h2>Account</h2>
+
+@if (User.Identity.IsAuthenticated)
+{
+    @foreach(var claim in User.Claims){
+        <p><b>@claim.Type</b> - @claim.Value</p>
+    }
+}
+else
+{
+    <p>User is not signed in</p>
+}

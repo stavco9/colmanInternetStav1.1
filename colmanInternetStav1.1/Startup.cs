@@ -47,7 +47,22 @@ namespace colmanInternetStav1._1
                 app.UseExceptionHandler("/Home/Error");
             }
 
-            app.UseStaticFiles();   
+            app.UseStaticFiles();
+
+            app.UseCookieAuthentication(new CookieAuthenticationOptions
+            {
+                AuthenticationScheme = "ApplicationCookie",
+                AutomaticAuthenticate = true
+            });
+
+            app.UseFacebookAuthentication(new FacebookOptions()
+            {
+                AuthenticationScheme = "Facebook",
+                AppId = "889199991272192",
+                AppSecret = "e8154cba6d74c863f65659ce6f2f7128",
+                //SignInScheme = "MyCookieMiddlewareInstance"
+                SignInScheme = "ApplicationCookie"
+            });
 
             app.UseMvc(routes =>
             {

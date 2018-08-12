@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Http.Authentication;
 
 namespace colmanInternetStav1._1.Controllers
 {
@@ -10,7 +11,14 @@ namespace colmanInternetStav1._1.Controllers
     {
         public IActionResult Index()
         {
-            return View();
+            if (User.Identity.IsAuthenticated)
+            {
+                return View();
+            }
+            else
+            {
+                return FacebookLogin();
+            }
         }
 
         public IActionResult About()
@@ -25,6 +33,23 @@ namespace colmanInternetStav1._1.Controllers
             ViewData["Message"] = "Your contact page.";
 
             return View();
+        }
+
+        public IActionResult Account()
+        {
+            ViewData["Message"] = "Your user details.";
+
+            return View();
+        }
+
+        public IActionResult FacebookLogin()
+        {
+            var authProperties = new AuthenticationProperties
+            {
+                RedirectUri = Url.Action("Index", "Home")
+            };
+
+            return Challenge(authProperties, "Facebook");
         }
 
         public IActionResult Error()

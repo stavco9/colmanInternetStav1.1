@@ -4,6 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http.Authentication;
+using Microsoft.AspNetCore.Http;
+using colmanInternetStav1._1.Models;
 
 namespace colmanInternetStav1._1.Controllers
 {
@@ -12,7 +14,9 @@ namespace colmanInternetStav1._1.Controllers
         public IActionResult Index()
         {
             if (User.Identity.IsAuthenticated)
-            {
+            { 
+                Models.Account currUser = new Account(HttpContext.User.Claims);
+
                 return View();
             }
             else

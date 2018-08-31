@@ -15,7 +15,7 @@ namespace colmanInternetStav1._1.Controllers
         {
             if (User.Identity.IsAuthenticated)
             { 
-                Models.Account currUser = new Account(HttpContext.User.Claims);
+                ViewData["UserInfo"] = Models.Account.GetCurrAccount(HttpContext.User.Claims);
 
                 return View();
             }
@@ -28,6 +28,7 @@ namespace colmanInternetStav1._1.Controllers
         public IActionResult About()
         {
             ViewData["Message"] = "Your application description page.";
+            ViewData["UserInfo"] = Models.Account.GetCurrAccount(HttpContext.User.Claims);
 
             return View();
         }
@@ -35,6 +36,15 @@ namespace colmanInternetStav1._1.Controllers
         public IActionResult Contact()
         {
             ViewData["Message"] = "Your contact page.";
+            ViewData["UserInfo"] = Models.Account.GetCurrAccount(HttpContext.User.Claims);
+
+            return View();
+        }
+
+        public IActionResult Location()
+        {
+            ViewData["Message"] = "Store Locations";
+            ViewData["UserInfo"] = Models.Account.GetCurrAccount(HttpContext.User.Claims);
 
             return View();
         }
@@ -42,6 +52,7 @@ namespace colmanInternetStav1._1.Controllers
         public IActionResult Account()
         {
             ViewData["Message"] = "Your user details.";
+            ViewData["UserInfo"] = Models.Account.GetCurrAccount(HttpContext.User.Claims);
 
             return View();
         }

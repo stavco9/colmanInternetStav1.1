@@ -1,4 +1,5 @@
 ﻿@inject Microsoft.ApplicationInsights.AspNetCore.JavaScriptSnippet JavaScriptSnippet
+@using colmanInternetStav1._1.Models;
 <!DOCTYPE html>
 <html>
 <head>
@@ -28,6 +29,12 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
+                @{ 
+                    var userInfo = (Account)ViewData["UserInfo"];
+                    string nameId = userInfo.NameID;
+                }
+                <img src="https://graph.facebook.com/@nameId/picture?type=small" />
+
                 <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">Hello - @User.Identity.Name</a>
             </div>
             <div class="navbar-collapse collapse">

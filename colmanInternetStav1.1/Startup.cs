@@ -61,7 +61,14 @@ namespace colmanInternetStav1._1
                 AppId = "889199991272192",
                 AppSecret = "e8154cba6d74c863f65659ce6f2f7128",
                 //SignInScheme = "MyCookieMiddlewareInstance"
-                SignInScheme = "ApplicationCookie"
+                SignInScheme = "ApplicationCookie",
+                Scope = {
+                    "public_profile"
+                },
+                Fields =
+                {
+                    "picture"
+                }
             });
 
             app.UseMvc(routes =>

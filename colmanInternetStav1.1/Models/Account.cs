@@ -11,6 +11,8 @@ namespace colmanInternetStav1._1.Models
     public class Account
     {
         private readonly IHttpContextAccessor _contextAccessor;
+        
+        public string NameID { get; }
 
         public string EmailAddress { get; }
 
@@ -24,6 +26,11 @@ namespace colmanInternetStav1._1.Models
         {
            foreach(var claim in userClaims)
             {
+                if (claim.Type.Contains("nameidentifier"))
+                {
+                    this.NameID = claim.Value;
+                }
+
                 if (claim.Type.Contains("emailaddress"))
                 {
                     this.EmailAddress = claim.Value;
@@ -44,6 +51,11 @@ namespace colmanInternetStav1._1.Models
                     this.FullName = claim.Value;
                 }
             }
+        }
+
+        public static Account GetCurrAccount(IEnumerable<Claim> userClaims)
+        {
+            return new Account(userClaims);
         }
     }
 }

@@ -15,14 +15,27 @@ function loadScript() {
 function getCoorDinateByAddress() {
     var jsonData = "";
 
-    $.getJSON("https://maps.google.com/maps/api/geocode/json?address=1600+Amphitheatre+Parkway,+Mountain+View,+CA").success(function (result) {
-            $.each(result, function (i, field) {
-                $("div")
-                    .append("<p>" + field + "</p>");
-            });
-        }).error(function (error) {
-            console.log(error);
-        });
+    var baseUrl = "https://maps.google.com/maps/api/geocode/json?address=";
+
+    var inputAddr = document.getElementById('address').value
+
+    inputAddr = inputAddr.split(' ').join('+');
+    inputAddr = inputAddr.split('-').join(",+");
+
+    baseUrl += inputAddr;
+
+    $.ajax({
+        dataType: "json",
+        data: { get_param: 'value' },
+        url: baseUrl,
+        success: function (data) {
+            jsonData = data;
+        }
+    });
+
+    //$.getJSON("https://maps.google.com/maps/api/geocode/json?address=1600+Amphitheatre+Parkway,+Mountain+View,+CA", function (data) {
+    //    jsonData = data;
+    //});
 
     window.onload = loadScript();
 }

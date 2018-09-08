@@ -67,6 +67,7 @@ namespace colmanInternetStav1._1
                 },
                 Fields =
                 {
+                    "gender",
                     "picture"
                 }
             });

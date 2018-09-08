@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 using System.Security.Claims;
 using System.Security.Principal;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Design;
 
 namespace colmanInternetStav1._1.Models
 {
@@ -21,6 +23,8 @@ namespace colmanInternetStav1._1.Models
         public string LastName { get; }
 
         public string FullName { get; }
+
+        public string Gender { get; set; }
 
         public Account(IEnumerable<Claim> userClaims)
         {
@@ -51,6 +55,8 @@ namespace colmanInternetStav1._1.Models
                     this.FullName = claim.Value;
                 }
             }
+
+            this.Gender = "male";
         }
 
         public static Account GetCurrAccount(IEnumerable<Claim> userClaims)

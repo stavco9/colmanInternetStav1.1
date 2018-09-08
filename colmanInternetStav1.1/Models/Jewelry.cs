@@ -1,20 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace colmanInternetStav1._1.Models
 {
-    public class Jewelry
+    public partial class Jewelry
     {
-        public int ID { get; }
+        public Jewelry()
+        {
+            Purchase = new HashSet<Purchase>();
+        }
 
-        public double Weight { get; set; }
-
+        public int Id { get; set; }
+        public double? Weight { get; set; }
         public double Price { get; set; }
+        public int? Cart { get; set; }
+        public string Descriptiom { get; set; }
+        public int? Size { get; set; }
+        public int SetId { get; set; }
 
-        public string Description { get; set; }
-
-        public string Size { get; set; }
+        public virtual ICollection<Purchase> Purchase { get; set; }
+        public virtual Set Set { get; set; }
     }
 }

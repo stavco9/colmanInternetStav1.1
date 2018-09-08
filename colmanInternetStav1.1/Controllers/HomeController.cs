@@ -14,8 +14,16 @@ namespace colmanInternetStav1._1.Controllers
         public IActionResult Index()
         {
             if (User.Identity.IsAuthenticated)
-            { 
-                ViewData["UserInfo"] = Models.Account.GetCurrAccount(HttpContext.User.Claims);
+            {
+                Models.Account account = Models.Account.GetCurrAccount(HttpContext.User.Claims);
+
+                ViewData["UserInfo"] = account;
+
+                UsersController addToDb = new UsersController(new ColmanInternetiotContext());
+
+                var userToDb = new Users { NameId = account.NameID, Email = account.EmailAddress, FName = account.FirstName, LName = account.LastName, Name = account.FullName, Gender = account.Gender, IsAdmin = 0 };
+
+                addToDb.Create(userToDb);
 
                 return View();
             }

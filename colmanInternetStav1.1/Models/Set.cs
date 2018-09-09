@@ -10,8 +10,8 @@ namespace colmanInternetStav1._1.Models
             Jewelry = new HashSet<Jewelry>();
         }
 
-        public int Id { get; set; }
         public string Name { get; set; }
+        public int Id { get; set; }
 
         public virtual ICollection<Jewelry> Jewelry { get; set; }
     }

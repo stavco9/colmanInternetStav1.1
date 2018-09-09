@@ -7,10 +7,13 @@ namespace colmanInternetStav1._1.Models
     public partial class ColmanInternetiotContext : DbContext
     {
         public virtual DbSet<Branch> Branch { get; set; }
+        public virtual DbSet<Category> Category { get; set; }
         public virtual DbSet<Jewelry> Jewelry { get; set; }
         public virtual DbSet<Purchase> Purchase { get; set; }
         public virtual DbSet<Set> Set { get; set; }
         public virtual DbSet<Users> Users { get; set; }
+
+        // Unable to generate entity type for table 'dbo.CategoriesJewelry'. Please see the warning messages.
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -22,17 +25,13 @@ namespace colmanInternetStav1._1.Models
         {
             modelBuilder.Entity<Branch>(entity =>
             {
-                entity.Property(e => e.Id)
-                    .HasColumnName("ID")
-                    .ValueGeneratedNever();
+                entity.Property(e => e.Id).HasColumnName("ID");
 
-                entity.Property(e => e.Address).HasColumnType("text");
+                entity.Property(e => e.Address).HasMaxLength(255);
 
                 entity.Property(e => e.ManagerId).HasColumnName("ManagerID");
 
-                entity.Property(e => e.Name)
-                    .IsRequired()
-                    .HasColumnType("text");
+                entity.Property(e => e.Name).HasMaxLength(255);
 
                 entity.HasOne(d => d.Manager)
                     .WithMany(p => p.Branch)
@@ -40,13 +39,18 @@ namespace colmanInternetStav1._1.Models
                     .HasConstraintName("FK__Branch__ManagerI__5812160E");
             });
 
+            modelBuilder.Entity<Category>(entity =>
+            {
+                entity.Property(e => e.Id).HasColumnName("ID");
+
+                entity.Property(e => e.Name).HasMaxLength(255);
+            });
+
             modelBuilder.Entity<Jewelry>(entity =>
             {
-                entity.Property(e => e.Id)
-                    .HasColumnName("ID")
-                    .ValueGeneratedNever();
+                entity.Property(e => e.Id).HasColumnName("ID");
 
-                entity.Property(e => e.Descriptiom).HasColumnType("text");
+                entity.Property(e => e.Description).HasMaxLength(255);
 
                 entity.Property(e => e.SetId).HasColumnName("SetID");
 
@@ -54,16 +58,20 @@ namespace colmanInternetStav1._1.Models
                     .WithMany(p => p.Jewelry)
                     .HasForeignKey(d => d.SetId)
                     .OnDelete(DeleteBehavior.Restrict)
-                    .HasConstraintName("FK__Jewelry__SetID__534D60F1");
+                    .HasConstraintName("FK__Jewelry__SetID__619B8048");
             });
 
             modelBuilder.Entity<Purchase>(entity =>
             {
-                entity.Property(e => e.Id)
-                    .HasColumnName("ID")
-                    .ValueGeneratedNever();
+                entity.Property(e => e.Id).HasColumnName("ID");
+
+                entity.Property(e => e.Amount).HasColumnName("amount");
+
+                entity.Property(e => e.Date).HasColumnType("date");
 
                 entity.Property(e => e.JewelryId).HasColumnName("JewelryID");
+
+                entity.Property(e => e.Reference).HasMaxLength(255);
 
                 entity.Property(e => e.UserId).HasColumnName("UserID");
 
@@ -71,7 +79,7 @@ namespace colmanInternetStav1._1.Models
                     .WithMany(p => p.Purchase)
                     .HasForeignKey(d => d.JewelryId)
                     .OnDelete(DeleteBehavior.Restrict)
-                    .HasConstraintName("FK__Purchase__Jewelr__5535A963");
+                    .HasConstraintName("FK__Purchase__Jewelr__5FB337D6");
 
                 entity.HasOne(d => d.User)
                     .WithMany(p => p.Purchase)
@@ -81,43 +89,34 @@ namespace colmanInternetStav1._1.Models
 
             modelBuilder.Entity<Set>(entity =>
             {
-                entity.Property(e => e.Id)
-                    .HasColumnName("ID")
-                    .ValueGeneratedNever();
+                entity.Property(e => e.Id).HasColumnName("ID");
 
-                entity.Property(e => e.Name)
-                    .IsRequired()
-                    .HasColumnType("text");
+                entity.Property(e => e.Name).HasMaxLength(255);
             });
 
             modelBuilder.Entity<Users>(entity =>
             {
                 entity.Property(e => e.Id).HasColumnName("ID");
 
-                entity.Property(e => e.Email)
-                    .IsRequired()
-                    .HasColumnType("text");
+                entity.Property(e => e.Email).HasMaxLength(255);
 
                 entity.Property(e => e.FName)
                     .HasColumnName("fName")
-                    .HasColumnType("text");
+                    .HasMaxLength(255);
 
-                entity.Property(e => e.Gender).HasColumnType("text");
+                entity.Property(e => e.Gender).HasMaxLength(255);
 
                 entity.Property(e => e.IsAdmin).HasColumnName("isAdmin");
 
                 entity.Property(e => e.LName)
                     .HasColumnName("lName")
-                    .HasColumnType("text");
+                    .HasMaxLength(255);
 
-                entity.Property(e => e.Name)
-                    .IsRequired()
-                    .HasColumnType("text");
+                entity.Property(e => e.Name).HasMaxLength(255);
 
                 entity.Property(e => e.NameId)
-                    .IsRequired()
                     .HasColumnName("NameID")
-                    .HasColumnType("text");
+                    .HasMaxLength(255);
             });
         }
     }

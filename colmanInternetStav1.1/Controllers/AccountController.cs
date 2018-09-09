@@ -11,20 +11,5 @@ namespace colmanInternetStav1._1.Controllers
 {
     public class AccountController : Controller
     {
-        // GET: /<controller>/
-        public IActionResult Index()
-        {
-            return View();
-        }
-
-        public IActionResult FacebookLogin()
-        {
-            var authProperties = new AuthenticationProperties
-            {
-                RedirectUri = Url.Action("Index", "Home")
-            };
-
-            return Challenge(authProperties, "Facebook");
-        }
     }
 }

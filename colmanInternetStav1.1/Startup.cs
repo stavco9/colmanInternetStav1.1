@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using colmanInternetStav1._1.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace colmanInternetStav1._1
 {
@@ -29,6 +31,10 @@ namespace colmanInternetStav1._1
         {
             // Add framework services.
             services.AddMvc();
+
+            services.AddDbContext<ColmanInternetiotContext>();
+
+            services.AddScoped<DbContext>(sp => sp.GetService<ColmanInternetiotContext>());
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

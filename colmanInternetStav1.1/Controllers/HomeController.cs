@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http.Authentication;
 using Microsoft.AspNetCore.Http;
 using colmanInternetStav1._1.Models;
+using System.Security.Claims;
 
 namespace colmanInternetStav1._1.Controllers
 {
@@ -60,6 +61,13 @@ namespace colmanInternetStav1._1.Controllers
         public IActionResult Account()
         {
             ViewData["Message"] = "Your user details.";
+            ViewData["UserInfo"] = Models.Account.GetCurrAccount(HttpContext.User.Claims);
+
+            return View();
+        }
+
+        public IActionResult NotAuthorized()
+        {
             ViewData["UserInfo"] = Models.Account.GetCurrAccount(HttpContext.User.Claims);
 
             return View();

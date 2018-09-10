@@ -12,8 +12,6 @@ namespace colmanInternetStav1._1.Models
 {
     public class Account
     {
-        private readonly IHttpContextAccessor _contextAccessor;
-        
         public string NameID { get; }
 
         public string EmailAddress { get; }
@@ -25,6 +23,8 @@ namespace colmanInternetStav1._1.Models
         public string FullName { get; }
 
         public string Gender { get; set; }
+
+        private readonly ColmanInternetiotContext _context;
 
         public Account(IEnumerable<Claim> userClaims)
         {
@@ -59,9 +59,24 @@ namespace colmanInternetStav1._1.Models
             this.Gender = "male";
         }
 
+        public static bool IsCurrUserAdmin(IEnumerable<Claim> userClaims, ColmanInternetiotContext context)
+        {
+            Users currUserFromDB = context.Users.SingleOrDefault(m => m.NameId == GetCurrAccount(userClaims).NameID);
+
+            if (int.Parse(currUserFromDB.IsAdmin.ToString()) == 1)
+            {
+                return true;
+            }
+
+            return false;
+            //return bool.Parse(context.Users.SingleOrDefault(m => m.NameId == GetCurrAccount(userClaims).NameID).IsAdmin.ToString());
+        }
+
         public static Account GetCurrAccount(IEnumerable<Claim> userClaims)
         {
             return new Account(userClaims);
         }
+
+
     }
 }

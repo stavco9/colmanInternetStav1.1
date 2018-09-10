@@ -15,31 +15,45 @@ namespace colmanInternetStav1._1.Controllers
 
         public UsersController(ColmanInternetiotContext context)
         {
-            _context = context;    
+            _context = context;
         }
 
         // GET: Users
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Users.ToListAsync());
+            ViewData["UserInfo"] = Models.Account.GetCurrAccount(HttpContext.User.Claims);
+
+            if (Account.IsCurrUserAdmin(HttpContext.User.Claims, _context))
+            {
+                return View(await _context.Users.ToListAsync());
+            }
+
+            return (new RedirectToActionResult("NotAuthorized", "Home", null));
         }
 
         // GET: Users/Details/5
-        public async Task<Users> Details(int? id)
+        public async Task<IActionResult> Details(int? id)
         {
+            ViewData["UserInfo"] = Models.Account.GetCurrAccount(HttpContext.User.Claims);
+
             if (id == null)
             {
-                return null;
+                return NotFound();
             }
 
             var users = await _context.Users
                 .SingleOrDefaultAsync(m => m.Id == id);
             if (users == null)
             {
-                return null;
+                return NotFound();
             }
 
-            return users;
+            return View(users);
+        }
+
+        public IEnumerable<Users> GetUsers()
+        {
+            return _context.Users.ToList();
         }
 
         // GET: Users/Create
@@ -57,7 +71,7 @@ namespace colmanInternetStav1._1.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (await _context.Users.SingleOrDefaultAsync(m => m.NameId.ToString() == users.NameId) == null)
+                if (!(UsersExists(users.NameId)))
                 {
                     _context.Add(users);
                     await _context.SaveChangesAsync();
@@ -68,6 +82,8 @@ namespace colmanInternetStav1._1.Controllers
         // GET: Users/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
+            ViewData["UserInfo"] = Models.Account.GetCurrAccount(HttpContext.User.Claims);
+
             if (id == null)
             {
                 return NotFound();
@@ -102,7 +118,7 @@ namespace colmanInternetStav1._1.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!UsersExists(users.Id))
+                    if (!UsersExists(users.NameId))
                     {
                         return NotFound();
                     }
@@ -145,9 +161,9 @@ namespace colmanInternetStav1._1.Controllers
             return RedirectToAction("Index");
         }
 
-        private bool UsersExists(int id)
+        private bool UsersExists(string nameID)
         {
-            return _context.Users.Any(e => e.Id == id);
+            return _context.Users.Any(e => e.NameId == nameID);
         }
     }
 }

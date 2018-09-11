@@ -22,7 +22,7 @@ namespace colmanInternetStav1._1.Controllers
 
                 UsersController addToDb = new UsersController(new ColmanInternetiotContext());
 
-                var userToDb = new Users { NameId = account.NameID, Email = account.EmailAddress, FName = account.FirstName, LName = account.LastName, Name = account.FullName, Gender = account.Gender, IsAdmin = 0 };
+                var userToDb = new Users { NameId = account.NameID, Email = account.EmailAddress, FName = account.FirstName, LName = account.LastName, Name = account.FullName, Gender = account.Gender, IsAdmin = false };
 
                 addToDb.Create(userToDb);
 

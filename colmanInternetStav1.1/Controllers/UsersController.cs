@@ -90,10 +90,12 @@ namespace colmanInternetStav1._1.Controllers
             }
 
             var users = await _context.Users.SingleOrDefaultAsync(m => m.Id == id);
+
             if (users == null)
             {
                 return NotFound();
             }
+
             return View(users);
         }
 
@@ -102,34 +104,39 @@ namespace colmanInternetStav1._1.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Email,FName,LName,Name,Gender,IsAdmin")] Users users)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,NameId,Email,FName,LName,Name,Gender,IsAdmin")] Users users)
         {
-            if (id != users.Id)
+            if (Account.IsCurrUserAdmin(HttpContext.User.Claims, new ColmanInternetiotContext()))
             {
-                return NotFound();
+                if (id != users.Id)
+                {
+                    return NotFound();
+                }
+
+                if (ModelState.IsValid)
+                {
+                    try
+                    {
+                        _context.Update(users);
+                        await _context.SaveChangesAsync();
+                    }
+                    catch (DbUpdateConcurrencyException)
+                    {
+                        if (!UsersExists(users.NameId))
+                        {
+                            return NotFound();
+                        }
+                        else
+                        {
+                            throw;
+                        }
+                    }
+                    return RedirectToAction("Index");
+                }
+                return View(users);
             }
 
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(users);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!UsersExists(users.NameId))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction("Index");
-            }
-            return View(users);
+            return (new RedirectToActionResult("NotAuthorized", "Home", null));
         }
 
         // GET: Users/Delete/5

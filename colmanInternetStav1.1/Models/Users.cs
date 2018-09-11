@@ -15,7 +15,7 @@ namespace colmanInternetStav1._1.Models
         public string FName { get; set; }
         public string LName { get; set; }
         public string Name { get; set; }
-        public int IsAdmin { get; set; }
+        public bool IsAdmin { get; set; }
         public string Gender { get; set; }
         public int Id { get; set; }
         public string NameId { get; set; }

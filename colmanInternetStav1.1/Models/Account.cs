@@ -63,12 +63,7 @@ namespace colmanInternetStav1._1.Models
         {
             Users currUserFromDB = context.Users.SingleOrDefault(m => m.NameId == GetCurrAccount(userClaims).NameID);
 
-            if (int.Parse(currUserFromDB.IsAdmin.ToString()) == 1)
-            {
-                return true;
-            }
-
-            return false;
+            return currUserFromDB.IsAdmin;
             //return bool.Parse(context.Users.SingleOrDefault(m => m.NameId == GetCurrAccount(userClaims).NameID).IsAdmin.ToString());
         }
 

@@ -26,18 +26,17 @@ namespace colmanInternetStav1._1.Controllers
 
                 addToDb.Create(userToDb);
 
-                return View();
             }
-            else
-            {
-                return FacebookLogin();
-            }
+    
+            return View();
         }
 
         public IActionResult About()
         {
             ViewData["Message"] = "Your application description page.";
-            ViewData["UserInfo"] = Models.Account.GetCurrAccount(HttpContext.User.Claims);
+
+            if (User.Identity.IsAuthenticated)
+                ViewData["UserInfo"] = Models.Account.GetCurrAccount(HttpContext.User.Claims);
 
             return View();
         }
@@ -45,15 +44,31 @@ namespace colmanInternetStav1._1.Controllers
         public IActionResult Contact()
         {
             ViewData["Message"] = "Your contact page.";
-            ViewData["UserInfo"] = Models.Account.GetCurrAccount(HttpContext.User.Claims);
+            
+            if (User.Identity.IsAuthenticated)
+                ViewData["UserInfo"] = Models.Account.GetCurrAccount(HttpContext.User.Claims);
 
             return View();
+        }
+
+        public IActionResult Login()
+        {
+            if (!User.Identity.IsAuthenticated)
+            {
+                return FacebookLogin();
+            }
+            else
+            {
+                return (new RedirectToActionResult("Index", "Home", null));
+            }
         }
 
         public IActionResult Location()
         {
             ViewData["Message"] = "Store Locations";
-            ViewData["UserInfo"] = Models.Account.GetCurrAccount(HttpContext.User.Claims);
+            
+            if (User.Identity.IsAuthenticated)
+                ViewData["UserInfo"] = Models.Account.GetCurrAccount(HttpContext.User.Claims);
 
             return View();
         }
@@ -61,14 +76,17 @@ namespace colmanInternetStav1._1.Controllers
         public IActionResult Account()
         {
             ViewData["Message"] = "Your user details.";
-            ViewData["UserInfo"] = Models.Account.GetCurrAccount(HttpContext.User.Claims);
+
+            if (User.Identity.IsAuthenticated)
+                ViewData["UserInfo"] = Models.Account.GetCurrAccount(HttpContext.User.Claims);
 
             return View();
         }
 
         public IActionResult NotAuthorized()
         {
-            ViewData["UserInfo"] = Models.Account.GetCurrAccount(HttpContext.User.Claims);
+            if (User.Identity.IsAuthenticated)
+                ViewData["UserInfo"] = Models.Account.GetCurrAccount(HttpContext.User.Claims);
 
             return View();
         }
@@ -81,6 +99,13 @@ namespace colmanInternetStav1._1.Controllers
             };
 
             return Challenge(authProperties, "Facebook");
+        }
+        
+        public IActionResult Logout()
+        {
+            Response.Cookies.Delete(".AspNetCore.ApplicationCookie");
+
+            return (new RedirectToActionResult("Index", "Home", null));
         }
 
         public IActionResult Error()

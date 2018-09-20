@@ -26,6 +26,11 @@ namespace colmanInternetStav1._1.Models
 
         private readonly ColmanInternetiotContext _context;
 
+        public Account()
+        {
+
+        }
+
         public Account(IEnumerable<Claim> userClaims)
         {
            foreach(var claim in userClaims)

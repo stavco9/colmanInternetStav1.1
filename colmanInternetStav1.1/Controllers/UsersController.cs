@@ -21,13 +21,16 @@ namespace colmanInternetStav1._1.Controllers
         // GET: Users
         public async Task<IActionResult> Index()
         {
-            ViewData["UserInfo"] = Models.Account.GetCurrAccount(HttpContext.User.Claims);
-
-            if (Account.IsCurrUserAdmin(HttpContext.User.Claims, _context))
+            if (User.Identity.IsAuthenticated)
             {
-                return View(await _context.Users.ToListAsync());
-            }
+                ViewData["UserInfo"] = Models.Account.GetCurrAccount(HttpContext.User.Claims);
 
+                if (Account.IsCurrUserAdmin(HttpContext.User.Claims, _context))
+                {
+                    return View(await _context.Users.ToListAsync());
+                }
+            }
+            
             return (new RedirectToActionResult("NotAuthorized", "Home", null));
         }
 
@@ -82,21 +85,26 @@ namespace colmanInternetStav1._1.Controllers
         // GET: Users/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            ViewData["UserInfo"] = Models.Account.GetCurrAccount(HttpContext.User.Claims);
-
-            if (id == null)
+            if (User.Identity.IsAuthenticated)
             {
-                return NotFound();
+                ViewData["UserInfo"] = Models.Account.GetCurrAccount(HttpContext.User.Claims);
+
+                if (id == null)
+                {
+                    return NotFound();
+                }
+
+                var users = await _context.Users.SingleOrDefaultAsync(m => m.Id == id);
+
+                if (users == null)
+                {
+                    return NotFound();
+                }
+
+                return View(users);
             }
 
-            var users = await _context.Users.SingleOrDefaultAsync(m => m.Id == id);
-
-            if (users == null)
-            {
-                return NotFound();
-            }
-
-            return View(users);
+            return (new RedirectToActionResult("NotAuthorized", "Home", null));
         }
 
         // POST: Users/Edit/5
@@ -106,36 +114,39 @@ namespace colmanInternetStav1._1.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,NameId,Email,FName,LName,Name,Gender,IsAdmin")] Users users)
         {
-            if (Account.IsCurrUserAdmin(HttpContext.User.Claims, new ColmanInternetiotContext()))
+            if (User.Identity.IsAuthenticated)
             {
-                if (id != users.Id)
+                if (Account.IsCurrUserAdmin(HttpContext.User.Claims, new ColmanInternetiotContext()))
                 {
-                    return NotFound();
-                }
+                    if (id != users.Id)
+                    {
+                        return NotFound();
+                    }
 
-                if (ModelState.IsValid)
-                {
-                    try
+                    if (ModelState.IsValid)
                     {
-                        _context.Update(users);
-                        await _context.SaveChangesAsync();
-                    }
-                    catch (DbUpdateConcurrencyException)
-                    {
-                        if (!UsersExists(users.NameId))
+                        try
                         {
-                            return NotFound();
+                            _context.Update(users);
+                            await _context.SaveChangesAsync();
                         }
-                        else
+                        catch (DbUpdateConcurrencyException)
                         {
-                            throw;
+                            if (!UsersExists(users.NameId))
+                            {
+                                return NotFound();
+                            }
+                            else
+                            {
+                                throw;
+                            }
                         }
+                        return RedirectToAction("Index");
                     }
-                    return RedirectToAction("Index");
+                    return View(users);
                 }
-                return View(users);
             }
-
+           
             return (new RedirectToActionResult("NotAuthorized", "Home", null));
         }
 

@@ -74,9 +74,12 @@ namespace colmanInternetStav1._1.Models
 
         public static Account GetCurrAccount(IEnumerable<Claim> userClaims)
         {
-            return new Account(userClaims);
+            if (userClaims.Count() > 0)
+            {
+                return new Account(userClaims);
+            }
+
+            return new Account();
         }
-
-
     }
 }

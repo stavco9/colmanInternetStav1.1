@@ -14,12 +14,12 @@ namespace colmanInternetStav1._1.Controllers
     {
         public IActionResult Index()
         {
+            Models.Account account = Models.Account.GetCurrAccount(HttpContext.User.Claims);
+
+            ViewData["UserInfo"] = account;
+
             if (User.Identity.IsAuthenticated)
             {
-                Models.Account account = Models.Account.GetCurrAccount(HttpContext.User.Claims);
-
-                ViewData["UserInfo"] = account;
-
                 UsersController addToDb = new UsersController(new ColmanInternetiotContext());
 
                 var userToDb = new Users { NameId = account.NameID, Email = account.EmailAddress, FName = account.FirstName, LName = account.LastName, Name = account.FullName, Gender = account.Gender, IsAdmin = false };
@@ -35,8 +35,7 @@ namespace colmanInternetStav1._1.Controllers
         {
             ViewData["Message"] = "Your application description page.";
 
-            if (User.Identity.IsAuthenticated)
-                ViewData["UserInfo"] = Models.Account.GetCurrAccount(HttpContext.User.Claims);
+            ViewData["UserInfo"] = Models.Account.GetCurrAccount(HttpContext.User.Claims);
 
             return View();
         }
@@ -45,8 +44,7 @@ namespace colmanInternetStav1._1.Controllers
         {
             ViewData["Message"] = "Your contact page.";
             
-            if (User.Identity.IsAuthenticated)
-                ViewData["UserInfo"] = Models.Account.GetCurrAccount(HttpContext.User.Claims);
+            ViewData["UserInfo"] = Models.Account.GetCurrAccount(HttpContext.User.Claims);
 
             return View();
         }
@@ -67,8 +65,7 @@ namespace colmanInternetStav1._1.Controllers
         {
             ViewData["Message"] = "Store Locations";
             
-            if (User.Identity.IsAuthenticated)
-                ViewData["UserInfo"] = Models.Account.GetCurrAccount(HttpContext.User.Claims);
+            ViewData["UserInfo"] = Models.Account.GetCurrAccount(HttpContext.User.Claims);
 
             return View();
         }
@@ -76,17 +73,14 @@ namespace colmanInternetStav1._1.Controllers
         public IActionResult Account()
         {
             ViewData["Message"] = "Your user details.";
-
-            if (User.Identity.IsAuthenticated)
-                ViewData["UserInfo"] = Models.Account.GetCurrAccount(HttpContext.User.Claims);
+            ViewData["UserInfo"] = Models.Account.GetCurrAccount(HttpContext.User.Claims);
 
             return View();
         }
 
         public IActionResult NotAuthorized()
         {
-            if (User.Identity.IsAuthenticated)
-                ViewData["UserInfo"] = Models.Account.GetCurrAccount(HttpContext.User.Claims);
+            ViewData["UserInfo"] = Models.Account.GetCurrAccount(HttpContext.User.Claims);
 
             return View();
         }
@@ -103,7 +97,8 @@ namespace colmanInternetStav1._1.Controllers
         
         public IActionResult Logout()
         {
-            Response.Cookies.Delete(".AspNetCore.ApplicationCookie");
+            if (User.Identity.IsAuthenticated)
+                Response.Cookies.Delete(".AspNetCore.ApplicationCookie");
 
             return (new RedirectToActionResult("Index", "Home", null));
         }

@@ -13,38 +13,30 @@ function loadScript() {
 }
 
 function getCoorDinateByAddress() {
-    var jsonData = "";
+    window.jsonData = "";
 
-    var baseUrl = "https://maps.google.com/maps/api/geocode/json?address=";
+    var baseUrl = "https://maps.googleapis.com/maps/api/geocode/json?key=AIzaSyBJhBoC3z-SpbcLaKO47ok67s8ZBz83n6w&address=";
 
-    var inputAddr = document.getElementById('address').value
-
-    inputAddr = inputAddr.split(' ').join('+');
-    inputAddr = inputAddr.split('-').join(",+");
+    var inputAddr = document.getElementById('address').value;
 
     baseUrl += inputAddr;
 
-    $.ajax({
-        dataType: "json",
-        data: { get_param: 'value' },
-        url: baseUrl,
-        success: function (data) {
-            jsonData = data;
-        }
+    $.getJSON(baseUrl, function (data) {
+        window.jsonData = data;
     });
-
-    //$.getJSON("https://maps.google.com/maps/api/geocode/json?address=1600+Amphitheatre+Parkway,+Mountain+View,+CA", function (data) {
-    //    jsonData = data;
-    //});
 
     window.onload = loadScript();
 }
 
 function initialize() {
     var bounds = new google.maps.LatLngBounds();
+
+    //var coordinates = getCoorDinateByAddress();
+
     var mapOptions = {
-        zoom: 10,
-        center: new google.maps.LatLng(32.163338, 34.840315)
+        zoom: 15,
+        center: new google.maps.LatLng(window.jsonData.results[0].geometry.location.lat, window.jsonData.results[0].geometry.location.lng)
+        //center: new google.maps.LatLng(32.153646346, 34.435236236)
     };
 
     map = new google.maps.Map(document.getElementById('map-canvas'),

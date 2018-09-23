@@ -14,20 +14,27 @@ namespace colmanInternetStav1._1.Controllers
     {
         public IActionResult Index()
         {
-            /*Models.Account account = Models.Account.GetCurrAccount(HttpContext.User.Claims);
-
-            ViewData["UserInfo"] = account;
-
-            if (User.Identity.IsAuthenticated)
+            if (Account.isLoggedIn(User))
             {
-                UsersController addToDb = new UsersController(new ColmanInternetiotContext());
+                UsersController addNewUser = new UsersController(new ColmanInternetiotContext());
 
-                var userToDb = new Users { NameId = account.NameID, Email = account.EmailAddress, FName = account.FirstName, LName = account.LastName, Name = account.FullName, Gender = account.Gender, IsAdmin = false };
+                Dictionary<string, string> userDetails = Account.getDetails(User);
 
-                addToDb.Create(userToDb);
+                var newUserToDB = new Users { NameId = userDetails["nameid"], Email = userDetails["emailaddress"], FName = userDetails["firstname"], LName = userDetails["lastname"], Name = userDetails["fullname"], Gender = userDetails["gender"], IsAdmin = false };
 
-            }*/
+                addNewUser.Create(newUserToDB);
+            }
     
+            return View();
+        }
+
+        public IActionResult NotAuthorized()
+        {
+            return View();
+        }
+
+        public IActionResult Location()
+        {
             return View();
         }
     }

@@ -31,8 +31,8 @@ namespace colmanInternetStav1._1.Models
             //return true;
             if (isLoggedIn(principal))
             {
-                return (dbContext.Users.SingleOrDefault(
-                    u => u.NameId == principal.FindFirst("nameidentifier").Value
+                return (new ColmanInternetiotContext().Users.SingleOrDefault(
+                    u => u.NameId == principal.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value
                     ).IsAdmin);
             }
 
@@ -52,7 +52,7 @@ namespace colmanInternetStav1._1.Models
             };*/
             Dictionary<string, string> d = new Dictionary<string, string>();
             d.Add("nameid", principal.Claims.FirstOrDefault(c => c.Type.Contains("nameidentifier")).Value);
-            d.Add("fullname", principal.Claims.FirstOrDefault(c => c.Type.Contains("/name")).Value);
+            d.Add("fullname", principal.Claims.FirstOrDefault(c => c.Type.EndsWith("/name")).Value);
             d.Add("firstname", principal.Claims.FirstOrDefault(c => c.Type.Contains("givenname")).Value);
             d.Add("emailaddress", principal.Claims.FirstOrDefault(c => c.Type.Contains("emailaddress")).Value);
             d.Add("lastname", principal.Claims.FirstOrDefault(c => c.Type.Contains("surname")).Value);

@@ -23,9 +23,7 @@ namespace colmanInternetStav1._1.Controllers
         {
             if (User.Identity.IsAuthenticated)
             {
-                ViewData["UserInfo"] = Models.Account.GetCurrAccount(HttpContext.User.Claims);
-
-                if (Account.IsCurrUserAdmin(HttpContext.User.Claims, _context))
+                if (Account.isAdmin(HttpContext.User))
                 {
                     return View(await _context.Users.ToListAsync());
                 }
@@ -37,8 +35,6 @@ namespace colmanInternetStav1._1.Controllers
         // GET: Users/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            ViewData["UserInfo"] = Models.Account.GetCurrAccount(HttpContext.User.Claims);
-
             if (id == null)
             {
                 return NotFound();
@@ -87,8 +83,6 @@ namespace colmanInternetStav1._1.Controllers
         {
             if (User.Identity.IsAuthenticated)
             {
-                ViewData["UserInfo"] = Models.Account.GetCurrAccount(HttpContext.User.Claims);
-
                 if (id == null)
                 {
                     return NotFound();
@@ -116,7 +110,7 @@ namespace colmanInternetStav1._1.Controllers
         {
             if (User.Identity.IsAuthenticated)
             {
-                if (Account.IsCurrUserAdmin(HttpContext.User.Claims, new ColmanInternetiotContext()))
+                if (Account.isAdmin(HttpContext.User))
                 {
                     if (id != users.Id)
                     {

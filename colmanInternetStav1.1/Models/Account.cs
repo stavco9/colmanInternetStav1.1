@@ -7,79 +7,58 @@ using System.Security.Principal;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
+using Microsoft.AspNetCore.Mvc;
 
 namespace colmanInternetStav1._1.Models
 {
     public class Account
     {
-        public string NameID { get; }
+        private static ColmanInternetiotContext dbContext;
 
-        public string EmailAddress { get; }
-
-        public string FirstName { get; }
-
-        public string LastName { get; }
-
-        public string FullName { get; }
-
-        public string Gender { get; set; }
-
-        private readonly ColmanInternetiotContext _context;
-
-        public Account()
+        static Account()
         {
-
+            dbContext = new ColmanInternetiotContext();
         }
 
-        public Account(IEnumerable<Claim> userClaims)
+        public static bool isLoggedIn(ClaimsPrincipal principal)
         {
-           foreach(var claim in userClaims)
+            return true;
+            return (principal.Identity.IsAuthenticated);
+        }
+
+        public static bool isAdmin(ClaimsPrincipal principal)
+        {
+            return true;
+            if (isLoggedIn(principal))
             {
-                if (claim.Type.Contains("nameidentifier"))
-                {
-                    this.NameID = claim.Value;
-                }
-
-                if (claim.Type.Contains("emailaddress"))
-                {
-                    this.EmailAddress = claim.Value;
-                }
-
-                if (claim.Type.Contains("givenname"))
-                {
-                    this.FirstName = claim.Value;
-                }
-
-                if (claim.Type.Contains("surname"))
-                {
-                    this.LastName = claim.Value;
-                }
-
-                if (claim.Type.Contains("/name"))
-                {
-                    this.FullName = claim.Value;
-                }
+                return (dbContext.Users.SingleOrDefault(
+                    u => u.NameId == principal.FindFirst("nameidentifier").Value
+                    ).IsAdmin);
             }
 
-            this.Gender = "male";
+            return (false);
         }
 
-        public static bool IsCurrUserAdmin(IEnumerable<Claim> userClaims, ColmanInternetiotContext context)
+        public static Dictionary<string, string> getDetails(ClaimsPrincipal principal)
         {
-            Users currUserFromDB = context.Users.SingleOrDefault(m => m.NameId == GetCurrAccount(userClaims).NameID);
-
-            return currUserFromDB.IsAdmin;
-            //return bool.Parse(context.Users.SingleOrDefault(m => m.NameId == GetCurrAccount(userClaims).NameID).IsAdmin.ToString());
-        }
-
-        public static Account GetCurrAccount(IEnumerable<Claim> userClaims)
-        {
-            if (userClaims.Count() > 0)
+            return new Dictionary<string, string>()
             {
-                return new Account(userClaims);
-            }
+                { "nameid","0" },
+                {"fullname","Diana Prince" },
+                {"firstname","Diana" },
+                {"lastname","Prince" },
+                {"gender","female" },
+                {"emailaddress","dianap9@gmail.com" }
+            };
+            Dictionary<string, string> d = new Dictionary<string, string>();
+            d.Add("nameid", principal.Claims.FirstOrDefault(c => c.Type.Contains("nameidentifier")).Value);
+            d.Add("fullname", principal.Claims.FirstOrDefault(c => c.Type.Contains("/name")).Value);
+            d.Add("firstname", principal.Claims.FirstOrDefault(c => c.Type.Contains("givenname")).Value);
+            d.Add("emailaddress", principal.Claims.FirstOrDefault(c => c.Type.Contains("emailaddress")).Value);
+            d.Add("lastname", principal.Claims.FirstOrDefault(c => c.Type.Contains("surname")).Value);
+            d.Add("gender", "male");
 
-            return new Account();
+            return (d);
         }
     }
 }

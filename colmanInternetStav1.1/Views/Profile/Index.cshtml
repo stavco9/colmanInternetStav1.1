@@ -1,0 +1,122 @@
+﻿@section scripts {
+    <script>
+        $(function () {
+            var hafira = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis porta eros lacus, nec ultricies elit blandit non. Suspendisse pellentesque mauris sit amet dolor blandit rutrum. Nunc in tempus turpis.";
+            appendHistoryItem(0, "New Pandora 100% silver - heart shape", "bla blkjsdflgj dflgjk ladkjghdlg", 102.56, "https://bulma.io/images/placeholders/128x128.png");
+            appendHistoryItem(0, "Golden Neckless from Zanziber", hafira + hafira, 89.90, "https://bulma.io/images/placeholders/128x128.png");
+            appendHistoryItem(0, "Golden Ring from Zanziber", hafira, 75.60, "https://bulma.io/images/placeholders/128x128.png");
+        });
+
+        function appendHistoryItem(id, name, description, price, img) {
+            var newitem_elem = $("#history_new_item").clone();
+            //newitem_elem.attr("id","h_"+id);
+            newitem_elem.removeAttr('id');
+            newitem_elem.find("[approle=img]").attr("src", img);
+            newitem_elem.find("[approle=price]").text(price + " $");
+            newitem_elem.find("[approle=name]").text(name);
+            newitem_elem.find("[approle=description]").text(description);
+            newitem_elem.appendTo("#history>.content>.content");
+        }
+    </script>
+}
+
+@section style {
+    <style>
+        .maintiles .tile.is-child {
+            background-size: cover;
+            background-position: bottom center;
+        }
+
+            .maintiles .tile.is-child > * {
+                z-index: 5;
+                position: relative;
+            }
+
+            .maintiles .tile.is-child::after {
+                content: '.';
+                background: linear-gradient(#fff,#fff0);
+                position: absolute;
+                color: #fff;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 40%;
+                min-height: 120px;
+                z-index: 4;
+            }
+
+        #history .money {
+            color: #5cab00 !important;
+        }
+
+        #history .media .level {
+            margin-bottom: 0 !important;
+        }
+
+        #history .media .media-content > .content {
+            min-height: calc(128px - .75rem);
+        }
+    </style>
+}
+
+@{
+    @using colmanInternetStav1._1.Models;
+    var userdetails = Account.getDetails(User);
+}
+<div class="maintiles tile is-ancestor">
+    <div class="tile is-vertical is-parent is-5">
+        <article class="tile is-child notification" id="profile">
+            <p class="title">My profile</p>
+            <p class="subtitle">To change the following information-<br>upade your facebook profile.</p>
+            <div class="content">
+                <table>
+                    <tbody>
+                        <tr><th>Full name</th><td>@userdetails["fullname"]</td></tr>
+                        <tr><th>Gender</th><td>@userdetails["gender"]</td></tr>
+                        <tr><th>Email address</th><td>@userdetails["emailaddress"]</td></tr>
+                        <tr><th>Cellphone number</th><td>(+972) 50 1231234</td></tr>
+                        <tr><th>Facebook profile</th><td><a href=#>@userdetails["fullname"]</a></td></tr>
+                        <tr><th></th><td><a href=# class="button is-link"><span class="icon"><i class="fas fa-sync"></i></span><span>Resync facebook profile</span></a></td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </article>
+    </div>
+    <div class="tile is-parent">
+        <article class="tile is-child notification" id="history">
+            <div class="content">
+                <p class="title">Shopping history</p>
+                <div class="content">
+                </div>
+            </div>
+        </article>
+    </div>
+</div>
+
+@section hidden {
+    <article class="media" id="history_new_item">
+        <figure class="media-left">
+            <p class="image is-128x128"><img approle="img"></p>
+        </figure>
+        <div class="media-content">
+            <div class="content">
+                <div class="level">
+                    <div class="level-left"><strong class="level-item" approle="name"></strong></div>
+                    <div class="level-right"><strong class="level-item money" approle="price"></strong></div>
+                </div>
+                <p approle="description"></p>
+            </div>
+        </div>
+    </article>
+    <article class="media" id="history_new_subitem">
+        <figure class="media-left">
+            <p class="image is-96x96"><img approle="img"></p>
+        </figure>
+        <div class="media-content">
+            <div class="content">
+                <strong approle="name"></strong>
+                <p approle="description"></p>
+            </div>
+        </div>
+    </article>
+}

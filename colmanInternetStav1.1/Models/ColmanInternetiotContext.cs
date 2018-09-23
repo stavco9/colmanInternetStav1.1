@@ -17,7 +17,7 @@ namespace colmanInternetStav1._1.Models
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            #warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
+            //warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
             optionsBuilder.UseSqlServer(@"Server=srvcolmaninternetiot.database.windows.net;Database=ColmanInternetiot;User ID=colman;Password=Cc123456;Trusted_Connection=False;Encrypt=True;");
         }
 

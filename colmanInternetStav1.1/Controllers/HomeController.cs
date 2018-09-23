@@ -14,7 +14,7 @@ namespace colmanInternetStav1._1.Controllers
     {
         public IActionResult Index()
         {
-            Models.Account account = Models.Account.GetCurrAccount(HttpContext.User.Claims);
+            /*Models.Account account = Models.Account.GetCurrAccount(HttpContext.User.Claims);
 
             ViewData["UserInfo"] = account;
 
@@ -26,85 +26,8 @@ namespace colmanInternetStav1._1.Controllers
 
                 addToDb.Create(userToDb);
 
-            }
+            }*/
     
-            return View();
-        }
-
-        public IActionResult About()
-        {
-            ViewData["Message"] = "Your application description page.";
-
-            ViewData["UserInfo"] = Models.Account.GetCurrAccount(HttpContext.User.Claims);
-
-            return View();
-        }
-
-        public IActionResult Contact()
-        {
-            ViewData["Message"] = "Your contact page.";
-            
-            ViewData["UserInfo"] = Models.Account.GetCurrAccount(HttpContext.User.Claims);
-
-            return View();
-        }
-
-        public IActionResult Login()
-        {
-            if (!User.Identity.IsAuthenticated)
-            {
-                return FacebookLogin();
-            }
-            else
-            {
-                return (new RedirectToActionResult("Index", "Home", null));
-            }
-        }
-
-        public IActionResult Location()
-        {
-            ViewData["Message"] = "Store Locations";
-            
-            ViewData["UserInfo"] = Models.Account.GetCurrAccount(HttpContext.User.Claims);
-
-            return View();
-        }
-
-        public IActionResult Account()
-        {
-            ViewData["Message"] = "Your user details.";
-            ViewData["UserInfo"] = Models.Account.GetCurrAccount(HttpContext.User.Claims);
-
-            return View();
-        }
-
-        public IActionResult NotAuthorized()
-        {
-            ViewData["UserInfo"] = Models.Account.GetCurrAccount(HttpContext.User.Claims);
-
-            return View();
-        }
-
-        public IActionResult FacebookLogin()
-        {
-            var authProperties = new AuthenticationProperties
-            {
-                RedirectUri = Url.Action("Index", "Home")
-            };
-
-            return Challenge(authProperties, "Facebook");
-        }
-        
-        public IActionResult Logout()
-        {
-            if (User.Identity.IsAuthenticated)
-                Response.Cookies.Delete(".AspNetCore.ApplicationCookie");
-
-            return (new RedirectToActionResult("Index", "Home", null));
-        }
-
-        public IActionResult Error()
-        {
             return View();
         }
     }

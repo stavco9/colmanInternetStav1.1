@@ -22,13 +22,13 @@ namespace colmanInternetStav1._1.Models
 
         public static bool isLoggedIn(ClaimsPrincipal principal)
         {
-            return true;
+            //return true;
             return (principal.Identity.IsAuthenticated);
         }
 
         public static bool isAdmin(ClaimsPrincipal principal)
         {
-            return true;
+            //return true;
             if (isLoggedIn(principal))
             {
                 return (dbContext.Users.SingleOrDefault(
@@ -41,7 +41,7 @@ namespace colmanInternetStav1._1.Models
 
         public static Dictionary<string, string> getDetails(ClaimsPrincipal principal)
         {
-            return new Dictionary<string, string>()
+            /*return new Dictionary<string, string>()
             {
                 { "nameid","0" },
                 {"fullname","Diana Prince" },
@@ -49,7 +49,7 @@ namespace colmanInternetStav1._1.Models
                 {"lastname","Prince" },
                 {"gender","female" },
                 {"emailaddress","dianap9@gmail.com" }
-            };
+            };*/
             Dictionary<string, string> d = new Dictionary<string, string>();
             d.Add("nameid", principal.Claims.FirstOrDefault(c => c.Type.Contains("nameidentifier")).Value);
             d.Add("fullname", principal.Claims.FirstOrDefault(c => c.Type.Contains("/name")).Value);

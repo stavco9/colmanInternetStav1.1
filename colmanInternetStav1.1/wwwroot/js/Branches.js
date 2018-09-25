@@ -1,6 +1,16 @@
 ﻿var jsonData = "";
 
-window.addressValid = false;
+$(document).ready(function () {
+    window.addressValid = false;
+    document.getElementById("AddressValid").value = "";
+    document.getElementById("AlertStoreCreate").value = "";
+});
+
+function resetCoords() {
+    document.getElementById("CoordinateLat").value = "";
+
+    document.getElementById("CoordinateLng").value = "";
+}
 
 function getCoorDinateByAddress() {
 
@@ -27,29 +37,22 @@ function getCoorDinateByAddress() {
             }
             else {
                 document.getElementById("AddressValid").value = "X";
+
+                document.getElementById("CoordinateLat").value = "";
+
+                document.getElementById("CoordinateLng").value = "";
             }
         });
     }
     else {
         document.getElementById("AddressValid").value = "אנא הזן כתובת";
+
+        document.getElementById("CoordinateLat").value = "";
+
+        document.getElementById("CoordinateLng").value = "";
+
     }
 }
-
-$(document).ready(function () {
-    $('#CreateBranch').validate({
-        rules: {
-            required: true,
-            minlength: 3
-        },
-        errorPlacement: function () {
-            document.getElementById("AlertStoreCreate").value = "שם החנות אינו תקין";
-        },
-        success: function () {
-            document.getElementById("AlertStoreCreate").value = "";
-        }
-    });
-
-});
 
 function ValidateInput() {
     var inputValid = true;
@@ -64,10 +67,12 @@ function ValidateInput() {
         document.getElementById("AlertStoreCreate").value = "";
     }
 
-    if (!window.addressValid) {
-        inputValid = false;
+    if (document.getElementById("CoordinateLat").value.length < 1 || document.getElementById("CoordinateLng").value.length < 1) {
+        if (!window.addressValid) {
+            inputValid = false;
 
-        document.getElementById("AddressValid").value = "יש להזין כתובת";
+            document.getElementById("AddressValid").value = "יש להזין כתובת";
+        }
     }
 
     return inputValid;

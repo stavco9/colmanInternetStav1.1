@@ -4,45 +4,37 @@
     ViewData["Title"] = "Details";
 }
 
-<h2>Details</h2>
-
+<script src="~/js/Location.js"></script>
 <div>
-    <h4>Branch</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Name)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Address)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Address)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.CoordinateLat)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.CoordinateLat)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.CoordinateLng)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.CoordinateLng)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Manager)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Manager.Id)
-        </dd>
-    </dl>
+    <div>
+        <h4>פרטי החנות</h4>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                שם החנות
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Name)
+            </dd>
+            <dt>
+                כתובת החנות
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Address)
+            </dd>
+            <dt>
+                מנהל החנות
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Manager.Name)
+            </dd>
+        </dl>
+    </div>
+    <input type="hidden" name="CoordinateLat" id="CoordinateLat" value="@Model.CoordinateLat" />
+    <input type="hidden" name="CoordinateLng" id="CoordinateLng" value="@Model.CoordinateLng" />
+    <div id="map-canvas" style="width:500px; height:500px"></div>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Edit" asp-route-id="@Model.Id">ערות חנות</a> |
+    <a asp-action="Index">חזור לרשימת החנויות</a>
 </div>

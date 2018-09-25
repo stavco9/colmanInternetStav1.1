@@ -1,4 +1,6 @@
 @model IEnumerable<colmanInternetStav1._1.Models.Branch>
+@using colmanInternetStav1._1.Models;
+@using colmanInternetStav1._1.Controllers;
 
 @{
     ViewData["Title"] = "Index";
@@ -12,48 +14,43 @@
 <table class="table">
     <thead>
         <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.Name)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Address)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.CoordinateLat)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.CoordinateLng)
-                </th>
             <th>
-                @Html.DisplayNameFor(model => model.Manager)
+                שם החנות    
+            </th>
+            <th>
+                כתובת החנות
+            </th>
+            <th>
+                מנהל החנות
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Address)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CoordinateLat)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CoordinateLng)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Manager.Id)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Address)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Manager.Name)
+                </td>
+                <td>
+                    @{
+                        if (Account.isAdmin(User) || BranchesController.isStoreOwner(User, item.Id))
+                        {
+                            <a asp-action="Edit" asp-route-id="@item.Id">ערוך חנות</a>                                                          
+                            <a asp-action = "Delete" asp-route-id="@item.Id"> מחק חנות </a>
+                        }
+                    }
+
+                    <a asp-action="Details" asp-route-id="@item.Id">פרטי חנות</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>

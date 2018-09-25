@@ -18,9 +18,9 @@ namespace colmanInternetStav1._1.Controllers
     {
         private readonly ColmanInternetiotContext _context;
 
-        public bool isStoreOwner(ClaimsPrincipal principal, int storeId)
+        public static bool isStoreOwner(ClaimsPrincipal principal, int storeId)
         {
-            if (Account.isLoggedIn(User))
+            if (Account.isLoggedIn(principal))
             {
                 ColmanInternetiotContext context = new ColmanInternetiotContext();
 

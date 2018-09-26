@@ -1,17 +1,17 @@
-@model colmanInternetStav1._1.Models.Branch
+﻿@model colmanInternetStav1._1.Models.Branch
 
 @{
     ViewData["Title"] = "Delete";
 }
 
-<h2>Delete</h2>
+<h2>מחיקת חנות</h2>
 
-<h3>��� ��� ���� ���� ���� ����� �� ����� @ViewData["StoreName"] ?</h3>
+<h3>האם הנך בטוח שאתה רוצה למחוק את החנות @ViewData["StoreName"] ?</h3>
 <div>
     <form asp-action="Delete">
         <div class="form-actions no-color">
-            <input type="submit" value="Delete" class="btn btn-default" /> |
-            <a asp-action="Index">Back to List</a>
+            <input type="submit" value="מחיקה" class="btn btn-default" /> |
+            <a asp-action="Index">חזרה לרשימת החנויות</a>
         </div>
     </form>
 </div>

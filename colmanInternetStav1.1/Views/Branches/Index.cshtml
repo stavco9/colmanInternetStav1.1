@@ -1,4 +1,4 @@
-@model IEnumerable<colmanInternetStav1._1.Models.Branch>
+ο»Ώ@model IEnumerable<colmanInternetStav1._1.Models.Branch>
 @using colmanInternetStav1._1.Models;
 @using colmanInternetStav1._1.Controllers;
 
@@ -6,22 +6,28 @@
     ViewData["Title"] = "Index";
 }
 
-<h2>Index</h2>
+<meta charset="utf-8" />
+<h2>Χ¨Χ©Χ™ΧΧª Χ—Χ Χ•Χ™Χ•Χª</h2>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
+@{ if (Account.isAdmin(User))
+    {
+        <p>
+            <a asp-action="Create">Χ™Χ¦Χ™Χ¨Χª Χ—Χ Χ•Χª Χ—Χ“Χ©Χ”</a>
+        </p>
+    } 
+}
+
 <table class="table">
     <thead>
         <tr>
             <th>
-                ων δηπεϊ    
+                Χ©Χ Χ”Χ—Χ Χ•Χª    
             </th>
             <th>
-                λϊεαϊ δηπεϊ
+                Χ›ΧªΧ•Χ‘Χª Χ”Χ—Χ Χ•Χª
             </th>
             <th>
-                ξπδμ δηπεϊ
+                ΧΧ Χ”Χ Χ”Χ—Χ Χ•Χª
             </th>
             <th></th>
         </tr>
@@ -43,12 +49,12 @@
                     @{
                         if (Account.isAdmin(User) || BranchesController.isStoreOwner(User, item.Id))
                         {
-                            <a asp-action="Edit" asp-route-id="@item.Id">ςψεκ ηπεϊ</a>                                                          
-                            <a asp-action = "Delete" asp-route-id="@item.Id"> ξηχ ηπεϊ </a>
+                            <a asp-action="Edit" asp-route-id="@item.Id">ΧΆΧ¨Χ•Χ Χ—Χ Χ•Χª</a>                                                          
+                            <a asp-action = "Delete" asp-route-id="@item.Id"> ΧΧ—Χ§ Χ—Χ Χ•Χª </a>
                         }
                     }
 
-                    <a asp-action="Details" asp-route-id="@item.Id">τψθι ηπεϊ</a>
+                    <a asp-action="Details" asp-route-id="@item.Id">Χ¤Χ¨ΧΧ™ Χ—Χ Χ•Χª</a>
                 </td>
             </tr>
         }

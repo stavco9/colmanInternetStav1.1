@@ -1,4 +1,4 @@
-@model colmanInternetStav1._1.Models.Branch
+ο»Ώ@model colmanInternetStav1._1.Models.Branch
 
 @{
     ViewData["Title"] = "Details";
@@ -7,23 +7,23 @@
 <script src="~/js/Location.js"></script>
 <div>
     <div>
-        <h4>τψθι δηπεϊ</h4>
+        <h4>Χ¤Χ¨ΧΧ™ Χ”Χ—Χ Χ•Χª</h4>
         <hr />
         <dl class="dl-horizontal">
             <dt>
-                ων δηπεϊ
+                Χ©Χ Χ”Χ—Χ Χ•Χª
             </dt>
             <dd>
                 @Html.DisplayFor(model => model.Name)
             </dd>
             <dt>
-                λϊεαϊ δηπεϊ
+                Χ›ΧªΧ•Χ‘Χª Χ”Χ—Χ Χ•Χª
             </dt>
             <dd>
                 @Html.DisplayFor(model => model.Address)
             </dd>
             <dt>
-                ξπδμ δηπεϊ
+                ΧΧ Χ”Χ Χ”Χ—Χ Χ•Χª
             </dt>
             <dd>
                 @Html.DisplayFor(model => model.Manager.Name)
@@ -35,6 +35,6 @@
     <div id="map-canvas" style="width:500px; height:500px"></div>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.Id">ςψεϊ ηπεϊ</a> |
-    <a asp-action="Index">ηζεψ μψωιξϊ δηπειεϊ</a>
+    <a asp-action="Edit" asp-route-id="@Model.Id">ΧΆΧ¨Χ•Χª Χ—Χ Χ•Χª</a> |
+    <a asp-action="Index">Χ—Χ–Χ•Χ¨ ΧΧ¨Χ©Χ™ΧΧª Χ”Χ—Χ Χ•Χ™Χ•Χª</a>
 </div>

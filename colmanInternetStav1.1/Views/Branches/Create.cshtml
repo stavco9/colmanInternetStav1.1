@@ -1,4 +1,4 @@
-<script src="~/lib/jquery/dist/jquery.js"></script>
+﻿<script src="~/lib/jquery/dist/jquery.js"></script>
 <script src="~/js/Branches.js"></script>
 @model colmanInternetStav1._1.Models.Branch
 
@@ -6,15 +6,14 @@
     ViewData["Title"] = "Create";
 }
 
-<h2>Create</h2>
+<h2>יצירת חנות חדשה</h2>
 <meta charset="utf-8" />
 <form asp-action="Create" id="CreateBranch" onsubmit="return ValidateInput()" accept-charset="utf-8">
     <div class="form-horizontal">
-        <h4>Branch</h4>
         <hr />
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         <div class="form-group">
-            <label asp-for="Name" class="col-md-2 control-label">�� �����</label>
+            <label asp-for="Name" class="col-md-2 control-label">שם החנות</label>
             <div class="col-md-10">
                 <input asp-for="Name" name="Name" class="form-control" />
                 <span asp-validation-for="Name" class="text-danger"></span>
@@ -23,11 +22,11 @@
             </div>
         </div>
         <div class="form-group">
-            <label asp-for="Address" class="col-md-2 control-label">�����</label>
+            <label asp-for="Address" class="col-md-2 control-label">כתובת</label>
             <div class="col-md-10">
                 <input asp-for="Address" name="Address" class="form-control" />
                 <span asp-validation-for="Address" class="text-danger"></span>
-                <input type="button" onclick="getCoorDinateByAddress()" value="���� �����" />
+                <input type="button" onclick="getCoorDinateByAddress()" value="בדוק כתובת" />
                 &nbsp;
                 <input border="0" type="text" id="AddressValid" readonly name="AddressValid" />
             </div>
@@ -35,20 +34,20 @@
         <input type="hidden" asp-for="CoordinateLat" name="CoordinateLat" />
         <input type="hidden" asp-for="CoordinateLng" name="CoordinateLng" />
         <div class="form-group">
-            <label asp-for="ManagerId" class="col-md-2 control-label">���� �����</label>
+            <label asp-for="ManagerId" class="col-md-2 control-label">מנהל החנות</label>
             <div class="col-md-10">
                 <select asp-for="ManagerId" class="form-control" asp-items="ViewBag.ManagerId"></select>
             </div>
         </div>
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
+                <input type="submit" value="יצירה" class="btn btn-default" />
             </div>
         </div>
     </div>
 </form>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index">חזרה לרשימת החנויות</a>
 </div>
 

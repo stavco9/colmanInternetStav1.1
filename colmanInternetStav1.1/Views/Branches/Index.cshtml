@@ -1,0 +1,62 @@
+﻿@model IEnumerable<colmanInternetStav1._1.Models.Branch>
+@using colmanInternetStav1._1.Models;
+@using colmanInternetStav1._1.Controllers;
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<meta charset="utf-8" />
+<h2>רשימת חנויות</h2>
+
+@{ if (Account.isAdmin(User))
+    {
+        <p>
+            <a asp-action="Create">יצירת חנות חדשה</a>
+        </p>
+    } 
+}
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                שם החנות    
+            </th>
+            <th>
+                כתובת החנות
+            </th>
+            <th>
+                מנהל החנות
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Address)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Manager.Name)
+                </td>
+                <td>
+                    @{
+                        if (Account.isAdmin(User) || BranchesController.isStoreOwner(User, item.Id))
+                        {
+                            <a asp-action="Edit" asp-route-id="@item.Id">ערוך חנות</a>                                                          
+                            <a asp-action = "Delete" asp-route-id="@item.Id"> מחק חנות </a>
+                        }
+                    }
+
+                    <a asp-action="Details" asp-route-id="@item.Id">פרטי חנות</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

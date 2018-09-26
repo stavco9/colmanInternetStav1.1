@@ -1,0 +1,40 @@
+﻿@model colmanInternetStav1._1.Models.Branch
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<script src="~/js/Location.js"></script>
+<div>
+    <div>
+        <h4>פרטי החנות</h4>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                שם החנות
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Name)
+            </dd>
+            <dt>
+                כתובת החנות
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Address)
+            </dd>
+            <dt>
+                מנהל החנות
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Manager.Name)
+            </dd>
+        </dl>
+    </div>
+    <input type="hidden" name="CoordinateLat" id="CoordinateLat" value="@Model.CoordinateLat" />
+    <input type="hidden" name="CoordinateLng" id="CoordinateLng" value="@Model.CoordinateLng" />
+    <div id="map-canvas" style="width:500px; height:500px"></div>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.Id">ערות חנות</a> |
+    <a asp-action="Index">חזור לרשימת החנויות</a>
+</div>

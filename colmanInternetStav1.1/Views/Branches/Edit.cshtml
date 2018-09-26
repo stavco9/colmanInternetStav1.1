@@ -1,0 +1,56 @@
+﻿@model colmanInternetStav1._1.Models.Branch
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h2>עריכת חנות</h2>
+<script src="~/js/Branches.js"></script>
+<meta charset="utf-8" />
+<form asp-action="Edit" onsubmit="return ValidateInput()" accept-charset="utf-8">
+    <div class="form-horizontal">
+        <hr />
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="form-group">
+            <label asp-for="Name" class="col-md-2 control-label">שם החנות</label>
+            <div class="col-md-10">
+                <input asp-for="Name" name="Name" readonly class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+                &nbsp;
+                <input border="0" type="text" id="AlertStoreCreate" readonly name="AlertStoreCreate" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="Address" class="col-md-2 control-label">כתובת החנות</label>
+            <div class="col-md-10">
+                <input asp-for="Address" onchange="resetCoords()" name="Address" class="form-control" />
+                <span asp-validation-for="Address" class="text-danger"></span>
+                <input type="button" onclick="getCoorDinateByAddress()" value="בדוק כתובת" />
+                &nbsp;
+                <input border="0" type="text" id="AddressValid" readonly name="AddressValid" />
+            </div>
+        </div>
+        <input type="hidden" asp-for="CoordinateLat" name="CoordinateLat" />
+        <input type="hidden" asp-for="CoordinateLng" name="CoordinateLng" />
+        <div class="form-group">
+            <label asp-for="ManagerId" class="control-label col-md-2">מנהל החנות</label>
+            <div class="col-md-10">
+                <select asp-for="ManagerId" class="form-control" asp-items="ViewBag.ManagerId">
+                    <option disabled selected>@ViewData["ManagerName"]</option>
+                </select>
+                <span asp-validation-for="ManagerId" class="text-danger"></span>
+            </div>
+        </div>
+        <input type="hidden" asp-for="Id" />
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="עריכה" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+</form>
+
+<div>
+    <a asp-action="Index">רשימת החנויות</a>
+</div>
+

@@ -1,0 +1,132 @@
+@section scripts {
+    <script>
+        $(function () {
+            var hafira = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis porta eros lacus, nec ultricies elit blandit non. Suspendisse pellentesque mauris sit amet dolor blandit rutrum. Nunc in tempus turpis.";
+
+            var jewelersList = [];
+            jewelersList.push({ id: 0, name: "New Pandora 100% silver - heart shape", description: "bla blkjsdflgj dflgjk ladkjghdlg", price: 102.56, img: "https://bulma.io/images/placeholders/128x128.png" });
+            jewelersList.push({ id: 1, name: "New Pandora 100% silver - heart shape", description: "bla blkjsdflgj dflgjk ladkjghdlg", price: 102.56, img: "https://bulma.io/images/placeholders/128x128.png" });
+            jewelersList.push({ id: 2, name: "New Pandora 100% silver - heart shape", description: "bla blkjsdflgj dflgjk ladkjghdlg", price: 102.56, img: "https://bulma.io/images/placeholders/128x128.png" });
+
+            jewelersList.forEach(function (item) {
+                appendHistoryItem(item);
+            });
+
+            // slid prise
+            $("#slider-range").slider({
+                range: true,
+                min: 0,
+                max: 500,
+                values: [75, 300],
+                slide: function (event, ui) {
+                    $("#amount").val("$" + ui.values[0] + " - $" + ui.values[1]);
+                }
+            });
+            $("#amount").val("$" + $("#slider-range").slider("values", 0) +
+                " - $" + $("#slider-range").slider("values", 1));
+        
+
+        });
+
+        function appendHistoryItem(item) {
+            var newitem_elem = $("#catalog_new_item").clone();
+            newitem_elem.removeAttr('id');
+            newitem_elem.find("[approle=img]").attr("src", item.img);
+            newitem_elem.find("[approle=price]").text(item.price + " $");
+            newitem_elem.find("[approle=name]").text(item.name);
+            newitem_elem.find("[approle=description]").text(item.description);
+            newitem_elem.appendTo("#history>.content>.content");
+        };
+
+    </script>
+}
+
+@section style {
+    <style>
+        .maintiles .tile.is-child {
+            background-size: cover;
+            background-position: bottom center;
+        }
+
+            .maintiles .tile.is-child > * {
+                z-index: 5;
+                position: relative;
+            }
+
+            .maintiles .tile.is-child::after {
+                content: '.';
+                background: linear-gradient(#fff,#fff0);
+                position: absolute;
+                color: #fff;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 40%;
+                min-height: 120px;
+                z-index: 4;
+            }
+
+        #history .money {
+            color: #5cab00 !important;
+        }
+
+        #history .media .level {
+            margin-bottom: 0 !important;
+        }
+
+        #history .media .media-content > .content {
+            min-height: calc(128px - .75rem);
+        }
+    </style>
+}
+
+
+
+
+    <div class="maintiles tile is-ancestor">
+        <div class="tile is-vertical is-parent is-2">
+            <p>
+                <label for="amount">Price range:</label>
+                <input type="text" id="amount" readonly style="border:0; color:#f6931f; font-weight:bold;">
+            </p>
+
+            <div id="slider-range"></div>
+        </div>
+        <div class="tile is-parent">
+             <article class="tile is-child notification" id="history">
+                 <div class="content">
+                     <p class="title">Search results</p>
+                     <div class="content">
+                     </div>
+                 </div>
+             </article>
+         </div>
+        </div>
+
+        @section hidden {
+            <article class="media" id="catalog_new_item">
+                <figure class="media-left">
+                    <p class="image is-128x128"><img approle="img"></p>
+                </figure>
+                <div class="media-content">
+                    <div class="content">
+                        <div class="level">
+                            <div class="level-left"><strong class="level-item" approle="name"></strong></div>
+                            <div class="level-right"><strong class="level-item money" approle="price"></strong></div>
+                        </div>
+                        <p approle="description"></p>
+                    </div>
+                </div>
+            </article>
+            <article class="media" id="history_new_subitem">
+                <figure class="media-left">
+                    <p class="image is-96x96"><img approle="img"></p>
+                </figure>
+                <div class="media-content">
+                    <div class="content">
+                        <strong approle="name"></strong>
+                        <p approle="description"></p>
+                    </div>
+                </div>
+            </article>
+        }

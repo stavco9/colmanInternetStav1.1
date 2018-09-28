@@ -21,15 +21,17 @@ namespace colmanInternetStav1._1.Controllers
         // GET: Users
         public async Task<IActionResult> Index()
         {
-            if (User.Identity.IsAuthenticated)
+            if (!Account.isLoggedIn(User))
             {
-                if (Account.isAdmin(HttpContext.User))
-                {
-                    return View(await _context.Users.ToListAsync());
-                }
+                return (new RedirectToActionResult("Login", "Profile", null));
             }
-            
-            return (new RedirectToActionResult("NotAuthorized", "Home", null));
+
+            if (!Account.isAdmin(User))
+            {
+                return (new RedirectToActionResult("Index", "Home", null));
+            }
+
+            return View(await _context.Users.ToListAsync());
         }
 
         // GET: Users/Details/5
@@ -81,7 +83,7 @@ namespace colmanInternetStav1._1.Controllers
         // GET: Users/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (User.Identity.IsAuthenticated)
+            if (Account.isAdmin(HttpContext.User))
             {
                 if (id == null)
                 {
@@ -108,7 +110,7 @@ namespace colmanInternetStav1._1.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,NameId,Email,FName,LName,Name,Gender,IsAdmin")] Users users)
         {
-            if (User.Identity.IsAuthenticated)
+            if (Account.isLoggedIn(HttpContext.User))
             {
                 if (Account.isAdmin(HttpContext.User))
                 {

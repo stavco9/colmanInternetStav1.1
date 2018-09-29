@@ -80,7 +80,7 @@ function liorColumnGraphUpdate(dat, dataxis, containerId) {
     g1.selectAll("text.l").data(dataxis).enter().append("text").text((d, i) => {
         return (d);
     }).attr("y", graphHeightScale * 100 + graphBottomAxis - 10).attr("x", (d, i) => {
-        return (graphMargin + graphWidthScale * i * 100 / (dataxis.length - 1)) - 10;
+        return (graphMargin + graphWidthScale * i * 100 / (datnew.length)) + 5;
     }).attr("r", 8).attr("class", "l").attr("fill", "#000000").attr("font-family", "arial").attr("font-size", "8px").exit().remove();
     g1.select(".graphfill").attr("points", (graphMargin + "," + (graphMargin + 100 * graphHeightScale) + " " + graphPoints + (graphMargin + 100 * graphWidthScale) + "," + (graphMargin + 100 * graphHeightScale)));
     g1.selectAll("rect").data(datnew).enter().append("rect").attr("y", (d, i) => {

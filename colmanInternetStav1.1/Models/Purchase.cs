@@ -10,6 +10,7 @@ namespace colmanInternetStav1._1.Models
         public DateTime? Date { get; set; }
         public double? Amount { get; set; }
         public string Reference { get; set; }
+        public string Country { get; set; }
         public int Id { get; set; }
 
         public virtual Jewelry Jewelry { get; set; }

@@ -13,22 +13,34 @@ namespace colmanInternetStav1._1.Models
 {
     public class Account
     {
-        private static ColmanInternetiotContext dbContext;
+        private static bool devMode = false;
 
+        /*
+        // DBCONTEXT - NOT IN USE, DELETE THIS LATER
+        private static ColmanInternetiotContext dbContext;
         static Account()
         {
             dbContext = new ColmanInternetiotContext();
         }
+        */
 
         public static bool isLoggedIn(ClaimsPrincipal principal)
         {
-            //return true;
+            if (devMode)
+            {
+                return true;
+            }
+
             return (principal.Identity.IsAuthenticated);
         }
 
         public static bool isAdmin(ClaimsPrincipal principal)
         {
-            //return true;
+            if (devMode)
+            {
+                return true;
+            }
+
             if (isLoggedIn(principal))
             {
                 return (new ColmanInternetiotContext().Users.SingleOrDefault(
@@ -41,15 +53,19 @@ namespace colmanInternetStav1._1.Models
 
         public static Dictionary<string, string> getDetails(ClaimsPrincipal principal)
         {
-            /*return new Dictionary<string, string>()
+            if (devMode)
             {
-                { "nameid","0" },
-                {"fullname","Diana Prince" },
-                {"firstname","Diana" },
-                {"lastname","Prince" },
-                {"gender","female" },
-                {"emailaddress","dianap9@gmail.com" }
-            };*/
+                return new Dictionary<string, string>()
+                {
+                    { "nameid","0" },
+                    {"fullname","Diana Prince" },
+                    {"firstname","Diana" },
+                    {"lastname","Prince" },
+                    {"gender","female" },
+                    {"emailaddress","dianap9@gmail.com" }
+                };
+            }
+
             Dictionary<string, string> d = new Dictionary<string, string>();
             d.Add("nameid", principal.Claims.FirstOrDefault(c => c.Type.Contains("nameidentifier")).Value);
             d.Add("fullname", principal.Claims.FirstOrDefault(c => c.Type.EndsWith("/name")).Value);

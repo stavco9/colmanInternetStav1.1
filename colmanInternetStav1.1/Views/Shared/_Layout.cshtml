@@ -64,7 +64,7 @@
                             <div class="navbar-item has-dropdown is-hoverable">
                                 <a class="navbar-link">
                                     Welcome @userdetails["fullname"] &nbsp;
-                                    <img src="https://graph.facebook.com/@userdetails["nameid"]/picture?width=1000&height=1000" />
+                                    <img src="https://graph.facebook.com/@userdetails["nameid"]/picture?width=1000&height=1000" onerror="this.onerror=null;this.src='';" />
                                 </a>
 
                                 <div class="navbar-dropdown is-boxed">
@@ -72,12 +72,13 @@
                                         if (Account.isAdmin(User))
                                         {
                                             <a class="navbar-item" asp-controller="Admin" asp-action="Index"><span class="icon"><i class="fas fa-chart-line"></i></span>Admin panel</a>
-                                            <a class="navbar-item" asp-controller="Users" asp-action="Index"><span class="icon"><i class="fas fa-chart-line"></i></span>Manage Users</a>
+                                            <a class="navbar-item" asp-controller="Users" asp-action="Index"><span class="icon"><i class="fas fa-users"></i></span>Manage users</a>
+                                            <a class="navbar-item" asp-controller="Branches" asp-action="Index"><span class="icon"><i class="fas fa-store-alt"></i></span>Manage stores</a>
                                             <hr class="navbar-divider">
                                         }
                                     }
                                     <a class="navbar-item" asp-controller="Profile" asp-action="Index"><span class="icon"><i class="fas fa-user-circle"></i></span>My profile</a>
-                                    <a class="navbar-item" asp-controller="Profile" asp-action="Logout">Logout</a>
+                                    <a class="navbar-item" asp-controller="Profile" asp-action="Logout"><span class="icon"><i class="fas fa-sign-out-alt"></i></span>Logout</a>
                                 </div>
                             </div>
                         }

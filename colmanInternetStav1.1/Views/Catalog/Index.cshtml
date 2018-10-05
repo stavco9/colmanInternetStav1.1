@@ -7,36 +7,43 @@
             jewelersList.push({ id: 0, name: "New Pandora 100% silver - heart shape", description: "bla blkjsdflgj dflgjk ladkjghdlg", price: 102.56, img: "https://bulma.io/images/placeholders/128x128.png" });
             jewelersList.push({ id: 1, name: "New Pandora 100% silver - heart shape", description: "bla blkjsdflgj dflgjk ladkjghdlg", price: 102.56, img: "https://bulma.io/images/placeholders/128x128.png" });
             jewelersList.push({ id: 2, name: "New Pandora 100% silver - heart shape", description: "bla blkjsdflgj dflgjk ladkjghdlg", price: 102.56, img: "https://bulma.io/images/placeholders/128x128.png" });
+            jewelersList.push({ id: 2, name: "New Pandora 100% silver - heart shape", description: "bla blkjsdflgj dflgjk ladkjghdlg", price: 102.56, img: "https://bulma.io/images/placeholders/128x128.png" });
+            jewelersList.push({ id: 2, name: "New Pandora 100% silver - heart shape", description: "bla blkjsdflgj dflgjk ladkjghdlg", price: 102.56, img: "https://bulma.io/images/placeholders/128x128.png" });
+            jewelersList.push({ id: 2, name: "New Pandora 100% silver - heart shape", description: "bla blkjsdflgj dflgjk ladkjghdlg", price: 102.56, img: "https://bulma.io/images/placeholders/128x128.png" });
+            jewelersList.push({ id: 2, name: "New Pandora 100% silver - heart shape", description: "bla blkjsdflgj dflgjk ladkjghdlg", price: 102.56, img: "https://bulma.io/images/placeholders/128x128.png" });
+            jewelersList.push({ id: 2, name: "New Pandora 100% silver - heart shape", description: "bla blkjsdflgj dflgjk ladkjghdlg", price: 102.56, img: "https://bulma.io/images/placeholders/128x128.png" });
+            jewelersList.push({ id: 2, name: "New Pandora 100% silver - heart shape", description: "bla blkjsdflgj dflgjk ladkjghdlg", price: 102.56, img: "https://bulma.io/images/placeholders/128x128.png" });
+            jewelersList.push({ id: 2, name: "New Pandora 100% silver - heart shape", description: "bla blkjsdflgj dflgjk ladkjghdlg", price: 102.56, img: "https://bulma.io/images/placeholders/128x128.png" });
 
             jewelersList.forEach(function (item) {
-                appendHistoryItem(item);
+                appendCatalogItem(item);
             });
 
-            // slid prise
-            $("#slider-range").slider({
-                range: true,
-                min: 0,
-                max: 500,
-                values: [75, 300],
-                slide: function (event, ui) {
-                    $("#amount").val("$" + ui.values[0] + " - $" + ui.values[1]);
-                }
-            });
-            $("#amount").val("$" + $("#slider-range").slider("values", 0) +
-                " - $" + $("#slider-range").slider("values", 1));
-        
 
         });
 
-        function appendHistoryItem(item) {
-            var newitem_elem = $("#catalog_new_item").clone();
+        function appendCatalogItem(item) {
+            var newitem_elem = $("#catalog_item").clone();
             newitem_elem.removeAttr('id');
             newitem_elem.find("[approle=img]").attr("src", item.img);
             newitem_elem.find("[approle=price]").text(item.price + " $");
             newitem_elem.find("[approle=name]").text(item.name);
-            newitem_elem.find("[approle=description]").text(item.description);
-            newitem_elem.appendTo("#history>.content>.content");
+            newitem_elem.appendTo("#catalog_items");
         };
+
+        var slider = document.getElementById("myRange");
+        var output = document.getElementById("demo");
+        output.innerHTML = "10000+";
+
+        slider.oninput = function () {
+            if (this.value == 10000) {
+                output.innerHTML = "10000+";
+            }
+            else {
+                output.innerHTML = this.value;
+            }
+           
+        }
 
     </script>
 }
@@ -48,85 +55,87 @@
             background-position: bottom center;
         }
 
-            .maintiles .tile.is-child > * {
-                z-index: 5;
-                position: relative;
+        .card_border {
+            padding-top: 10px;
+            padding-left: 10px;
+            padding-right: 10px;
+        }
+
+        .slidecontainer {
+            width: 100%;
+        }
+
+        .slider {
+            -webkit-appearance: none;
+            width: 100%;
+            height: 25px;
+            background: #d3d3d3;
+            outline: none;
+            opacity: 0.7;
+            -webkit-transition: .2s;
+            transition: opacity .2s;
+        }
+
+            .slider:hover {
+                opacity: 1;
             }
 
-            .maintiles .tile.is-child::after {
-                content: '.';
-                background: linear-gradient(#fff,#fff0);
-                position: absolute;
-                color: #fff;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 40%;
-                min-height: 120px;
-                z-index: 4;
+            .slider::-webkit-slider-thumb {
+                -webkit-appearance: none;
+                appearance: none;
+                width: 25px;
+                height: 25px;
+                background: #4CAF50;
+                cursor: pointer;
             }
 
-        #history .money {
-            color: #5cab00 !important;
-        }
+            .slider::-moz-range-thumb {
+                width: 25px;
+                height: 25px;
+                background: #4CAF50;
+                cursor: pointer;
+            }
 
-        #history .media .level {
-            margin-bottom: 0 !important;
-        }
-
-        #history .media .media-content > .content {
-            min-height: calc(128px - .75rem);
-        }
     </style>
 }
 
 
 
 
-    <div class="maintiles tile is-ancestor">
-        <div class="tile is-vertical is-parent is-2">
-            <p>
-                <label for="amount">Price range:</label>
-                <input type="text" id="amount" readonly style="border:0; color:#f6931f; font-weight:bold;">
-            </p>
-
-            <div id="slider-range"></div>
+<div class="maintiles tile is-ancestor">
+    <div class="tile is-vertical is-parent is-2">
+        <div class="slidecontainer">
+            <input type="range" min="400" max="10000" value="10000" class="slider" id="myRange">
+            <p>Value: <span id="demo"></span></p>
         </div>
-        <div class="tile is-parent">
-             <article class="tile is-child notification" id="history">
-                 <div class="content">
-                     <p class="title">Search results</p>
-                     <div class="content">
-                     </div>
-                 </div>
-             </article>
-         </div>
-        </div>
+    </div>
 
-        @section hidden {
-            <article class="media" id="catalog_new_item">
-                <figure class="media-left">
-                    <p class="image is-128x128"><img approle="img"></p>
-                </figure>
-                <div class="media-content">
-                    <div class="content">
-                        <div class="level">
-                            <div class="level-left"><strong class="level-item" approle="name"></strong></div>
-                            <div class="level-right"><strong class="level-item money" approle="price"></strong></div>
-                        </div>
-                        <p approle="description"></p>
-                    </div>
+    <div class="tile is-parent">
+        <article class="tile is-child notification" id="history">
+            <div class="content">
+                <p class="title">Search results</p>
+                <div class="content row" id="catalog_items">
                 </div>
-            </article>
-            <article class="media" id="history_new_subitem">
-                <figure class="media-left">
-                    <p class="image is-96x96"><img approle="img"></p>
-                </figure>
-                <div class="media-content">
-                    <div class="content">
-                        <strong approle="name"></strong>
-                        <p approle="description"></p>
-                    </div>
+            </div>
+        </article>
+    </div>
+</div>
+
+
+
+
+@section hidden {
+
+    <div class="card_border col-sm-6 col-md-4" id="catalog_item">
+        <a href="/jewelry">
+            <div class="card ">
+                <img class="card-img-top" style="width :100%; height: 200px">
+                <div class="card-body">
+                    <h6 approle="name"></h6>
+                    <p approle="price"></p>
                 </div>
-            </article>
-        }
+            </div>
+        </a>
+    </div>
+    
+}

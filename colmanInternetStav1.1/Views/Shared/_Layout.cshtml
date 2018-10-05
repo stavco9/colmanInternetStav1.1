@@ -18,8 +18,7 @@
     }
     <link rel="stylesheet" href="~/lib/bulma.min.css" />
     <link rel="stylesheet" href="~/lib/fa.css" />
-    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-    <link rel="stylesheet" href="/resources/demos/style.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
 
 
     <style>
@@ -38,8 +37,7 @@
         }
     </style>
     <script src="~/lib/jquery.min.js"></script>
-    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    
     @Html.Raw(JavaScriptSnippet.FullScript)
     @RenderSection("style", required: false)
 </head>
@@ -53,6 +51,7 @@
                 <div class="navbar-start">
                     <a class="navbar-item" href="/home">Home</a>
                     <a class="navbar-item" href="/catalog">Catalog</a>
+                    <a class="navbar-item" href="/jewelry">Jewelry</a>
                     <a class="navbar-item" asp-controller="Branches" asp-action="Index">Stores</a>
                 </div>
                 <div class="navbar-end">

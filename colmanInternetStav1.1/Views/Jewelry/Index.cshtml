@@ -1,0 +1,122 @@
+@section scripts {
+    <script>
+        $(function () {
+
+            var currJewelry = { id: 0, name: "New Pandora 100% silver - heart shape", description: "bla blkjsdflgj dflgjk ladkjghdlg", price: 102.56, img: "https://bulma.io/images/placeholders/128x128.png" };
+
+            $("#currJewelryName").text(currJewelry.name);
+            $("#currJewelryImg").attr("src", currJewelry.img);
+            var categoryJewelrysList = [];
+            categoryJewelrysList.push({ id: 0, name: "New Pandora 100% silver - heart shape", description: "bla blkjsdflgj dflgjk ladkjghdlg", price: 102.56, img: "https://bulma.io/images/placeholders/128x128.png" });
+            categoryJewelrysList.push({ id: 1, name: "New Pandora 100% silver - heart shape", description: "bla blkjsdflgj dflgjk ladkjghdlg", price: 102.56, img: "https://bulma.io/images/placeholders/128x128.png" });
+            categoryJewelrysList.push({ id: 2, name: "New Pandora 100% silver - heart shape", description: "bla blkjsdflgj dflgjk ladkjghdlg", price: 102.56, img: "https://bulma.io/images/placeholders/128x128.png" });
+            categoryJewelrysList.push({ id: 2, name: "New Pandora 100% silver - heart shape", description: "bla blkjsdflgj dflgjk ladkjghdlg", price: 102.56, img: "https://bulma.io/images/placeholders/128x128.png" });
+            
+            categoryJewelrysList.forEach(function (item) {
+                appendCatalogItem(item);
+            });
+
+
+        });
+
+            
+
+        function appendCatalogItem(item) {
+            var newitem_elem = $("#catalog_item").clone();
+            newitem_elem.removeAttr('id');
+            newitem_elem.find("[approle=img]").attr("src", item.img);
+            newitem_elem.find("[approle=price]").text(item.price + " $");
+            newitem_elem.find("[approle=name]").text(item.name);
+            newitem_elem.appendTo("#catalog_items");
+        };
+
+
+    </script>
+}
+
+@section style {
+    <style>
+        .maintiles .tile.is-child {
+            background-size: cover;
+            background-position: bottom center;
+        }
+
+        .card_border {
+            padding-top: 10px;
+            padding-left: 10px;
+            padding-right: 10px;
+        }
+
+        .slidecontainer {
+            width: 100%;
+        }
+
+        .slider {
+            -webkit-appearance: none;
+            width: 100%;
+            height: 25px;
+            background: #d3d3d3;
+            outline: none;
+            opacity: 0.7;
+            -webkit-transition: .2s;
+            transition: opacity .2s;
+        }
+
+            .slider:hover {
+                opacity: 1;
+            }
+
+            .slider::-webkit-slider-thumb {
+                -webkit-appearance: none;
+                appearance: none;
+                width: 25px;
+                height: 25px;
+                background: #4CAF50;
+                cursor: pointer;
+            }
+
+            .slider::-moz-range-thumb {
+                width: 25px;
+                height: 25px;
+                background: #4CAF50;
+                cursor: pointer;
+            }
+    </style>
+}
+
+
+
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="slidecontainer">
+                <h4 id="currJewelryName"> </h4>
+                <img id="currJewelryImg" style="height: 500px; width:500px;"/>
+            </div>
+        </div>
+    </div>
+
+    <div class="row" style="margin-top: 20px; padding-left:20px; padding-right: 20px;">     
+                <h4>More in category:</h4>
+                <div class=" row" id="catalog_items">
+                </div>
+            
+    </div>
+
+
+
+
+
+@section hidden {
+    <div class="card_border col-sm-6 col-md-3" id="catalog_item">
+        <a href="/jewelry">
+            <div class="card ">
+                <img class="card-img-top" style="width :100%; height: 150px">
+                <div class="card-body">
+                    <h5 approle="name" ></h5>
+                    <p approle="price" style="color: rgb(192,192,192);"></p>
+                </div>
+            </div>
+        </a>
+    </div>
+}

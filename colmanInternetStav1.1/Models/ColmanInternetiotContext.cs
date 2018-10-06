@@ -17,7 +17,7 @@ namespace colmanInternetStav1._1.Models
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            //warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
+            #warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
             optionsBuilder.UseSqlServer(@"Server=srvcolmaninternetiot.database.windows.net;Database=ColmanInternetiot;User ID=colman;Password=Cc123456;Trusted_Connection=False;Encrypt=True;");
         }
 
@@ -52,6 +52,8 @@ namespace colmanInternetStav1._1.Models
 
                 entity.Property(e => e.Description).HasMaxLength(255);
 
+                entity.Property(e => e.ImagePath).HasMaxLength(255);
+
                 entity.Property(e => e.SetId).HasColumnName("SetID");
 
                 entity.HasOne(d => d.Set)
@@ -66,6 +68,8 @@ namespace colmanInternetStav1._1.Models
                 entity.Property(e => e.Id).HasColumnName("ID");
 
                 entity.Property(e => e.Amount).HasColumnName("amount");
+
+                entity.Property(e => e.Country).HasMaxLength(255);
 
                 entity.Property(e => e.Date).HasColumnType("date");
 
@@ -97,6 +101,8 @@ namespace colmanInternetStav1._1.Models
             modelBuilder.Entity<Users>(entity =>
             {
                 entity.Property(e => e.Id).HasColumnName("ID");
+
+                entity.Property(e => e.CreationDate).HasColumnType("date");
 
                 entity.Property(e => e.Email).HasMaxLength(255);
 

@@ -11,11 +11,20 @@ namespace colmanInternetStav1._1.Controllers
 {
     public class UsersController : Controller
     {
-        private readonly ColmanInternetiotContext _context;
+        private readonly ColmanInternetiotContext _context;   
 
         public UsersController(ColmanInternetiotContext context)
         {
             _context = context;
+        }
+
+        public static int CreatedTodayCount()
+        {
+            ColmanInternetiotContext _context = new ColmanInternetiotContext();
+
+            int countOfCraetedToday = _context.Users.Where(c => c.CreationDate.Value.Date == DateTime.Now.Date).Count();
+
+            return countOfCraetedToday;
         }
 
         // GET: Users
@@ -68,7 +77,7 @@ namespace colmanInternetStav1._1.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async void Create([Bind("Id,Email,FName,LName,Name,Gender,IsAdmin")] Users users)
+        public async void Create([Bind("Id,Email,FName,LName,Name,Gender,IsAdmin,CreationDate")] Users users)
         {
             if (ModelState.IsValid)
             {
@@ -108,7 +117,7 @@ namespace colmanInternetStav1._1.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,NameId,Email,FName,LName,Name,Gender,IsAdmin")] Users users)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,NameId,Email,FName,LName,Name,Gender,IsAdmin,CreationDate")] Users users)
         {
             if (Account.isLoggedIn(HttpContext.User))
             {

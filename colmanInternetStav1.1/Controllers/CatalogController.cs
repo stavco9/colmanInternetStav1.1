@@ -17,7 +17,7 @@ namespace colmanInternetStav1._1.Controllers
 
                 Dictionary<string, string> userDetails = Account.getDetails(User);
 
-                var newUserToDB = new Users { NameId = userDetails["nameid"], Email = userDetails["emailaddress"], FName = userDetails["firstname"], LName = userDetails["lastname"], Name = userDetails["fullname"], Gender = userDetails["gender"], IsAdmin = false };
+                var newUserToDB = new Users { NameId = userDetails["nameid"], Email = userDetails["emailaddress"], FName = userDetails["firstname"], LName = userDetails["lastname"], Name = userDetails["fullname"], Gender = userDetails["gender"], IsAdmin = false, CreationDate = DateTime.Now };
 
                 addNewUser.Create(newUserToDB);
             }

@@ -38,6 +38,7 @@
 
 @{
     @using colmanInternetStav1._1.Models;
+    @using colmanInternetStav1._1.Controllers;
     var userdetails = Account.getDetails(User);
 }
 <div class="maintiles tile is-ancestor is-vertical">
@@ -48,7 +49,7 @@
             </article>
             <article class="tile is-child">
                 <p class="subtitle">New users today</p>
-                <p class="title">12</p>
+                <p class="title">@UsersController.CreatedTodayCount()</p>
             </article>
         </div>
         <div class="tile is-parent is-6">

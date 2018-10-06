@@ -1,3 +1,5 @@
+@using colmanInternetStav1._1.Controllers;
+
 @section scripts {
     <script>
         $(function () {
@@ -39,9 +41,9 @@
                 output.innerHTML = "Up to 10000$ +";
             }
             else {
-                output.innerHTML = "Up to " + this.value +"$";
+                output.innerHTML = "Up to " + this.value + "$";
             }
-           
+
         }
 
     </script>
@@ -55,7 +57,7 @@
         }
 
         .card_border {
-            margin-top:15px;
+            margin-top: 15px;
             padding-left: 10px;
             padding-right: 10px;
         }
@@ -67,7 +69,6 @@
             padding-right: 50px;
             padding-bottom: 20px;
             border-radius: 10px;
-            
         }
 
         .filter_titel {
@@ -89,25 +90,25 @@
             transition: opacity .2s;
         }
 
-        .slider:hover {
-            opacity: 1;
-        }
+            .slider:hover {
+                opacity: 1;
+            }
 
-        .slider::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            appearance: none;
-            width: 25px;
-            height: 25px;
-            background: #4CAF50;
-            cursor: pointer;
-        }
+            .slider::-webkit-slider-thumb {
+                -webkit-appearance: none;
+                appearance: none;
+                width: 25px;
+                height: 25px;
+                background: #4CAF50;
+                cursor: pointer;
+            }
 
-        .slider::-moz-range-thumb {
-            width: 25px;
-            height: 25px;
-            background: #4CAF50;
-            cursor: pointer;
-        }
+            .slider::-moz-range-thumb {
+                width: 25px;
+                height: 25px;
+                background: #4CAF50;
+                cursor: pointer;
+            }
 
         .catalogList {
             margin-top: 15px;
@@ -118,9 +119,6 @@
             background-color: #eee;
             border-radius: 10px;
         }
-
-        
-
     </style>
 }
 
@@ -139,11 +137,13 @@
                 <div class="filter_titel">Category:</div>
                 <select class="custom-select" id="categoryForm">
                     <option selected>Choose category</option>
-                    <option value="Ring">Ring</option>
-                    <option value="Necklace">Necklace</option>
-                    <option value="Pendant">Pendant</option>
-                    <option value="Earrings">Earrings</option>
-                    <option value="Bracelet">Bracelet</option>
+                    @{
+                        Dictionary<int, string> categoriesList = CategoriesController.GetCategories();
+                        foreach (KeyValuePair<int, string> category in categoriesList)
+                        {
+                            <option id="@category.Key" value="@category.Value">@category.Value</option>
+                        }
+                    }
                 </select>
 
                 <div class="filter_titel">Gold type:</div>
@@ -152,7 +152,7 @@
                     <option value="14">14k</option>
                     <option value="18">18k</option>
                     <option value="21">21k</option>
-                    
+
                 </select>
 
                 <div class="form-check form-check-inline filter_titel">
@@ -178,7 +178,7 @@
     <div class="card_border col-sm-6 col-md-4" id="catalog_item">
         <a href="/jewelry">
             <div class="card ">
-                <img class="card-img-top" style="width :100%;" approle="img" >
+                <img class="card-img-top" style="width :100%;" approle="img">
                 <div class="card-body" style="padding: 5px;">
                     <h6 style="padding: 0" approle="name"></h6>
                     <div approle="price"></div>
@@ -186,5 +186,5 @@
             </div>
         </a>
     </div>
-    
+
 }

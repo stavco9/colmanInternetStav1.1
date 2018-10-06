@@ -31,6 +31,20 @@ namespace colmanInternetStav1._1.Controllers
             }
         }
 
+        public static Dictionary<int, string> GetCategories()
+        {
+            Dictionary<int, string> categoriesDict = new Dictionary<int, string>();
+
+            List<Category> categoriesFromDB = new ColmanInternetiotContext().Category.ToList();
+
+            foreach(Category category in categoriesFromDB)
+            {
+                categoriesDict[category.Id] = category.Name;
+            }
+
+            return categoriesDict;
+        }
+
         // GET: Categories/Create
         public IActionResult Create()
         {

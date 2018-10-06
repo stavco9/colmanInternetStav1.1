@@ -10,10 +10,7 @@ namespace colmanInternetStav1._1.Models
         public virtual DbSet<Category> Category { get; set; }
         public virtual DbSet<Jewelry> Jewelry { get; set; }
         public virtual DbSet<Purchase> Purchase { get; set; }
-        public virtual DbSet<Set> Set { get; set; }
         public virtual DbSet<Users> Users { get; set; }
-
-        // Unable to generate entity type for table 'dbo.CategoriesJewelry'. Please see the warning messages.
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -50,17 +47,21 @@ namespace colmanInternetStav1._1.Models
             {
                 entity.Property(e => e.Id).HasColumnName("ID");
 
+                entity.Property(e => e.CategoryId).HasColumnName("CategoryID");
+
                 entity.Property(e => e.Description).HasMaxLength(255);
 
                 entity.Property(e => e.ImagePath).HasMaxLength(255);
 
-                entity.Property(e => e.SetId).HasColumnName("SetID");
+                entity.Property(e => e.Name)
+                    .IsRequired()
+                    .HasMaxLength(255);
 
-                entity.HasOne(d => d.Set)
+                entity.HasOne(d => d.Category)
                     .WithMany(p => p.Jewelry)
-                    .HasForeignKey(d => d.SetId)
+                    .HasForeignKey(d => d.CategoryId)
                     .OnDelete(DeleteBehavior.Restrict)
-                    .HasConstraintName("FK__Jewelry__SetID__619B8048");
+                    .HasConstraintName("FK__Jewelry__Categor__6E01572D");
             });
 
             modelBuilder.Entity<Purchase>(entity =>
@@ -89,13 +90,6 @@ namespace colmanInternetStav1._1.Models
                     .WithMany(p => p.Purchase)
                     .HasForeignKey(d => d.UserId)
                     .HasConstraintName("FK__Purchase__UserID__59063A47");
-            });
-
-            modelBuilder.Entity<Set>(entity =>
-            {
-                entity.Property(e => e.Id).HasColumnName("ID");
-
-                entity.Property(e => e.Name).HasMaxLength(255);
             });
 
             modelBuilder.Entity<Users>(entity =>

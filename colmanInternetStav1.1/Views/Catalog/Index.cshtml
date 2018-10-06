@@ -32,15 +32,14 @@
         };
 
         var slider = document.getElementById("myRange");
-        var output = document.getElementById("demo");
-        output.innerHTML = "10000+";
+        var output = document.getElementById("prise");
 
         slider.oninput = function () {
             if (this.value == 10000) {
-                output.innerHTML = "10000+";
+                output.innerHTML = "Up to 10000$ +";
             }
             else {
-                output.innerHTML = this.value;
+                output.innerHTML = "Up to " + this.value +"$";
             }
            
         }
@@ -61,6 +60,20 @@
             padding-right: 10px;
         }
 
+        .filter_form {
+            margin-top: 15px;
+            padding-top: 10px;
+            padding-left: 20px;
+            padding-right: 50px;
+            padding-bottom: 20px;
+            border-radius: 10px;
+            
+        }
+
+        .filter_titel {
+            margin-top: 10px;
+        }
+
         .slidecontainer {
             width: 100%;
         }
@@ -76,25 +89,37 @@
             transition: opacity .2s;
         }
 
-            .slider:hover {
-                opacity: 1;
-            }
+        .slider:hover {
+            opacity: 1;
+        }
 
-            .slider::-webkit-slider-thumb {
-                -webkit-appearance: none;
-                appearance: none;
-                width: 25px;
-                height: 25px;
-                background: #4CAF50;
-                cursor: pointer;
-            }
+        .slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 25px;
+            height: 25px;
+            background: #4CAF50;
+            cursor: pointer;
+        }
 
-            .slider::-moz-range-thumb {
-                width: 25px;
-                height: 25px;
-                background: #4CAF50;
-                cursor: pointer;
-            }
+        .slider::-moz-range-thumb {
+            width: 25px;
+            height: 25px;
+            background: #4CAF50;
+            cursor: pointer;
+        }
+
+        .catalogList {
+            margin-top: 15px;
+            padding-top: 10px;
+            padding-left: 20px;
+            padding-right: 20px;
+            padding-bottom: 20px;
+            background-color: #eee;
+            border-radius: 10px;
+        }
+
+        
 
     </style>
 }
@@ -102,22 +127,46 @@
 
 
 
-<div class="maintiles tile is-ancestor">
-    <div class="tile is-vertical is-parent is-2">
-        <div class="slidecontainer">
-            <input type="range" min="400" max="10000" value="10000" class="slider" id="myRange">
-            <p>Value: <span id="demo"></span></p>
-        </div>
-    </div>
+<div class="container ">
+    <div class="row ">
 
-    <div class="tile is-parent">
-        <article class="tile is-child notification" id="history">
-            <div class="content">
-                <p class="title">Search results</p>
-                <div class="content row" id="catalog_items">
+        <div class="col-md-3 filter_form">
+            <h5>Filter</h5>
+            <div class="slidecontainer">
+                <div>Prise: <span id="prise"></span></div>
+                <input type="range" min="400" max="10000" value="5000" class="slider" id="myRange">
+
+                <div class="filter_titel">Category:</div>
+                <select class="custom-select" id="categoryForm">
+                    <option selected>Choose category</option>
+                    <option value="Ring">Ring</option>
+                    <option value="Necklace">Necklace</option>
+                    <option value="Pendant">Pendant</option>
+                    <option value="Earrings">Earrings</option>
+                    <option value="Bracelet">Bracelet</option>
+                </select>
+
+                <div class="filter_titel">Gold type:</div>
+                <select class="custom-select" id="goldTypeForm">
+                    <option selected>Choose gold type</option>
+                    <option value="14">14k</option>
+                    <option value="18">18k</option>
+                    <option value="21">21k</option>
+                    
+                </select>
+
+                <div class="form-check form-check-inline filter_titel">
+                    <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">
+                    <label class="form-check-label" for="inlineCheckbox1">With diamonds</label>
                 </div>
             </div>
-        </article>
+        </div>
+
+        <div class="col-md-9  catalogList">
+            <h3>Search results</h3>
+            <div class="content row" id="catalog_items"></div>
+
+        </div>
     </div>
 </div>
 
@@ -129,7 +178,7 @@
     <div class="card_border col-sm-6 col-md-4" id="catalog_item">
         <a href="/jewelry">
             <div class="card ">
-                <img class="card-img-top" style="width :100%; height: 200px">
+                <img class="card-img-top" style="width :100%;" approle="img" >
                 <div class="card-body">
                     <h6 approle="name"></h6>
                     <p approle="price"></p>

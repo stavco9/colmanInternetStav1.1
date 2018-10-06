@@ -4,6 +4,16 @@
     ViewData["Title"] = "Edit";
 }
 
+@section style{
+    <style>
+        .WarnMessage {
+            color: red;
+            font-weight: bold;
+            font-family: Arial;
+        }
+    </style>
+}
+
 <h2>עריכת חנות</h2>
 <script src="~/js/Branches.js"></script>
 <meta charset="utf-8" />
@@ -17,7 +27,7 @@
                 <input asp-for="Name" name="Name" readonly class="form-control" />
                 <span asp-validation-for="Name" class="text-danger"></span>
                 &nbsp;
-                <input border="0" type="text" id="AlertStoreCreate" readonly name="AlertStoreCreate" />
+                <p border="0" class="WarnMessage" type="text" id="AlertStoreCreate" name="AlertStoreCreate"></p>
             </div>
         </div>
         <div class="form-group">
@@ -27,7 +37,7 @@
                 <span asp-validation-for="Address" class="text-danger"></span>
                 <input type="button" onclick="getCoorDinateByAddress()" value="בדוק כתובת" />
                 &nbsp;
-                <input border="0" type="text" id="AddressValid" readonly name="AddressValid" />
+                <p border="0" class="WarnMessage" type="text" id="AddressValid" name="AddressValid" />
             </div>
         </div>
         <input type="hidden" asp-for="CoordinateLat" name="CoordinateLat" />

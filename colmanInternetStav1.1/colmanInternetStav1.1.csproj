@@ -37,7 +37,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="wwwroot\images\jew.jpg" />
     <None Include="wwwroot\js\Location.js" />
     <None Include="wwwroot\webfonts\fa-brands-400.svg" />
     <None Include="wwwroot\webfonts\fa-brands-400.woff2" />

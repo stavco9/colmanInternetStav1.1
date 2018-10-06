@@ -60,26 +60,53 @@
 }
 
 
+    <div class="container">
+
+        <div class="row">
+            <div class="col-md-6">
+                <div>
+                    <h4 id="currJewelryName"> </h4>
+                    <img id="currJewelryImg" style="height: auto; width:100%;" />
+                </div>
+            </div>
+            <div class="col-md-6">
 
 
-    <div class="row">
-        <div class="col-md-6">
-            <div class="slidecontainer">
-                <h4 id="currJewelryName"> </h4>
-                <img id="currJewelryImg" style="height: auto; width:100%;"/>
+                <table class="table table-borderless" style="margin-top:30px;">
+                    
+                    <tbody>
+                        <tr>
+                            <td style="width: 25%;">Category:</td>
+                            <td style="width: 75%;">Ring</td>
+                        </tr>
+                        <tr>
+                            <td>Description:</td>
+                            <td>owrgpdhgpjgrjgejrejghieputuwph</td>
+                        </tr>
+                        <tr>
+                            <td>Gold Type:</td>
+                            <td>14K</td>
+                        </tr>
+                        <tr>
+                            <td>Prise:</td>
+                            <td>55$</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <button style="width: 30%;" type="button" class="btn btn-outline-secondary">Buy</button>
             </div>
         </div>
-    </div>
 
-    <div class="container moreInCategory">
-        <div class="row">
-            <h4>More in set:</h4>
+        <div class="container moreInCategory">
+            <div class="row">
+                <h4>More in set:</h4>
+            </div>
+            <div class=" row" id="catalog_items">
+            </div>
         </div>
-        <div class=" row" id="catalog_items">
-        </div>
+
     </div>
-
-
 
 
 
@@ -87,10 +114,10 @@
     <div class="card_border col-sm-6 col-md-3" id="catalog_item">
         <a href="/jewelry">
             <div class="card ">
-                <img class="card-img-top" style="width :100%; height: auto" approle="img">
-                <div class="card-body">
-                    <h5 approle="name" ></h5>
-                    <p approle="price" style="color: rgb(192,192,192);"></p>
+                <img class="card-img-top" style="width :100%;" approle="img">
+                <div class="card-body" style="padding: 5px;">
+                    <h6 style="padding: 0" approle="name"></h6>
+                    <div approle="price"></div>
                 </div>
             </div>
         </a>

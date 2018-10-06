@@ -9,6 +9,7 @@ namespace colmanInternetStav1._1.Models
         public virtual DbSet<Branch> Branch { get; set; }
         public virtual DbSet<Category> Category { get; set; }
         public virtual DbSet<Jewelry> Jewelry { get; set; }
+        public virtual DbSet<JewelrySet> JewelrySet { get; set; }
         public virtual DbSet<Purchase> Purchase { get; set; }
         public virtual DbSet<Users> Users { get; set; }
 
@@ -57,11 +58,28 @@ namespace colmanInternetStav1._1.Models
                     .IsRequired()
                     .HasMaxLength(255);
 
+                entity.Property(e => e.SetId).HasColumnName("SetID");
+
                 entity.HasOne(d => d.Category)
                     .WithMany(p => p.Jewelry)
                     .HasForeignKey(d => d.CategoryId)
                     .OnDelete(DeleteBehavior.Restrict)
                     .HasConstraintName("FK__Jewelry__Categor__6E01572D");
+
+                entity.HasOne(d => d.Set)
+                    .WithMany(p => p.Jewelry)
+                    .HasForeignKey(d => d.SetId)
+                    .OnDelete(DeleteBehavior.Restrict)
+                    .HasConstraintName("FK__Jewelry__SetID__70DDC3D8");
+            });
+
+            modelBuilder.Entity<JewelrySet>(entity =>
+            {
+                entity.Property(e => e.Id).HasColumnName("ID");
+
+                entity.Property(e => e.Name)
+                    .IsRequired()
+                    .HasMaxLength(255);
             });
 
             modelBuilder.Entity<Purchase>(entity =>

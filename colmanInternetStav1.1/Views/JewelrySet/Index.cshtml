@@ -1,0 +1,31 @@
+﻿@model IEnumerable<colmanInternetStav1._1.Models.JewelrySet>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<p>
+    <a asp-action="Create">יצירת סט</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+                <th>
+                    שם
+                </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                <a asp-action="Delete" asp-route-id="@item.Id">מחק</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

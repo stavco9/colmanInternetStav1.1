@@ -22,9 +22,7 @@ namespace colmanInternetStav1._1.Controllers
         {
             ColmanInternetiotContext _context = new ColmanInternetiotContext();
 
-            int countOfCraetedToday = _context.Users.Where(c => c.CreationDate.Value.Date == DateTime.Now.Date).Count();
-
-            DbSet<Users> users = _context.Users;
+            int countOfCraetedToday = _context.Users.Where(c => c.CreationDate == DateTime.Today.Date).Count();
 
             return countOfCraetedToday;
         }

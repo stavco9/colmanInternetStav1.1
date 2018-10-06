@@ -24,6 +24,8 @@ namespace colmanInternetStav1._1.Controllers
 
             int countOfCraetedToday = _context.Users.Where(c => c.CreationDate.Value.Date == DateTime.Now.Date).Count();
 
+            DbSet<Users> users = _context.Users;
+
             return countOfCraetedToday;
         }
 

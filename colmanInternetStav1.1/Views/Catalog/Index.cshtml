@@ -1,35 +1,41 @@
 @using colmanInternetStav1._1.Controllers;
+@using colmanInternetStav1._1.Models;
 
 @section scripts {
     <script>
         $(function () {
             var hafira = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis porta eros lacus, nec ultricies elit blandit non. Suspendisse pellentesque mauris sit amet dolor blandit rutrum. Nunc in tempus turpis.";
 
-            var jewelersList = [];
-            jewelersList.push({ id: 0, name: "New Pandora 100% silver - heart shape", description: "bla blkjsdflgj dflgjk ladkjghdlg", price: 102.56, img: "https://bulma.io/images/placeholders/128x128.png" });
-            jewelersList.push({ id: 1, name: "New Pandora 100% silver - heart shape", description: "bla blkjsdflgj dflgjk ladkjghdlg", price: 102.56, img: "https://bulma.io/images/placeholders/128x128.png" });
-            jewelersList.push({ id: 2, name: "New Pandora 100% silver - heart shape", description: "bla blkjsdflgj dflgjk ladkjghdlg", price: 102.56, img: "https://bulma.io/images/placeholders/128x128.png" });
-            jewelersList.push({ id: 2, name: "New Pandora 100% silver - heart shape", description: "bla blkjsdflgj dflgjk ladkjghdlg", price: 102.56, img: "https://bulma.io/images/placeholders/128x128.png" });
-            jewelersList.push({ id: 2, name: "New Pandora 100% silver - heart shape", description: "bla blkjsdflgj dflgjk ladkjghdlg", price: 102.56, img: "https://bulma.io/images/placeholders/128x128.png" });
-            jewelersList.push({ id: 2, name: "New Pandora 100% silver - heart shape", description: "bla blkjsdflgj dflgjk ladkjghdlg", price: 102.56, img: "https://bulma.io/images/placeholders/128x128.png" });
-            jewelersList.push({ id: 2, name: "New Pandora 100% silver - heart shape", description: "bla blkjsdflgj dflgjk ladkjghdlg", price: 102.56, img: "https://bulma.io/images/placeholders/128x128.png" });
-            jewelersList.push({ id: 2, name: "New Pandora 100% silver - heart shape", description: "bla blkjsdflgj dflgjk ladkjghdlg", price: 102.56, img: "https://bulma.io/images/placeholders/128x128.png" });
-            jewelersList.push({ id: 2, name: "New Pandora 100% silver - heart shape", description: "bla blkjsdflgj dflgjk ladkjghdlg", price: 102.56, img: "https://bulma.io/images/placeholders/128x128.png" });
-            jewelersList.push({ id: 2, name: "New Pandora 100% silver - heart shape", description: "bla blkjsdflgj dflgjk ladkjghdlg", price: 102.56, img: "https://bulma.io/images/placeholders/128x128.png" });
+            window.clearItems = $("#catalog_items").clone; 
 
-            jewelersList.forEach(function (item) {
-                appendCatalogItem(item);
+            var jewelersList = [];
+
+            $.getJSON("/api/Jewelries", function (data) {
+                jewelersList = data;
+
+                jewelersList.forEach(function (item) {
+                    appendCatalogItem(item);
+                });
             });
 
-
+            //jewelersList.push({ id: 0, name: "New Pandora 100% silver - heart shape", description: "bla blkjsdflgj dflgjk ladkjghdlg", price: 102.56, img: "https://bulma.io/images/placeholders/128x128.png" });
+            //jewelersList.push({ id: 1, name: "New Pandora 100% silver - heart shape", description: "bla blkjsdflgj dflgjk ladkjghdlg", price: 102.56, img: "https://bulma.io/images/placeholders/128x128.png" });
+            //jewelersList.push({ id: 2, name: "New Pandora 100% silver - heart shape", description: "bla blkjsdflgj dflgjk ladkjghdlg", price: 102.56, img: "https://bulma.io/images/placeholders/128x128.png" });
+            //jewelersList.push({ id: 2, name: "New Pandora 100% silver - heart shape", description: "bla blkjsdflgj dflgjk ladkjghdlg", price: 102.56, img: "https://bulma.io/images/placeholders/128x128.png" });
+            //jewelersList.push({ id: 2, name: "New Pandora 100% silver - heart shape", description: "bla blkjsdflgj dflgjk ladkjghdlg", price: 102.56, img: "https://bulma.io/images/placeholders/128x128.png" });
+            //jewelersList.push({ id: 2, name: "New Pandora 100% silver - heart shape", description: "bla blkjsdflgj dflgjk ladkjghdlg", price: 102.56, img: "https://bulma.io/images/placeholders/128x128.png" });
+            //jewelersList.push({ id: 2, name: "New Pandora 100% silver - heart shape", description: "bla blkjsdflgj dflgjk ladkjghdlg", price: 102.56, img: "https://bulma.io/images/placeholders/128x128.png" });
+            //jewelersList.push({ id: 2, name: "New Pandora 100% silver - heart shape", description: "bla blkjsdflgj dflgjk ladkjghdlg", price: 102.56, img: "https://bulma.io/images/placeholders/128x128.png" });
+            //jewelersList.push({ id: 2, name: "New Pandora 100% silver - heart shape", description: "bla blkjsdflgj dflgjk ladkjghdlg", price: 102.56, img: "https://bulma.io/images/placeholders/128x128.png" });
+            //jewelersList.push({ id: 2, name: "New Pandora 100% silver - heart shape", description: "bla blkjsdflgj dflgjk ladkjghdlg", price: 102.56, img: "https://bulma.io/images/placeholders/128x128.png" });
         });
 
         function appendCatalogItem(item) {
             var newitem_elem = $("#catalog_item").clone();
             newitem_elem.removeAttr('id');
-            newitem_elem.find("[approle=img]").attr("src", item.img);
+            newitem_elem.find("[approle=img]").attr("src", item.imagepath);
             newitem_elem.find("[approle=price]").text(item.price + " $");
-            newitem_elem.find("[approle=name]").text(item.name);
+            newitem_elem.find("[approle=name]").text(item.name + " - " + item.description);
             newitem_elem.appendTo("#catalog_items");
         };
 
@@ -44,6 +50,38 @@
                 output.innerHTML = "Up to " + this.value + "$";
             }
 
+        }
+
+        function filterResults() {
+            var catagory = $("#categoryForm").val();
+
+            if (catagory == "Choose category") { 
+                catagory = "all";
+            }
+
+            var price = $("#myRange").val();
+
+            var cart = $('#goldTypeForm').val();
+
+            var diamonds = $('#inlineCheckbox1').is(':checked');
+
+            if (cart == "Choose gold type") {
+                cart = 0;
+            }
+
+            var jewelersList = [];
+
+            var url = "/api/Jewelries/" + catagory + "/" + price + "/" + cart + "/" + diamonds;
+
+            $.getJSON(url, function (data) {
+                jewelersList = data;
+
+                $("#catalog_items").empty();
+
+                jewelersList.forEach(function (item) {
+                    appendCatalogItem(item);
+                });
+            });
         }
 
     </script>
@@ -122,7 +160,11 @@
     </style>
 }
 
-
+@{ 
+    JewelriesController jewelries = new JewelriesController(new ColmanInternetiotContext());
+    double minPrice = jewelries.getMinPrice();
+    double maxPrice = jewelries.getMaxPrice();
+}
 
 
 <div class="container ">
@@ -132,10 +174,10 @@
             <h5>Filter</h5>
             <div class="slidecontainer">
                 <div>Prise: <span id="prise"></span></div>
-                <input type="range" min="400" max="10000" value="5000" class="slider" id="myRange">
+                <input onchange="filterResults()" type="range" min="@minPrice" max="@maxPrice" value="@minPrice" class="slider" id="myRange">
 
                 <div class="filter_titel">Category:</div>
-                <select class="custom-select" id="categoryForm">
+                <select onchange="filterResults()" class="custom-select" id="categoryForm">
                     <option selected>Choose category</option>
                     @{
                         Dictionary<int, string> categoriesList = CategoriesController.GetCategories();
@@ -147,7 +189,7 @@
                 </select>
 
                 <div class="filter_titel">Gold type:</div>
-                <select class="custom-select" id="goldTypeForm">
+                <select onchange="filterResults()" class="custom-select" id="goldTypeForm">
                     <option selected>Choose gold type</option>
                     <option value="14">14k</option>
                     <option value="18">18k</option>
@@ -156,7 +198,7 @@
                 </select>
 
                 <div class="form-check form-check-inline filter_titel">
-                    <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">
+                    <input onchange="filterResults()" class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">
                     <label class="form-check-label" for="inlineCheckbox1">With diamonds</label>
                 </div>
             </div>

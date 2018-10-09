@@ -3,9 +3,9 @@ using System.Collections.Generic;
 
 namespace colmanInternetStav1._1.Models
 {
-    public partial class Category
+    public partial class JewelrySet
     {
-        public Category()
+        public JewelrySet()
         {
             Jewelry = new HashSet<Jewelry>();
         }

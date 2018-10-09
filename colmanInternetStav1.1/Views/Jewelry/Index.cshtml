@@ -1,0 +1,125 @@
+@section scripts {
+    <script>
+        $(function () {
+
+            var currJewelry = { id: 0, name: "New Pandora 100% silver - heart shape", description: "bla blkjsdflgj dflgjk ladkjghdlg", price: 102.56, img: "https://bulma.io/images/placeholders/128x128.png" };
+
+            $("#currJewelryName").text(currJewelry.name);
+            $("#currJewelryImg").attr("src", currJewelry.img);
+
+            var categoryJewelrysList = [];
+            categoryJewelrysList.push({ id: 0, name: "New Pandora 100% silver - heart shape", description: "bla blkjsdflgj dflgjk ladkjghdlg", price: 102.56, img: "https://bulma.io/images/placeholders/128x128.png" });
+            categoryJewelrysList.push({ id: 1, name: "New Pandora 100% silver - heart shape", description: "bla blkjsdflgj dflgjk ladkjghdlg", price: 102.56, img: "https://bulma.io/images/placeholders/128x128.png" });
+            categoryJewelrysList.push({ id: 3, name: "New Pandora 100% silver - heart shape", description: "bla blkjsdflgj dflgjk ladkjghdlg", price: 102.56, img: "https://bulma.io/images/placeholders/128x128.png" });
+            categoryJewelrysList.push({ id: 4, name: "New Pandora 100% silver - heart shape", description: "bla blkjsdflgj dflgjk ladkjghdlg", price: 102.56, img: "https://bulma.io/images/placeholders/128x128.png" });
+            
+            categoryJewelrysList.forEach(function (item) {
+                appendCatalogItem(item);
+            });
+        });
+
+
+        function appendCatalogItem(item) {
+            var newitem_elem = $("#catalog_item").clone();
+            newitem_elem.removeAttr('id');
+            newitem_elem.find("[approle=img]").attr("src", item.img);
+            newitem_elem.find("[approle=price]").text(item.price + " $");
+            newitem_elem.find("[approle=name]").text(item.name);
+            newitem_elem.appendTo("#catalog_items");
+            newitem_elem.find("[approle=img]").attr("src", item.img);
+        };
+
+
+    </script>
+}
+
+@section style {
+    <style>
+        .maintiles .tile.is-child {
+            background-size: cover;
+            background-position: bottom center;
+        }
+
+        .card_border {
+            padding-top: 10px;
+            padding-left: 10px;
+            padding-right: 10px;
+        }
+
+        .moreInCategory {
+            margin-top: 15px;
+            padding-top: 10px;
+            padding-left: 20px;
+            padding-right: 20px;
+            padding-bottom:20px;
+            background-color: #eee;
+            border-radius: 10px;
+        }
+
+    </style>
+}
+
+
+    <div class="container">
+
+        <div class="row">
+            <div class="col-md-6">
+                <div>
+                    <h4 id="currJewelryName"> </h4>
+                    <img id="currJewelryImg" style="height: auto; width:100%;" />
+                </div>
+            </div>
+            <div class="col-md-6">
+
+
+                <table class="table table-borderless" style="margin-top:30px;">
+                    
+                    <tbody>
+                        <tr>
+                            <td style="width: 25%;">Category:</td>
+                            <td style="width: 75%;">Ring</td>
+                        </tr>
+                        <tr>
+                            <td>Description:</td>
+                            <td>owrgpdhgpjgrjgejrejghieputuwph</td>
+                        </tr>
+                        <tr>
+                            <td>Gold Type:</td>
+                            <td>14K</td>
+                        </tr>
+                        <tr>
+                            <td>Prise:</td>
+                            <td>55$</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <button style="width: 30%;" type="button" class="btn btn-outline-secondary">Buy</button>
+            </div>
+        </div>
+
+        <div class="container moreInCategory">
+            <div class="row">
+                <h4>More in set:</h4>
+            </div>
+            <div class=" row" id="catalog_items">
+            </div>
+        </div>
+
+    </div>
+
+
+
+@section hidden {
+    <div class="card_border col-sm-6 col-md-3" id="catalog_item">
+        <a href="/jewelry">
+            <div class="card ">
+                <img class="card-img-top" style="width :100%;" approle="img">
+                <div class="card-body" style="padding: 5px;">
+                    <h6 style="padding: 0" approle="name"></h6>
+                    <div approle="price"></div>
+                </div>
+            </div>
+        </a>
+    </div>
+}

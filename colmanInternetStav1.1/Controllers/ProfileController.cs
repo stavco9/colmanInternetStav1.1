@@ -24,7 +24,7 @@ namespace colmanInternetStav1._1.Controllers
         public IActionResult ResyncFromFacebook()
         {
             // resync from facebook, somehow,
-            // the redirect to profile page
+            // then redirect to profile page
 
             return (new RedirectToActionResult("Index", "Profile", null));
         }

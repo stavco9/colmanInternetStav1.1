@@ -1,16 +1,13 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Http.Authentication;
-using Microsoft.AspNetCore.Http;
 using colmanInternetStav1._1.Models;
-using System.Security.Claims;
+using Microsoft.AspNetCore.Mvc;
 
 namespace colmanInternetStav1._1.Controllers
 {
-    public class HomeController : Controller
+    public class CatalogController : Controller
     {
         public IActionResult Index()
         {
@@ -24,17 +21,7 @@ namespace colmanInternetStav1._1.Controllers
 
                 addNewUser.Create(newUserToDB);
             }
-    
-            return View();
-        }
 
-        public IActionResult NotAuthorized()
-        {
-            return View();
-        }
-
-        public IActionResult Location()
-        {
             return View();
         }
     }

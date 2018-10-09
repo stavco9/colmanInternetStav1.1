@@ -6,6 +6,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="wwwroot\API\**" />
+    <Content Remove="wwwroot\API\**" />
+    <EmbeddedResource Remove="wwwroot\API\**" />
+    <None Remove="wwwroot\API\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Remove="wwwroot\images\jew.jpg" />
     <Content Remove="wwwroot\js\Location.js" />
   </ItemGroup>
 
@@ -30,9 +38,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Views\Catalog\" />
     <Folder Include="Views\Shared\" />
     <Folder Include="wwwroot\css\" />
-    <Folder Include="wwwroot\images\" />
   </ItemGroup>
 
   <ItemGroup>

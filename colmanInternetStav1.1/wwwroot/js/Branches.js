@@ -2,8 +2,8 @@
 
 $(document).ready(function () {
     window.addressValid = false;
-    document.getElementById("AddressValid").value = "";
-    document.getElementById("AlertStoreCreate").value = "";
+    $("#AddressValid").html("");
+    $("#AlertStoreCreate").html("");
 });
 
 function resetCoords() {
@@ -31,13 +31,15 @@ function getCoorDinateByAddress() {
 
                 document.getElementById("CoordinateLng").value = jsonData.results[0].geometry.location.lng;
 
-                document.getElementById("AddressValid").value = "V";
+                $("#AddressValid").html("V");
+                $("#AddressValid").css({ "color":"green"});
 
                 window.addressValid = true;
             }
             else {
-                document.getElementById("AddressValid").value = "X";
-
+                $("#AddressValid").html("X");
+                $("#AddressValid").css({ "color":"red"} );
+                
                 document.getElementById("CoordinateLat").value = "";
 
                 document.getElementById("CoordinateLng").value = "";
@@ -45,8 +47,9 @@ function getCoorDinateByAddress() {
         });
     }
     else {
-        document.getElementById("AddressValid").value = "אנא הזן כתובת";
-
+        $("#AddressValid").html("אנא הזן כתובת");
+        $("#AddressValid").css({ "color": "red" });
+       
         document.getElementById("CoordinateLat").value = "";
 
         document.getElementById("CoordinateLng").value = "";
@@ -59,19 +62,20 @@ function ValidateInput() {
 
     var storeName = document.getElementById("Name").value;
     if (storeName.length <= 2 || /[\d]/.test(storeName)) {
-        document.getElementById("AlertStoreCreate").value = "שם החנות אינו תקין";
+        $("#AlertStoreCreate").html("שם החנות אינו תקין");
 
         inputValid = false;
     }
     else {
-        document.getElementById("AlertStoreCreate").value = "";
+        $("#AlertStoreCreate").html("");
     }
 
     if (document.getElementById("CoordinateLat").value.length < 1 || document.getElementById("CoordinateLng").value.length < 1) {
         if (!window.addressValid) {
             inputValid = false;
 
-            document.getElementById("AddressValid").value = "יש להזין כתובת";
+            $("#AddressValid").html("יש לבדוק את תקינות הכתובת טרם היצירה");
+            $("#AddressValid").css({ "color": "red" });
         }
     }
 

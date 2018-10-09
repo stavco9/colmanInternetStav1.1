@@ -19,6 +19,7 @@ namespace colmanInternetStav1._1.Models
         public string Gender { get; set; }
         public int Id { get; set; }
         public string NameId { get; set; }
+        public DateTime? CreationDate { get; set; }
 
         public virtual ICollection<Branch> Branch { get; set; }
         public virtual ICollection<Purchase> Purchase { get; set; }

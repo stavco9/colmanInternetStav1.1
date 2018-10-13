@@ -1,17 +1,15 @@
-﻿using System;
-using System.Collections;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Http.Authentication;
 using colmanInternetStav1._1.Models;
-using Newtonsoft.Json;
+using Microsoft.AspNetCore.Http.Authentication;
+using Microsoft.AspNetCore.Mvc;
 
 namespace colmanInternetStav1._1.Controllers
 {
     public class ProfileController : Controller
-    {       
+    {
         public IActionResult Index()
         {
             if (!Account.isLoggedIn(User))
@@ -20,7 +18,7 @@ namespace colmanInternetStav1._1.Controllers
             }
             return View();
         }
-        
+
         public IActionResult ResyncFromFacebook()
         {
             // resync from facebook, somehow,
@@ -56,5 +54,6 @@ namespace colmanInternetStav1._1.Controllers
 
             return (new RedirectToActionResult("Index", "Home", null));
         }
+
     }
 }

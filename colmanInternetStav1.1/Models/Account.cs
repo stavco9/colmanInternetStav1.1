@@ -51,6 +51,13 @@ namespace colmanInternetStav1._1.Models
             return (false);
         }
 
+        public static int GetCurrAccountId(ClaimsPrincipal principal)
+        {
+            Dictionary<string, string> accountDetails = getDetails(principal);
+
+            return new ColmanInternetiotContext().Users.FirstOrDefault(m => m.NameId == accountDetails["nameid"]).Id;
+        }
+
         public static Dictionary<string, string> getDetails(ClaimsPrincipal principal)
         {
             if (devMode)

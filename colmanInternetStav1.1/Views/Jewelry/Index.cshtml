@@ -14,12 +14,16 @@
                 $.getJSON(url, function (data) {
                     currJewelry = data;
 
+                    window.price = currJewelry.price;
+                    window.id = currJewelry.id;
+                    
                     $("#currJewelryName").text(currJewelry.name);
                     $("#currJewelryImg").attr("src", currJewelry.imagePath);
                     $("#currJewelryDescription").text(currJewelry.description);
                     $("#currJewelryCart").text(currJewelry.cart + "K");
                     $("#currJewelryPrice").text(currJewelry.price + "$");
                     $("#currJewelryCatagory").text(currJewelry.category);
+                    $("#currJewelryAmount").attr("max", currJewelry.amount);
 
                     var setJewelrysList = [];
 
@@ -53,6 +57,38 @@
         function Jewelry(jewelryId) {
             window.location.href = "/Jewelry?Id=" + jewelryId;
         }
+
+        function setJewelryPrice() {
+
+            var amount = $("#currJewelryAmount").val();
+
+            $("#currJewelryPrice").text(window.price * amount + "$");
+        }
+
+        function Purchase() {
+            var conf = confirm("Are you sure you want to buy " + $('#currJewelryAmount').val() + " amount of jewelry " + $('#currJewelryName').text() + " on " + $('#currJewelryPrice').text() + "?");
+
+            if (conf) {
+
+                var dataToServer = { 'amount': $("#currJewelryAmount").val(), 'jewelryId': window.id, 'price': window.price, 'jewelryName': $("#currJewelryName").text() }
+
+                $.ajax({
+                    url: "/Api/Purchase",
+                    type: 'PUT',
+                    dataType: 'string',
+                    data: JSON.stringify(dataToServer),
+                    contentType: 'application/json'
+                }).done(function () {
+                    alert("Purchase made successfully !!");
+                    })
+                    .fail(function () {
+                        alert("Error on making purchase");
+                    })
+                    .always(function () {
+                        window.location.href = "/Catalog";
+                    });;
+            }
+        };
 
     </script>
 }
@@ -115,10 +151,14 @@
                             <td>Price:</td>
                             <td id="currJewelryPrice"></td>
                         </tr>
+                        <tr>
+                            <td>Amount:</td>
+                            <td><input value="1" onchange="setJewelryPrice()" id="currJewelryAmount" type="number" min="1" max="*jsvariable*" /></td>
+                        </tr>
                     </tbody>
                 </table>
 
-                <button style="width: 30%;" type="button" class="btn btn-outline-secondary">Buy</button>
+                <button onclick="Purchase()" style="width: 30%;" type="button" class="btn btn-outline-secondary">Buy</button>
             </div>
         </div>
 

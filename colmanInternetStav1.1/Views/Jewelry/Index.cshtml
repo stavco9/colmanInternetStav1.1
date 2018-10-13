@@ -2,33 +2,57 @@
     <script>
         $(function () {
 
-            var currJewelry = { id: 0, name: "New Pandora 100% silver - heart shape", description: "bla blkjsdflgj dflgjk ladkjghdlg", price: 102.56, img: "https://bulma.io/images/placeholders/128x128.png" };
+            let searchParams = new URLSearchParams(window.location.search);
 
-            $("#currJewelryName").text(currJewelry.name);
-            $("#currJewelryImg").attr("src", currJewelry.img);
+            if (searchParams.has('Id')) {
+                let param = searchParams.get('Id');
 
-            var categoryJewelrysList = [];
-            categoryJewelrysList.push({ id: 0, name: "New Pandora 100% silver - heart shape", description: "bla blkjsdflgj dflgjk ladkjghdlg", price: 102.56, img: "https://bulma.io/images/placeholders/128x128.png" });
-            categoryJewelrysList.push({ id: 1, name: "New Pandora 100% silver - heart shape", description: "bla blkjsdflgj dflgjk ladkjghdlg", price: 102.56, img: "https://bulma.io/images/placeholders/128x128.png" });
-            categoryJewelrysList.push({ id: 3, name: "New Pandora 100% silver - heart shape", description: "bla blkjsdflgj dflgjk ladkjghdlg", price: 102.56, img: "https://bulma.io/images/placeholders/128x128.png" });
-            categoryJewelrysList.push({ id: 4, name: "New Pandora 100% silver - heart shape", description: "bla blkjsdflgj dflgjk ladkjghdlg", price: 102.56, img: "https://bulma.io/images/placeholders/128x128.png" });
-            
-            categoryJewelrysList.forEach(function (item) {
-                appendCatalogItem(item);
-            });
+                var url = "/api/Jewelries/" + param;
+
+                var currJewelry;
+
+                $.getJSON(url, function (data) {
+                    currJewelry = data;
+
+                    $("#currJewelryName").text(currJewelry.name);
+                    $("#currJewelryImg").attr("src", currJewelry.imagePath);
+                    $("#currJewelryDescription").text(currJewelry.description);
+                    $("#currJewelryCart").text(currJewelry.cart + "K");
+                    $("#currJewelryPrice").text(currJewelry.price + "$");
+                    $("#currJewelryCatagory").text(currJewelry.category);
+
+                    var setJewelrysList = [];
+
+                    $.getJSON("/api/Jewelries/Set/" + currJewelry.setId, function (data) {
+                        setJewelrysList = data;
+
+                        setJewelrysList.forEach(function (item) {
+                            if (item.id != currJewelry.id) {
+                                appendCatalogItem(item);
+                            }
+                        });
+                    });
+                });
+            }
+            else {
+                window.location.href = "/Catalog"
+            }
         });
 
 
         function appendCatalogItem(item) {
             var newitem_elem = $("#catalog_item").clone();
-            newitem_elem.removeAttr('id');
-            newitem_elem.find("[approle=img]").attr("src", item.img);
+            newitem_elem.attr("id", item.id);
+            newitem_elem.find("[approle=jewelryId]").val(item.id);
+            newitem_elem.find("[approle=img]").attr("src", item.imagePath);
             newitem_elem.find("[approle=price]").text(item.price + " $");
             newitem_elem.find("[approle=name]").text(item.name);
             newitem_elem.appendTo("#catalog_items");
-            newitem_elem.find("[approle=img]").attr("src", item.img);
         };
 
+        function Jewelry(jewelryId) {
+            window.location.href = "/Jewelry?Id=" + jewelryId;
+        }
 
     </script>
 }
@@ -77,19 +101,19 @@
                     <tbody>
                         <tr>
                             <td style="width: 25%;">Category:</td>
-                            <td style="width: 75%;">Ring</td>
+                            <td style="width: 75%;" id="currJewelryCatagory"></td>
                         </tr>
                         <tr>
                             <td>Description:</td>
-                            <td>owrgpdhgpjgrjgejrejghieputuwph</td>
+                            <td id="currJewelryDescription"></td>
                         </tr>
                         <tr>
                             <td>Gold Type:</td>
-                            <td>14K</td>
+                            <td id="currJewelryCart"></td>
                         </tr>
                         <tr>
-                            <td>Prise:</td>
-                            <td>55$</td>
+                            <td>Price:</td>
+                            <td id="currJewelryPrice"></td>
                         </tr>
                     </tbody>
                 </table>
@@ -112,7 +136,7 @@
 
 @section hidden {
     <div class="card_border col-sm-6 col-md-3" id="catalog_item">
-        <a href="/jewelry">
+        <a onclick="Jewelry(this.value)" approle="jewelryId">
             <div class="card ">
                 <img class="card-img-top" style="width :100%;" approle="img">
                 <div class="card-body" style="padding: 5px;">

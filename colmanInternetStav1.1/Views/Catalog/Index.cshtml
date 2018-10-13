@@ -18,22 +18,14 @@
                 });
             });
 
-            //jewelersList.push({ id: 0, name: "New Pandora 100% silver - heart shape", description: "bla blkjsdflgj dflgjk ladkjghdlg", price: 102.56, img: "https://bulma.io/images/placeholders/128x128.png" });
-            //jewelersList.push({ id: 1, name: "New Pandora 100% silver - heart shape", description: "bla blkjsdflgj dflgjk ladkjghdlg", price: 102.56, img: "https://bulma.io/images/placeholders/128x128.png" });
-            //jewelersList.push({ id: 2, name: "New Pandora 100% silver - heart shape", description: "bla blkjsdflgj dflgjk ladkjghdlg", price: 102.56, img: "https://bulma.io/images/placeholders/128x128.png" });
-            //jewelersList.push({ id: 2, name: "New Pandora 100% silver - heart shape", description: "bla blkjsdflgj dflgjk ladkjghdlg", price: 102.56, img: "https://bulma.io/images/placeholders/128x128.png" });
-            //jewelersList.push({ id: 2, name: "New Pandora 100% silver - heart shape", description: "bla blkjsdflgj dflgjk ladkjghdlg", price: 102.56, img: "https://bulma.io/images/placeholders/128x128.png" });
-            //jewelersList.push({ id: 2, name: "New Pandora 100% silver - heart shape", description: "bla blkjsdflgj dflgjk ladkjghdlg", price: 102.56, img: "https://bulma.io/images/placeholders/128x128.png" });
-            //jewelersList.push({ id: 2, name: "New Pandora 100% silver - heart shape", description: "bla blkjsdflgj dflgjk ladkjghdlg", price: 102.56, img: "https://bulma.io/images/placeholders/128x128.png" });
-            //jewelersList.push({ id: 2, name: "New Pandora 100% silver - heart shape", description: "bla blkjsdflgj dflgjk ladkjghdlg", price: 102.56, img: "https://bulma.io/images/placeholders/128x128.png" });
-            //jewelersList.push({ id: 2, name: "New Pandora 100% silver - heart shape", description: "bla blkjsdflgj dflgjk ladkjghdlg", price: 102.56, img: "https://bulma.io/images/placeholders/128x128.png" });
-            //jewelersList.push({ id: 2, name: "New Pandora 100% silver - heart shape", description: "bla blkjsdflgj dflgjk ladkjghdlg", price: 102.56, img: "https://bulma.io/images/placeholders/128x128.png" });
         });
 
         function appendCatalogItem(item) {
             var newitem_elem = $("#catalog_item").clone();
-            newitem_elem.removeAttr('id');
-            newitem_elem.find("[approle=img]").attr("src", item.imagepath);
+
+            newitem_elem.attr("id", item.id);
+            newitem_elem.find("[approle=jewelryId]").val(item.id);
+            newitem_elem.find("[approle=img]").attr("src", item.imagePath);
             newitem_elem.find("[approle=price]").text(item.price + " $");
             newitem_elem.find("[approle=name]").text(item.name + " - " + item.description);
             newitem_elem.appendTo("#catalog_items");
@@ -82,6 +74,10 @@
                     appendCatalogItem(item);
                 });
             });
+        }
+
+        function Jewelry(jewelryId) {
+            window.location.href = "/Jewelry?Id=" + jewelryId;
         }
 
     </script>
@@ -218,8 +214,8 @@
 @section hidden {
 
     <div class="card_border col-sm-6 col-md-4" id="catalog_item">
-        <a href="/jewelry">
-            <div class="card ">
+        <a onclick="Jewelry(this.value)" approle="jewelryId">
+            <div class="card">
                 <img class="card-img-top" style="width :100%;" approle="img">
                 <div class="card-body" style="padding: 5px;">
                     <h6 style="padding: 0" approle="name"></h6>

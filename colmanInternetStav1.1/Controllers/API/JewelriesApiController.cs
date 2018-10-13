@@ -13,13 +13,60 @@ namespace colmanInternetStav1._1.Controllers
     public class JewelriesApiController : Controller
     {
         [HttpGet]
-        public List<Jewelry> GetAllJewelries()
+        public List<Jewelry> GetJewelries()
         {
             return (new ColmanInternetiotContext().Jewelry).ToList();
         }
 
+        [HttpGet("{id}")]
+        public Dictionary<string, string> GetJewelries(int id)
+        {
+            ColmanInternetiotContext _context = new ColmanInternetiotContext();
+
+            Jewelry currJewelry = _context.Jewelry.FirstOrDefault(m => m.Id == id);
+
+            Dictionary<string, string> dictJewelry = new Dictionary<string, string>();
+            currJewelry.Category = _context.Category.FirstOrDefault(m => m.Id == currJewelry.CategoryId);
+            currJewelry.Set = _context.JewelrySet.FirstOrDefault(m => m.Id == currJewelry.SetId);
+
+            dictJewelry.Add("id", currJewelry.Id.ToString());
+            dictJewelry.Add("amount", currJewelry.Amount.ToString());
+            dictJewelry.Add("price", currJewelry.Price.ToString());
+            dictJewelry.Add("cart", currJewelry.Cart.ToString());
+            dictJewelry.Add("name", currJewelry.Name);
+            dictJewelry.Add("description", currJewelry.Description);
+            dictJewelry.Add("imagePath", currJewelry.ImagePath);
+            dictJewelry.Add("size", currJewelry.Size.ToString());
+            dictJewelry.Add("weight", currJewelry.Weight.ToString());
+            dictJewelry.Add("categoryId", currJewelry.CategoryId.ToString());
+            dictJewelry.Add("category", currJewelry.Category.Name);
+            dictJewelry.Add("setId", currJewelry.SetId.ToString());
+            dictJewelry.Add("set", currJewelry.Set.Name);
+
+            return dictJewelry;
+        }
+
+        [HttpGet("{setOrCatagory}/{id}")]
+        public List<Jewelry> GetJewelries(string setOrCatagory, int id)
+        {
+            ColmanInternetiotContext context = new ColmanInternetiotContext();
+
+            List<Jewelry> listJewelriesOnSetOrCatagory = new List<Jewelry>();
+
+            if (setOrCatagory.ToLower() == "set")
+            {
+                listJewelriesOnSetOrCatagory = context.Jewelry.Where(x => x.SetId == id).ToList();
+            }
+            else if (setOrCatagory.ToLower() == "category")
+            {
+                listJewelriesOnSetOrCatagory = context.Jewelry.Where(x => x.CategoryId == id).ToList();
+            }
+
+            return listJewelriesOnSetOrCatagory;
+        }
+
         [HttpGet("{catagory}/{price}/{cart}/{diamonds}")]
-        public List<Jewelry> GetAllJewelries(string catagory, double price, int cart, bool diamonds)
+        public List<Jewelry> GetJewelries(string catagory, double price, int cart, bool diamonds)
         {
             ColmanInternetiotContext context = new ColmanInternetiotContext();
 

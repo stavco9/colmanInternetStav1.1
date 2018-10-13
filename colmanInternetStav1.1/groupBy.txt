@@ -1,0 +1,4 @@
+select COUNT(Jewelry.ID), JewelrySet.Name
+from Jewelry
+LEFT JOIN JewelrySet ON Jewelry.SetID = JewelrySet.ID
+group by JewelrySet.Name

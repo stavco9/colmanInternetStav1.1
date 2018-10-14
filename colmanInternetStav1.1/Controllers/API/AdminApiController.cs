@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using colmanInternetStav1._1.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 
 namespace colmanInternetStav1._1.Controllers.API
@@ -20,20 +21,20 @@ namespace colmanInternetStav1._1.Controllers.API
         {
             Dictionary<string, double?> countriesByPurchases = new Dictionary<string, double?>();
 
-            foreach (var currPurchase in _context.Purchase)
-            {
-                if (countriesByPurchases.ContainsKey(currPurchase.Country))                     
-                {
-                    if ((currPurchase.Date.Value < DateTime.Now.AddYears(-1)))
-                    {
-                        countriesByPurchases[currPurchase.Country] += currPurchase.Amount;
-                    }                    
-                }
-                else
-                {
-                    countriesByPurchases.Add(currPurchase.Country, currPurchase.Amount);
-                }
-            }
+            await _context.Purchase.ForEachAsync(currPurchase =>
+             {
+                 if (countriesByPurchases.ContainsKey(currPurchase.Country))
+                 {
+                     if ((currPurchase.Date.Value < DateTime.Now.AddYears(-1)))
+                     {
+                         countriesByPurchases[currPurchase.Country] += currPurchase.Amount;
+                     }
+                 }
+                 else
+                 {
+                     countriesByPurchases.Add(currPurchase.Country, currPurchase.Amount);
+                 }
+             });
 
             countriesByPurchases.OrderByDescending(key => key.Value);
 
@@ -45,7 +46,7 @@ namespace colmanInternetStav1._1.Controllers.API
             Dictionary<string, double?> profitByMonthDictionary = new Dictionary<string, double?>();
             double priceForAbaPich;
 
-            foreach (var currPurchase in _context.Purchase)
+            await _context.Purchase.ForEachAsync(currPurchase =>
             {
                 string currNormalizedDate = currPurchase.Date.Value.ToString("yyyy-M-d dddd");
 
@@ -67,7 +68,7 @@ namespace colmanInternetStav1._1.Controllers.API
                     profitByMonthDictionary.Add(currNormalizedDate,
                         currPurchase.Jewelry.Price * currPurchase.Jewelry.Discount - priceForAbaPich);
                 }
-            }
+            });            
 
             profitByMonthDictionary.OrderByDescending(key => key.Key);
 
@@ -78,7 +79,7 @@ namespace colmanInternetStav1._1.Controllers.API
         {
             int newUsersCount = 0;
 
-            foreach (var currUser in _context.Users)
+            await _context.Users.ForEachAsync(currUser =>
             {
                 string currNormalizedDate = currUser.CreationDate.Value.ToString("yyyy-M-d dddd");
                 string todayNormalizedDate = DateTime.Now.ToString("yyyy-M-d dddd");
@@ -90,9 +91,9 @@ namespace colmanInternetStav1._1.Controllers.API
                 {
                     newUsersCount++;
                 }
-            }
+            });
 
-            return 
+            return JsonConvert.SerializeObject(newUsersCount);
         }
 
         public async Task<string> ProfitToday()
@@ -100,15 +101,15 @@ namespace colmanInternetStav1._1.Controllers.API
             double? priceForAbaPich;
             double? todayProfit = 0;
 
-            foreach (var currPurchase in _context.Purchase)
-            {                                
-                if (currPurchase.Date.Value.ToString("d").Equals(DateTime.Now.ToString("d")))                         
-                {
-                    priceForAbaPich = 0;
-                    todayProfit +=
-                        currPurchase.Jewelry.Price * currPurchase.Jewelry.Discount - priceForAbaPich;
-                }                               
-            }
+            await _context.Purchase.ForEachAsync(currPurchase =>
+             {
+                 if (currPurchase.Date.Value.ToString("d").Equals(DateTime.Now.ToString("d")))
+                 {
+                     priceForAbaPich = 0;
+                     todayProfit +=
+                         currPurchase.Jewelry.Price * currPurchase.Jewelry.Discount - priceForAbaPich;
+                 }
+             });            
 
             return JsonConvert.SerializeObject(todayProfit);
         }

@@ -21,27 +21,23 @@ namespace colmanInternetStav1._1.Controllers.API
             {
                 ColmanInternetiotContext context = new ColmanInternetiotContext();
 
-                Users currUser = await context.Users.FindAsync(Account.getDetails(User)["nameid"]);
+                Users currUser = await context.Users.FindAsync(Account.getDetails(User)["nameid"]);                
 
-                ArrayList allPurchases = new ArrayList();
+                var result = from crrUsrPrcs in currUser.Purchase
+                             let newObj = new
+                             {
+                                 crrUsrPrcs.Jewelry.Name,
+                                 crrUsrPrcs.Jewelry.Description,
+                                 crrUsrPrcs.Jewelry.Id,
+                                 ActualPrice = crrUsrPrcs.Jewelry.Price * crrUsrPrcs.Jewelry.Discount,
+                                 PurchaseDate = crrUsrPrcs.Date
+                             }
+                             select newObj;                               
 
-                foreach (var currPurchase in currUser.Purchase)
-                {
-                    allPurchases.Add(new
-                    {
-                        Name = currPurchase.Jewelry.Name,
-                        Description = currPurchase.Jewelry.Description,
-                        Id = currPurchase.Jewelry.Id,
-                        ActualPrice = currPurchase.Jewelry.Price * currPurchase.Jewelry.Discount,
-                        PurchaseDate = currPurchase.Date
-                    });                  
-                }
-
-                return Json(allPurchases);
+                return Json(result);
             }
 
             return (new RedirectToActionResult("Login", "Profile", null));
         }
-
     }
 }

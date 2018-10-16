@@ -1,101 +1,255 @@
-@model IEnumerable<colmanInternetStav1._1.Models.Jewelry>
+
+@using colmanInternetStav1._1.Controllers;
+@using colmanInternetStav1._1.Models;
+
+@section scripts {
+    <script>
+        $(function () {
+            var hafira = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis porta eros lacus, nec ultricies elit blandit non. Suspendisse pellentesque mauris sit amet dolor blandit rutrum. Nunc in tempus turpis.";
+
+            window.clearItems = $("#catalog_items").clone;
+
+            var jewelersList = [];
+
+            $.getJSON("/api/Jewelries", function (data) {
+                jewelersList = data;
+
+                jewelersList.forEach(function (item) {
+                    appendCatalogItem(item);
+                });
+            });
+
+        });
+
+        function appendCatalogItem(item) {
+            var newitem_elem = $("#catalog_item").clone();
+
+            newitem_elem.attr("id", item.id);
+            newitem_elem.find("[approle=jewelryId]").val(item.id);
+            newitem_elem.find("[approle=img]").attr("src", item.imagePath);
+            newitem_elem.find("[approle=price]").text(item.price + " $");
+            newitem_elem.find("[approle=name]").text(item.name + " - " + item.description);
+            newitem_elem.find("[approle=Details]").attr("href", ("/Jewelries/Details/" + item.id));
+            newitem_elem.find("[approle=Edit]").attr("href", ("/Jewelries/Edit/" + item.id));
+            newitem_elem.find("[approle=Delete]").attr("href", ("/Jewelries/Delete/" + item.id));
+            newitem_elem.appendTo("#catalog_items");
+        };
+
+        var slider = document.getElementById("myRange");
+        var output = document.getElementById("prise");
+
+        slider.oninput = function () {
+            if (this.value == 10000) {
+                output.innerHTML = "Up to 10000$ +";
+            }
+            else {
+                output.innerHTML = "Up to " + this.value + "$";
+            }
+
+        }
+
+        function filterResults() {
+            var catagory = $("#categoryForm").val();
+
+            if (catagory == "Choose category") {
+                catagory = "all";
+            }
+
+            var price = $("#myRange").val();
+
+            var cart = $('#goldTypeForm').val();
+
+            var diamonds = $('#inlineCheckbox1').is(':checked');
+
+            if (cart == "Choose gold type") {
+                cart = 0;
+            }
+
+            var jewelersList = [];
+
+            var url = "/api/Jewelries/" + catagory + "/" + price + "/" + cart + "/" + diamonds;
+
+            $.getJSON(url, function (data) {
+                jewelersList = data;
+
+                $("#catalog_items").empty();
+
+                jewelersList.forEach(function (item) {
+                    appendCatalogItem(item);
+                });
+            });
+        }
+
+        function Jewelry(jewelryId) {
+            window.location.href = "/Jewelry?Id=" + jewelryId;
+        }
+
+    </script>
+}
+
+@section style {
+    <style>
+        .maintiles .tile.is-child {
+            background-size: cover;
+            background-position: bottom center;
+        }
+
+        .card_border {
+            margin-top: 15px;
+            padding-left: 10px;
+            padding-right: 10px;
+        }
+
+        .filter_form {
+            margin-top: 15px;
+            padding-top: 10px;
+            padding-left: 20px;
+            padding-right: 50px;
+            padding-bottom: 20px;
+            border-radius: 10px;
+        }
+
+        .filter_titel {
+            margin-top: 10px;
+        }
+
+        .slidecontainer {
+            width: 100%;
+        }
+
+        .slider {
+            -webkit-appearance: none;
+            width: 100%;
+            height: 25px;
+            background: #d3d3d3;
+            outline: none;
+            opacity: 0.7;
+            -webkit-transition: .2s;
+            transition: opacity .2s;
+        }
+
+            .slider:hover {
+                opacity: 1;
+            }
+
+            .slider::-webkit-slider-thumb {
+                -webkit-appearance: none;
+                appearance: none;
+                width: 25px;
+                height: 25px;
+                background: #4CAF50;
+                cursor: pointer;
+            }
+
+            .slider::-moz-range-thumb {
+                width: 25px;
+                height: 25px;
+                background: #4CAF50;
+                cursor: pointer;
+            }
+
+        .catalogList {
+            margin-top: 15px;
+            padding-top: 10px;
+            padding-left: 20px;
+            padding-right: 20px;
+            padding-bottom: 20px;
+            background-color: #eee;
+            border-radius: 10px;
+        }
+    </style>
+}
 
 @{
-    ViewData["Title"] = "Index";
+    JewelriesController jewelries = new JewelriesController(new ColmanInternetiotContext());
+    double minPrice = jewelries.getMinPrice();
+    double maxPrice = jewelries.getMaxPrice();
 }
 
-<h2>Index</h2>
+    @{
+        ViewData["Title"] = "Index";
+    }
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.Weight)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Price)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Cart)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Size)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Description)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Amount)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Discount)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Diamonds)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.ImagePath)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Name)
-                </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Category)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Set)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Weight)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Price)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Cart)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Size)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Amount)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Discount)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Diamonds)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ImagePath)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Category.Id)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Set.Name)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+    <div class="container ">
+        <div class="row ">
+
+            <div class="col-md-3 filter_form">
+                @{ if (Account.isAdmin(User))
+                {
+                    <div style="margin-bottom: 30px;">
+                        <a asp-action="Create"> <button class="btn btn-outline-success">Add new jewelry</button> </a>
+                    </div>
+                }
+                }
+                
+
+                <h5>Filter</h5>
+                <div class="slidecontainer">
+                    <div>Prise: <span id="prise"></span></div>
+                    <input onchange="filterResults()" type="range" min="@minPrice" max="@maxPrice" value="@minPrice" class="slider" id="myRange">
+
+                    <div class="filter_titel">Category:</div>
+                    <select onchange="filterResults()" class="custom-select" id="categoryForm">
+                        <option selected>Choose category</option>
+                        @{
+                        Dictionary<int, string> categoriesList = CategoriesController.GetCategories();
+                        foreach (KeyValuePair<int, string> category in categoriesList)
+                        {
+                            <option id="@category.Key" value="@category.Value">@category.Value</option>
+                        }
+                        }
+                    </select>
+
+                    <div class="filter_titel">Gold type:</div>
+                    <select onchange="filterResults()" class="custom-select" id="goldTypeForm">
+                        <option selected>Choose gold type</option>
+                        <option value="14">14k</option>
+                        <option value="18">18k</option>
+                        <option value="21">21k</option>
+
+                    </select>
+
+                    <div class="form-check form-check-inline filter_titel">
+                        <input onchange="filterResults()" class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">
+                        <label class="form-check-label" for="inlineCheckbox1">With diamonds</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-9  catalogList">
+                <h3>Search results</h3>
+                <div class="content row" id="catalog_items"></div>
+
+            </div>
+        </div>
+    </div>
+
+
+
+
+    @section hidden {
+
+    <div class="card_border col-sm-6 col-md-4" id="catalog_item">
+        
+            <!--onclick="Jewelry(this.value)" approle="jewelryId"-->
+        <div class="card">
+            <a href="" approle="Details">
+                <img class="card-img-top" style="width :100%;" approle="img">
+                <div class="card-body" style="padding: 5px;">
+                    <h6 style="padding: 0; height: 20px; overflow: hidden;" approle="name"></h6>
+                    <div approle="price"></div>
+                </div>
+            </a>
+            @{ if (Account.isAdmin(User))
+                {
+                    <div style="margin:5px;">
+                        <a class="btn btn-outline-warning" href="" approle="Edit" style="width: 45%; margin-right:5%">Edit</a>
+                        <a class="btn btn-outline-danger" href="" approle="Delete" style="width: 45%;">Delete</a>
+                    </div>
+                }
+            }
+            
+
+        </div>      
+    </div>
+    } 

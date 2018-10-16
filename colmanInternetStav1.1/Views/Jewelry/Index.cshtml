@@ -4,6 +4,8 @@
 
             let searchParams = new URLSearchParams(window.location.search);
 
+
+
             if (searchParams.has('Id')) {
                 let param = searchParams.get('Id');
 
@@ -180,7 +182,7 @@
             <div class="card ">
                 <img class="card-img-top" style="width :100%;" approle="img">
                 <div class="card-body" style="padding: 5px;">
-                    <h6 style="padding: 0" approle="name"></h6>
+                    <h6 style="padding: 0; height: 20px; overflow: hidden;" approle="name"></h6>
                     <div approle="price"></div>
                 </div>
             </div>

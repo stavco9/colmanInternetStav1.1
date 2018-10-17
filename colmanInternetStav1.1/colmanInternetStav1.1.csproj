@@ -53,4 +53,10 @@
     <None Include="wwwroot\webfonts\fa-solid-900.woff2" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Update="Views\Jewelries\Details.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+  </ItemGroup>
+
 </Project>

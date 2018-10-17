@@ -1,90 +1,226 @@
+
+@using colmanInternetStav1._1.Controllers;
+@using colmanInternetStav1._1.Models;
+
+@section scripts {
+    <script>
+        $(function () {
+
+            var url = window.location.href;
+
+
+            var ID = window.location.href.split('/')[5];
+
+            var url = "/api/Jewelries/" + ID;
+
+            var currJewelry;
+
+            $.getJSON(url, function (data) {
+                currJewelry = data;
+
+                window.price = currJewelry.price;
+                window.id = currJewelry.id;
+
+                $("#currJewelryName").text(currJewelry.name);
+                $("#currJewelryImg").attr("src", currJewelry.imagePath);
+                $("#currJewelryDescription").text(currJewelry.description);
+                $("#currJewelryCart").text(currJewelry.cart + "K");
+                $("#currJewelryPrice").text(currJewelry.price + "$");
+                $("#currJewelryCatagory").text(currJewelry.category);
+                $("#currJewelryAmount").attr("max", currJewelry.amount);
+                $("#btnEdit").attr("href", "/Jewelries/Edit/" + ID);
+                $("#btnDelete").attr("href", "/Jewelries/Delete/" + ID);
+
+                var setJewelrysList = [];
+
+                $.getJSON("/api/Jewelries/Set/" + currJewelry.setId, function (data) {
+                    setJewelrysList = data;
+
+                    setJewelrysList.forEach(function (item) {
+                        if (item.id != currJewelry.id) {
+                            appendCatalogItem(item);
+                        }
+                    });
+                });
+            });
+        });
+
+
+        function appendCatalogItem(item) {
+            var newitem_elem = $("#catalog_item").clone();
+            newitem_elem.attr("id", item.id);
+            newitem_elem.find("[approle=jewelryId]").val(item.id);
+            newitem_elem.find("[approle=img]").attr("src", item.imagePath);
+            newitem_elem.find("[approle=price]").text(item.price + " $");
+            newitem_elem.find("[approle=name]").text(item.name);
+            newitem_elem.find("[approle=Details]").attr("href", ("/Jewelries/Details/" + item.id));
+            newitem_elem.find("[approle=Edit]").attr("href", ("/Jewelries/Edit/" + item.id));
+            newitem_elem.find("[approle=Delete]").attr("href", ("/Jewelries/Delete/" + item.id));
+            newitem_elem.appendTo("#catalog_items");
+        };
+
+        //function Jewelry(jewelryId) {
+        //    window.location.href = "/Jewelry?Id=" + jewelryId;
+        //}
+
+
+        function setJewelryPrice() {
+
+            var amount = $("#currJewelryAmount").val();
+
+            $("#currJewelryPrice").text(window.price * amount + "$");
+        }
+
+        function Purchase() {
+            var conf = confirm("Are you sure you want to buy " + $('#currJewelryAmount').val() + " amount of jewelry " + $('#currJewelryName').text() + " on " + $('#currJewelryPrice').text() + "?");
+
+            if (conf) {
+
+                var dataToServer = { 'amount': $("#currJewelryAmount").val(), 'jewelryId': window.id, 'price': window.price, 'jewelryName': $("#currJewelryName").text() }
+
+                $.ajax({
+                    url: "/Api/Purchase",
+                    type: 'PUT',
+                    dataType: 'string',
+                    data: JSON.stringify(dataToServer),
+                    contentType: 'application/json'
+                }).done(function () {
+                    alert("Purchase made successfully !!");
+                })
+                    .fail(function () {
+                        alert("Error on making purchase");
+                    })
+                    .always(function () {
+                        window.location.href = "/Catalog";
+                    });;
+            }
+        };
+
+    </script>
+}
+
+@section style {
+    <style>
+        .maintiles .tile.is-child {
+            background-size: cover;
+            background-position: bottom center;
+        }
+
+        .card_border {
+            padding-top: 10px;
+            padding-left: 10px;
+            padding-right: 10px;
+        }
+
+        .moreInCategory {
+            margin-top: 15px;
+            padding-top: 10px;
+            padding-left: 20px;
+            padding-right: 20px;
+            padding-bottom: 20px;
+            background-color: #eee;
+            border-radius: 10px;
+        }
+    </style>
+}
+
+
+
 @model colmanInternetStav1._1.Models.Jewelry
 
 @{
     ViewData["Title"] = "Details";
 }
 
-<h2>Details</h2>
 
-<div>
-    <h4>Jewelry</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Weight)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Weight)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Price)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Price)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Cart)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Cart)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Size)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Size)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Description)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Description)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Amount)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Amount)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Discount)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Discount)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Diamonds)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Diamonds)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.ImagePath)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.ImagePath)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Name)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Category)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Category.Id)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Set)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Set.Name)
-        </dd>
-    </dl>
+
+<div class="container">
+
+    <div class="row">
+        <div class="col-md-6">
+            <div>
+                <h4 id="currJewelryName"> </h4>
+                <img id="currJewelryImg" style="height: auto; width:100%;" />
+            </div>
+        </div>
+        <div class="col-md-6">
+
+
+            <table class="table table-borderless" style="margin-top:30px;">
+
+                <tbody>
+                    <tr>
+                        <td style="width: 25%;">Category:</td>
+                        <td style="width: 75%;" id="currJewelryCatagory"></td>
+                    </tr>
+                    <tr>
+                        <td>Description:</td>
+                        <td id="currJewelryDescription"></td>
+                    </tr>
+                    <tr>
+                        <td>Gold Type:</td>
+                        <td id="currJewelryCart"></td>
+                    </tr>
+                    <tr>
+                        <td>Price:</td>
+                        <td id="currJewelryPrice"></td>
+                    </tr>
+                    <tr>
+                        <td>Amount:</td>
+                        <td><input value="1" onchange="setJewelryPrice()" id="currJewelryAmount" type="number" min="1" max="*jsvariable*" /></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            @{ if (Account.isAdmin(User))
+                {
+                <div style="margin:5px;">
+                    <a id="btnEdit" class="btn btn-outline-warning" href="" style="width: 45%; margin-right:5%">Edit</a>
+                    <a id="btnDelete" class="btn btn-outline-danger" href="" style="width: 45%;">Delete</a>
+                </div>
+                }
+                else{
+                <button onclick="Purchase()" style="width: 30%;" type="button" class="btn btn-outline-secondary">Buy</button>
+                }
+
+            }
+
+
+        </div>
+    </div>
+
+    <div class="container moreInCategory">
+        <div class="row">
+            <h4>More in set:</h4>
+        </div>
+        <div class=" row" id="catalog_items">
+        </div>
+    </div>
+
 </div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
-</div>
+
+
+
+@section hidden {
+
+    <div class="card_border col-sm-6 col-md-3" id="catalog_item">
+        <!--onclick="Jewelry(this.value)" approle="jewelryId"-->
+        <div class="card">
+            <a href="" approle="Details">
+                <img class="card-img-top" style="width :100%;" approle="img">
+                <div class="card-body" style="padding: 5px;">
+                    <h6 style="padding: 0; height: 20px; overflow: hidden;" approle="name"></h6>
+                    <div approle="price"></div>
+                </div>
+            </a>
+            @{ if (Account.isAdmin(User))
+                {
+                <div style="margin:5px;">
+                    <a class="btn btn-outline-warning" href="" approle="Edit" style="width: 45%; margin-right:5%">Edit</a>
+                    <a class="btn btn-outline-danger" href="" approle="Delete" style="width: 45%;">Delete</a>
+                </div>
+                }
+            }
+        </div>
+    </div>
+}

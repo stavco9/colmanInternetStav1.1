@@ -8,11 +8,10 @@
 
 @{ if (Account.isAdmin(User))
     {
-    <h2>Edit </h2>
+<h2>Edit Jewelry</h2>
 
     <form asp-action="Edit">
         <div class="form-horizontal">
-            <h4>Jewelry</h4>
             <hr />
 
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -21,7 +20,7 @@
                 <tbody>
                     <tr>
                         <td style="width: 25%;">
-                            <label asp-for="Weight" class="col-md-2 control-label"></label>
+                            <label asp-for="Weight" class="col-md-12 control-label"></label>
                         </td>
                         <td style="width: 75%;">
                             <div class="col-md-10">
@@ -32,7 +31,7 @@
                     </tr>
                     <tr>
                         <td>
-                            <label asp-for="Price" class="col-md-2 control-label"></label>
+                            <label asp-for="Price" class="col-md-12 control-label"></label>
                         </td>
                         <td>
                             <div class="col-md-10">
@@ -43,7 +42,7 @@
                     </tr>
                     <tr>
                         <td>
-                            <label asp-for="Cart" class="col-md-2 control-label"></label>
+                            <label asp-for="Cart" class="col-md-12 control-label"></label>
                         </td>
                         <td>
                             <div class="col-md-10">
@@ -54,7 +53,7 @@
                     </tr>
                     <tr>
                         <td>
-                            <label asp-for="Size" class="col-md-2 control-label"></label>
+                            <label asp-for="Size" class="col-md-12 control-label"></label>
                         </td>
                         <td>
                             <div class="col-md-10">
@@ -65,7 +64,7 @@
                     </tr>
                     <tr>
                         <td>
-                            <label asp-for="Description" class="col-md-2 control-label"></label>
+                            <label asp-for="Description" class="col-md-12 control-label"></label>
                         </td>
                         <td>
                             <div class="col-md-10">
@@ -76,7 +75,7 @@
                     </tr>
                     <tr>
                         <td>
-                            <label asp-for="Amount" class="col-md-2 control-label"></label>
+                            <label asp-for="Amount" class="col-md-12 control-label"></label>
                         </td>
                         <td>
                             <div class="col-md-10">
@@ -87,7 +86,7 @@
                     </tr>
                     <tr>
                         <td>
-                            <label asp-for="Discount" class="col-md-2 control-label"></label>
+                            <label asp-for="Discount" class="col-md-12 control-label"></label>
                         </td>
                         <td>
                             <div class="col-md-10">
@@ -98,7 +97,7 @@
                     </tr>
                     <tr>
                         <td>
-                            <label asp-for="Diamonds" class="col-md-2 control-label"></label>
+                            <label asp-for="Diamonds" class="col-md-12 control-label"></label>
                         </td>
                         <td>
                             <div class="col-md-10 checkbox">
@@ -108,7 +107,7 @@
                     </tr>
                     <tr>
                         <td>
-                            <label asp-for="ImagePath" class="col-md-2 control-label"></label>
+                            <label asp-for="ImagePath" class="col-md-12 control-label"></label>
                         </td>
                         <td>
                             <div class="col-md-10">
@@ -119,7 +118,7 @@
                     </tr>
                     <tr>
                         <td>
-                            <label asp-for="Name" class="col-md-2 control-label"></label>
+                            <label asp-for="Name" class="col-md-12 control-label"></label>
                         </td>
                         <td>
                             <div class="col-md-10">
@@ -130,7 +129,7 @@
                     </tr>
                     <tr>
                         <td>
-                            <label asp-for="CategoryId" class="control-label col-md-2"></label>
+                            <label asp-for="CategoryId" class="control-label col-md-12"></label>
                         </td>
                         <td>
                             <div class="col-md-10">
@@ -141,7 +140,7 @@
                     </tr>
                     <tr>
                         <td>
-                            <label asp-for="SetId" class="control-label col-md-2"></label>
+                            <label asp-for="SetId" class="control-label col-md-12"></label>
                         </td>
                         <td>
                             <div class="col-md-10">

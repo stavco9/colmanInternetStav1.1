@@ -14,28 +14,82 @@ namespace colmanInternetStav1._1.Controllers.API
     public class PurchaseApiController : Controller
     {
         [HttpPut]
-        public string MakePurchase([FromBody] object purchaseData)
+        public IActionResult MakePurchase([FromBody] object purchaseData)
         {
-            Dictionary<string, string> dictPurchaseData = JsonConvert.DeserializeObject<Dictionary<string, string>>(purchaseData.ToString());
-
-            string reference = "Purchase of " + dictPurchaseData["amount"] + " parts of jewelry " + dictPurchaseData["jewelryName"] + ". Total: " + dictPurchaseData["price"] + "$";
-
-            Purchase purchase = new Purchase { Amount = double.Parse(dictPurchaseData["amount"]), Date = DateTime.Now, JewelryId = int.Parse(dictPurchaseData["jewelryId"]), UserId = Account.GetCurrAccountId(User), Reference = reference };
-
-            PurchasesController newPurchase = new PurchasesController(new ColmanInternetiotContext());
-
-            string strMessage = "Purchase made successfully !!";
-
-            try
+            if (Account.isLoggedIn(User))
             {
-                newPurchase.Create(purchase);
+                Dictionary<string, string> dictPurchaseData = JsonConvert.DeserializeObject<Dictionary<string, string>>(purchaseData.ToString());
+
+                string reference = "Purchase of " + dictPurchaseData["amount"] + " parts of jewelry " + dictPurchaseData["jewelryName"] + ". Total: " + dictPurchaseData["price"] + "$";
+
+                Purchase purchase = new Purchase { Amount = double.Parse(dictPurchaseData["amount"]), Date = DateTime.Now, JewelryId = int.Parse(dictPurchaseData["jewelryId"]), UserId = Account.GetCurrAccountId(User), Reference = reference };
+
+                PurchasesController newPurchase = new PurchasesController(new ColmanInternetiotContext());
+
+                try
+                {
+                    newPurchase.Create(purchase);
+                }
+                catch
+                {
+                    return NotFound();
+                }
+
+                return NoContent();
             }
-            catch
+            else
             {
-                strMessage = "Error on making purchase...";
+                return NotFound();
+            }
+        }
+
+        [HttpGet("{user}")]
+        public List<Jewelry> GetPurchaseByUser(string user)
+        {
+            List<Jewelry> jewelries = new List<Jewelry>();
+
+            ColmanInternetiotContext context = new ColmanInternetiotContext();
+
+            List<Purchase> purchases = context.Purchase.Where(x => x.UserId == Account.GetCurrAccountId(User)).ToList();
+            
+            foreach(Purchase purchase in purchases)
+            {
+                for(int i = 1; i <= purchase.Amount; i++)
+                {
+                    Jewelry jewelry = context.Jewelry.First(x => x.Id == purchase.JewelryId);
+
+                    jewelry.Purchase = null;
+
+                    jewelries.Add(jewelry);
+                }   
             }
 
-            return strMessage;
+            return jewelries;
+        }
+
+        [HttpGet("{month}/{year}/{numOfMonthes}")]
+        public Dictionary<string, double> GetProfit(int month, int year, int numOfMonthes)
+        {
+            string[] lstMonthes = { "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" };
+
+            Dictionary<string, double> profitPerMonth = new Dictionary<string, double>();
+            
+            DateTime dt = new DateTime(year, month, 1);
+
+            PurchasesController purchases = new PurchasesController(new ColmanInternetiotContext());
+
+            for (int i = (numOfMonthes - 1); i >= 0; i--)
+            {
+                DateTime currDate = dt.AddMonths(-i);
+
+                double monthlyProfit = purchases.GetMonthlyProfit(currDate.Month, currDate.Year);
+
+                string strMonthYear = lstMonthes[currDate.Month - 1] + " " + currDate.Year;
+
+                profitPerMonth[strMonthYear] = monthlyProfit;
+            }
+
+            return profitPerMonth;
         }
     }
 }

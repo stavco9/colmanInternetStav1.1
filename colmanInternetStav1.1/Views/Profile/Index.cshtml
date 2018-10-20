@@ -5,20 +5,26 @@
 @section scripts {
     <script>
         $(function () {
-            var hafira = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis porta eros lacus, nec ultricies elit blandit non. Suspendisse pellentesque mauris sit amet dolor blandit rutrum. Nunc in tempus turpis.";
-            appendHistoryItem(0, "New Pandora 100% silver - heart shape", "bla blkjsdflgj dflgjk ladkjghdlg", 102.56, "https://bulma.io/images/placeholders/128x128.png");
-            appendHistoryItem(0, "Golden Neckless from Zanziber", hafira + hafira, 89.90, "https://bulma.io/images/placeholders/128x128.png");
-            appendHistoryItem(0, "Golden Ring from Zanziber", hafira, 75.60, "https://bulma.io/images/placeholders/128x128.png");
+
+            var listHistoryItems = [];
+
+            $.getJSON("/api/Purchase/user", function (data) {
+                listHistoryItems = data;
+
+                listHistoryItems.forEach(function (item) {
+                    appendHistoryItem(item);
+                });
+            });
         });
 
-        function appendHistoryItem(id, name, description, price, img) {
+        function appendHistoryItem(item) {
             var newitem_elem = $("#history_new_item").clone();
             //newitem_elem.attr("id","h_"+id);
             newitem_elem.removeAttr('id');
-            newitem_elem.find("[approle=img]").attr("src", img);
-            newitem_elem.find("[approle=price]").text(price + " $");
-            newitem_elem.find("[approle=name]").text(name);
-            newitem_elem.find("[approle=description]").text(description);
+            newitem_elem.find("[approle=img]").attr("src", item.imagePath);
+            newitem_elem.find("[approle=price]").text(item.price + " $");
+            newitem_elem.find("[approle=name]").text(item.name);
+            newitem_elem.find("[approle=description]").text(item.description);
             newitem_elem.appendTo("#history>.content>.content");
         }
     </script>

@@ -18,6 +18,35 @@ namespace colmanInternetStav1._1.Controllers
             _context = context;    
         }
 
+        public double GetDailyProfit()
+        {
+            double? numOfPurchases = _context.Purchase.Where(x => x.Date == DateTime.Today.Date).Sum(m => getProfitFromPurchase(m.JewelryId, double.Parse(m.Amount.ToString())));
+
+            if (numOfPurchases == null)
+            {
+                return 0;
+            }
+
+            return double.Parse(numOfPurchases.ToString());
+        }
+
+        public double GetMonthlyProfit(int month, int year)
+        {
+            double? numOfPurchases = _context.Purchase.Where(x => x.Date.Value.Month == month && x.Date.Value.Year == year).Sum(m => getProfitFromPurchase(m.JewelryId, double.Parse(m.Amount.ToString())));
+
+            if (numOfPurchases == null)
+            {
+                return 0;
+            }
+
+            return double.Parse(numOfPurchases.ToString());
+        }
+
+        private double getProfitFromPurchase(int jewelryId, double amount)
+        {
+            return (amount * new ColmanInternetiotContext().Jewelry.First(x => x.Id == jewelryId).Price);
+        }
+
         // GET: Purchases
         public async Task<IActionResult> Index()
         {

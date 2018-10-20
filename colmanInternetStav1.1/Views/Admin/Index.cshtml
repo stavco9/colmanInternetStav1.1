@@ -6,24 +6,35 @@
     <script src="~/lib/d3.min.js"></script>
     <script src="~/js/graph.js"></script>
     <script>
-        function updateData() {
-            /*$.ajax({
-                url: "admin_api",
-                success: function (response) {
-                }
-            });*/
-            var gdat = [50, 80, 60, 70, 85, 65, 55, 75];
-            var gdataxis = ["NOV 17", "DEV 17", "JAN 18", "FEB 18", "NOV 17", "DEV 17", "JAN 18", "FEB 18"];
-            liorLineGraphUpdate(gdat, gdataxis, "graph1");
-            liorColumnGraphUpdate(gdat, gdataxis, "graph2");
+        function updateData(numOfMonthes) {
+            listDetails = {};
+
+            var varDate = new Date();
+
+            var month = varDate.getMonth() + 1;
+
+            var year = varDate.getFullYear();
+
+            $.getJSON("/api/Purchase/" + month + "/" + year + "/" + numOfMonthes, function (data) {
+                listDetails = data;
+
+                liorLineGraphUpdate(Object.values(listDetails), Object.keys(listDetails), "graph1");
+            });
+
+            $.getJSON("/api/Sets/count", function (data) {
+                listDetails = data;
+                
+                liorColumnGraphUpdate(Object.values(listDetails), Object.keys(listDetails), "graph2");
+            });
         }
 
         $(function () {
             liorLineGraphCreate("graph1");
             liorColumnGraphCreate("graph2");
             setInterval(updateData(), 20000);
-            updateData();
+            updateData(8);
         });
+
     </script>
 }
 
@@ -40,6 +51,7 @@
     @using colmanInternetStav1._1.Models;
     @using colmanInternetStav1._1.Controllers;
     var userdetails = Account.getDetails(User);
+    PurchasesController purchases = new PurchasesController(new ColmanInternetiotContext());
 }
 <div class="maintiles tile is-ancestor is-vertical">
     <div class="tile">
@@ -64,20 +76,14 @@
                 <div class="tile is-parent">
                     <article class="tile is-child">
                         <p class="subtitle">Daily profit</p>
-                        <p class="title">123456$</p>
-                    </article>
-                </div>
-                <div class="tile is-parent">
-                    <article class="tile is-child">
-                        <p class="subtitle">Monthly profit</p>
-                        <p class="subtitle">123456$</p>
+                        <p class="title">@purchases.GetDailyProfit()$</p>
                     </article>
                 </div>
             </div>
             <div class="tile is-parent">
                 <article class="tile is-child">
                     <p class="subtitle">Monthly profit</p>
-                    <p class="title">12345678$</p>
+                    <p class="title">@purchases.GetMonthlyProfit(DateTime.Now.Month, DateTime.Now.Year )$</p>
                 </article>
             </div>
         </div>
@@ -85,8 +91,8 @@
     <div class="tile">
         <div class="tile is-parent is-6">
             <article class="tile is-child">
-                <p class="title">Rule the world</p>
-                <p class="subtitle">Number of yearly purchases per country</p>
+                <p class="title">Best set !!</p>
+                <p class="subtitle">Number jewelries per set</p>
                 <svg id="graph2"></svg>
             </article>
         </div>

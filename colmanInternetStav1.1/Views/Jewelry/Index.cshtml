@@ -1,3 +1,5 @@
+@using colmanInternetStav1._1.Models;
+
 @section scripts {
     <script>
         $(function () {
@@ -135,7 +137,7 @@
 
 
                 <table class="table table-borderless" style="margin-top:30px;">
-                    
+
                     <tbody>
                         <tr>
                             <td style="width: 25%;">Category:</td>
@@ -160,7 +162,14 @@
                     </tbody>
                 </table>
 
-                <button onclick="Purchase()" style="width: 30%;" type="button" class="btn btn-outline-secondary">Buy</button>
+                @if (Account.isLoggedIn(User))
+                {
+                    <button onclick="Purchase()" style="width: 30%;" type="button" class="btn btn-outline-secondary">Buy</button>
+                }
+                else
+                {
+                    <div class="row">In order to make a purchase, please log in</div>
+                }
             </div>
         </div>
 

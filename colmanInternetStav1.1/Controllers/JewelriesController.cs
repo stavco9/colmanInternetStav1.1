@@ -70,9 +70,16 @@ namespace colmanInternetStav1._1.Controllers
         // GET: Jewelries/Create
         public IActionResult Create()
         {
-            ViewData["CategoryId"] = new SelectList(_context.Category, "Id", "Name");
-            ViewData["SetId"] = new SelectList(_context.JewelrySet, "Id", "Name");
-            return View();
+            if (Account.isAdmin(User))
+            {
+                ViewData["CategoryId"] = new SelectList(_context.Category, "Id", "Name");
+                ViewData["SetId"] = new SelectList(_context.JewelrySet, "Id", "Name");
+                return View();
+            }
+            else
+            {
+                return (new RedirectToActionResult("NotAuthorized", "Home", null));
+            }
         }
 
         // POST: Jewelries/Create
@@ -82,15 +89,30 @@ namespace colmanInternetStav1._1.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Weight,Price,Cart,Size,Description,Amount,Discount,Id,Diamonds,ImagePath,Name,CategoryId,SetId")] Jewelry jewelry)
         {
-            if (ModelState.IsValid)
+            if (Account.isAdmin(User))
             {
-                _context.Add(jewelry);
-                await _context.SaveChangesAsync();
-                return RedirectToAction("Index");
+                if (ModelState.IsValid)
+                {
+                    _context.Add(jewelry);
+                    await _context.SaveChangesAsync();
+
+                    string postToFacebook = ("התכשיט " + jewelry.Name + " נוסף לחנות. יש " + jewelry.Amount + " פריטים. היכנסו לאתר בשביל לקנות");
+
+                    FacebookPost post = new FacebookPost();
+
+                    post.PublishToFacebookNoPhoto(postToFacebook);
+
+                    return RedirectToAction("Index");
+                }
+           
+                ViewData["CategoryId"] = new SelectList(_context.Category, "Id", "Name", jewelry.CategoryId);
+                ViewData["SetId"] = new SelectList(_context.JewelrySet, "Id", "Name", jewelry.SetId);
+                return View(jewelry);
             }
-            ViewData["CategoryId"] = new SelectList(_context.Category, "Id", "Name", jewelry.CategoryId);
-            ViewData["SetId"] = new SelectList(_context.JewelrySet, "Id", "Name", jewelry.SetId);
-            return View(jewelry);
+            else
+            {
+                return (new RedirectToActionResult("NotAuthorized", "Home", null));
+            }
         }
 
         // GET: Jewelries/Edit/5
@@ -101,14 +123,21 @@ namespace colmanInternetStav1._1.Controllers
                 return NotFound();
             }
 
-            var jewelry = await _context.Jewelry.SingleOrDefaultAsync(m => m.Id == id);
-            if (jewelry == null)
+            if (Account.isAdmin(User))
             {
-                return NotFound();
+                var jewelry = await _context.Jewelry.SingleOrDefaultAsync(m => m.Id == id);
+                if (jewelry == null)
+                {
+                    return NotFound();
+                }
+                ViewData["CategoryId"] = new SelectList(_context.Category, "Id", "Name", jewelry.CategoryId);
+                ViewData["SetId"] = new SelectList(_context.JewelrySet, "Id", "Name", jewelry.SetId);
+                return View(jewelry);
             }
-            ViewData["CategoryId"] = new SelectList(_context.Category, "Id", "Name", jewelry.CategoryId);
-            ViewData["SetId"] = new SelectList(_context.JewelrySet, "Id", "Name", jewelry.SetId);
-            return View(jewelry);
+            else
+            {
+                return (new RedirectToActionResult("NotAuthorized", "Home", null));
+            }
         }
 
         // POST: Jewelries/Edit/5
@@ -123,29 +152,47 @@ namespace colmanInternetStav1._1.Controllers
                 return NotFound();
             }
 
-            if (ModelState.IsValid)
+            if (Account.isAdmin(User))
             {
-                try
+                if (ModelState.IsValid)
                 {
-                    _context.Update(jewelry);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!JewelryExists(jewelry.Id))
+                    try
                     {
-                        return NotFound();
+                        int? currAmount = _context.Jewelry.First(x => x.Id == jewelry.Id).Amount;
+
+                        _context.Update(jewelry);
+                        await _context.SaveChangesAsync();
+
+                        if (currAmount != null)
+                        {
+                            string postToFacebook = ("לתכשיט " + jewelry.Name + " נוספו " + (jewelry.Amount - int.Parse(currAmount.ToString())) + " פריטים חדשים. היכנסו לאתר בשביל לקנות");
+
+                            FacebookPost post = new FacebookPost();
+
+                            post.PublishToFacebookNoPhoto(postToFacebook);
+                        }
                     }
-                    else
+                    catch (DbUpdateConcurrencyException)
                     {
-                        throw;
+                        if (!JewelryExists(jewelry.Id))
+                        {
+                            return NotFound();
+                        }
+                        else
+                        {
+                            throw;
+                        }
                     }
+                    return RedirectToAction("Index");
                 }
-                return RedirectToAction("Index");
+                ViewData["CategoryId"] = new SelectList(_context.Category, "Id", "Name", jewelry.CategoryId);
+                ViewData["SetId"] = new SelectList(_context.JewelrySet, "Id", "Name", jewelry.SetId);
+                return View(jewelry);
             }
-            ViewData["CategoryId"] = new SelectList(_context.Category, "Id", "Name", jewelry.CategoryId);
-            ViewData["SetId"] = new SelectList(_context.JewelrySet, "Id", "Name", jewelry.SetId);
-            return View(jewelry);
+            else
+            {
+                return (new RedirectToActionResult("NotAuthorized", "Home", null));
+            }
         }
 
         // GET: Jewelries/Delete/5
@@ -156,16 +203,23 @@ namespace colmanInternetStav1._1.Controllers
                 return NotFound();
             }
 
-            var jewelry = await _context.Jewelry
+            if (Account.isAdmin(User))
+            {
+                var jewelry = await _context.Jewelry
                 .Include(j => j.Category)
                 .Include(j => j.Set)
                 .SingleOrDefaultAsync(m => m.Id == id);
-            if (jewelry == null)
-            {
-                return NotFound();
-            }
+                if (jewelry == null)
+                {
+                    return NotFound();
+                }
 
-            return View(jewelry);
+                return View(jewelry);
+            }
+            else
+            {
+                return (new RedirectToActionResult("NotAuthorized", "Home", null));
+            }
         }
 
         // POST: Jewelries/Delete/5
@@ -173,10 +227,17 @@ namespace colmanInternetStav1._1.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var jewelry = await _context.Jewelry.SingleOrDefaultAsync(m => m.Id == id);
-            _context.Jewelry.Remove(jewelry);
-            await _context.SaveChangesAsync();
-            return RedirectToAction("Index");
+            if (Account.isAdmin(User))
+            {
+                var jewelry = await _context.Jewelry.SingleOrDefaultAsync(m => m.Id == id);
+                _context.Jewelry.Remove(jewelry);
+                await _context.SaveChangesAsync();
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                return (new RedirectToActionResult("NotAuthorized", "Home", null));
+            }
         }
 
         private bool JewelryExists(int id)

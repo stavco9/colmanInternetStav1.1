@@ -10,18 +10,17 @@ namespace colmanInternetStav1._1.Models
     public class FacebookPost
     {
         private const string _accessToken = "889199991272192|GW-Us-2FO3Ye4WqJlUwGvXd5WBA";
-        readonly string _pageID;
+        private const string _pageID = "180374649551047";
         readonly string _facebookAPI = "https://graph.facebook.com/";
         readonly string _pageEdgeFeed = "feed";
         readonly string _pageEdgePhotos = "photos";
         readonly string _postToPageURL;
         readonly string _postToPagePhotosURL;
 
-        public FacebookPost(string pageID)
+        public FacebookPost()
         {
-            _pageID = pageID;
-            _postToPageURL = $"{_facebookAPI}{pageID}/{_pageEdgeFeed}";
-            _postToPagePhotosURL = $"{_facebookAPI}{pageID}/{_pageEdgePhotos}";
+            _postToPageURL = $"{_facebookAPI}{_pageID}/{_pageEdgeFeed}";
+            _postToPagePhotosURL = $"{_facebookAPI}{_pageID}/{_pageEdgePhotos}";
         }
 
         /// <summary>

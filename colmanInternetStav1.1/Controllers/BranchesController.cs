@@ -15,8 +15,7 @@ using Newtonsoft.Json;
 namespace colmanInternetStav1._1.Controllers
 {
     public class BranchesController : Controller
-    {
-        private string PageID = "180374649551047";
+    { 
         private readonly ColmanInternetiotContext _context;
 
         public static bool isStoreOwner(ClaimsPrincipal principal, int storeId)
@@ -98,11 +97,11 @@ namespace colmanInternetStav1._1.Controllers
                     _context.Add(branch);
                     await _context.SaveChangesAsync();
 
-                    string testPostToFacebook = ("החנות " + branch.Name + " התווספה. מוזמנים לבקר בכתובת " + branch.Address + ". בואו בהמוניכם !!!");
+                    string postToFacebook = ("החנות " + branch.Name + " התווספה. מוזמנים לבקר בכתובת " + branch.Address + ". בואו בהמוניכם !!!");
 
-                    FacebookPost post = new FacebookPost(PageID);
+                    FacebookPost post = new FacebookPost();
 
-                    post.PublishToFacebookNoPhoto(testPostToFacebook);
+                    post.PublishToFacebookNoPhoto(postToFacebook);
 
                     return RedirectToAction("Index");
                 }

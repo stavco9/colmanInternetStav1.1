@@ -25,10 +25,19 @@
                     $("#currJewelryImg").attr("src", currJewelry.imagePath);
                     $("#currJewelryDescription").text(currJewelry.description);
                     $("#currJewelryCart").text(currJewelry.cart + "K");
-                    $("#currJewelryPrice").text(currJewelry.price + "$");
                     $("#currJewelryCatagory").text(currJewelry.category);
-                    $("#currJewelryAmount").attr("max", currJewelry.amount);
 
+                    if (currJewelry.amount > 0) {
+                        $("#currJewelryAmount").attr("max", currJewelry.amount);
+                        $("#currJewelryPrice").text(currJewelry.price + "$");
+                        $("#soldOut").hide();
+                    } else {
+                        $("#currJewelryAmount").hide();
+                        $("#currJewelryPrice").text("Sold out");
+                        $("#purchase").hide();
+                    }
+
+                    
                     var setJewelrysList = [];
 
                     $.getJSON("/api/Jewelries/Set/" + currJewelry.setId, function (data) {
@@ -43,7 +52,7 @@
                 });
             }
             else {
-                window.location.href = "/Catalog"
+                window.location.href = "/Catalog";
             }
         });
 
@@ -157,14 +166,14 @@
                         </tr>
                         <tr>
                             <td>Amount:</td>
-                            <td><input value="1" onchange="setJewelryPrice()" id="currJewelryAmount" type="number" min="1" max="*jsvariable*" /></td>
+                            <td><input value="1" onchange="setJewelryPrice()" id="currJewelryAmount" type="number" min="1" max="*jsvariable*" /><p id="soldOut">0</p></td>
                         </tr>
                     </tbody>
                 </table>
 
                 @if (Account.isLoggedIn(User))
                 {
-                    <button onclick="Purchase()" style="width: 30%;" type="button" class="btn btn-outline-secondary">Buy</button>
+                    <button id="purchase" onclick="Purchase()" style="width: 30%;" type="button" class="btn btn-outline-secondary">Buy</button>
                 }
                 else
                 {

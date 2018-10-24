@@ -15,7 +15,7 @@ namespace colmanInternetStav1._1.Controllers
         [HttpGet]
         public List<Jewelry> GetJewelries()
         {
-            return (new ColmanInternetiotContext().Jewelry.Where(m => m.Amount > 0)).ToList();
+            return (new ColmanInternetiotContext().Jewelry.ToList());
         }
 
         [HttpGet("{id}")]
@@ -97,11 +97,11 @@ namespace colmanInternetStav1._1.Controllers
 
             if (diamonds)
             {
-                listOthers = context.Jewelry.Where(x => x.Price >= price && x.Diamonds == diamonds && x.Amount > 0).ToList();
+                listOthers = context.Jewelry.Where(x => x.Price >= price && x.Diamonds == diamonds).ToList();
             }
             else
             {
-                listOthers = context.Jewelry.Where(x => x.Price >= price && x.Amount > 0).ToList();
+                listOthers = context.Jewelry.Where(x => x.Price >= price).ToList();
             }
 
             return listCategories.Intersect(listCart).Intersect(listOthers).ToList();

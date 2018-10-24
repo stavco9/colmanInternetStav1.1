@@ -158,10 +158,12 @@ namespace colmanInternetStav1._1.Controllers
                 {
                     try
                     {
-                        int? currAmount = _context.Jewelry.First(x => x.Id == jewelry.Id).Amount;
+                        ColmanInternetiotContext newContext = new ColmanInternetiotContext();
 
-                        _context.Update(jewelry);
-                        await _context.SaveChangesAsync();
+                        int? currAmount = newContext.Jewelry.First(x => x.Id == jewelry.Id).Amount;
+
+                        newContext.Update(jewelry);
+                        await newContext.SaveChangesAsync();
 
                         if (currAmount != null)
                         {

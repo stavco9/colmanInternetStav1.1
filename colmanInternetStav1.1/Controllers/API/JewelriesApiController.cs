@@ -23,9 +23,32 @@ namespace colmanInternetStav1._1.Controllers
         {
             ColmanInternetiotContext _context = new ColmanInternetiotContext();
 
-            Jewelry currJewelry = _context.Jewelry.FirstOrDefault(m => m.Id == id);
+            var result = from jw in _context.Jewelry
+                join ctgr in _context.Category on jw.CategoryId equals ctgr.Id
+                join jwset in _context.JewelrySet on jw.SetId equals jwset.Id
+                where jw.Id == id
+                select new
+                {
+                    jw.Id,
+                    jw.Amount,
+                    jw.Price,
+                    jw.Cart,
+                    jw.Name,
+                    jw.Description,
+                    jw.ImagePath,
+                    jw.Size,
+                    jw.Weight,
+                    jw.CategoryId,
+                    category = ctgr.Name,
+                    jw.SetId,
+                    set = jwset.Name
+                };
 
             Dictionary<string, string> dictJewelry = new Dictionary<string, string>();
+
+            Jewelry currJewelry = _context.Jewelry.FirstOrDefault(m => m.Id == id);
+            
+
             currJewelry.Category = _context.Category.FirstOrDefault(m => m.Id == currJewelry.CategoryId);
             currJewelry.Set = _context.JewelrySet.FirstOrDefault(m => m.Id == currJewelry.SetId);
 

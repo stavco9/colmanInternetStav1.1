@@ -19,7 +19,7 @@ namespace colmanInternetStav1._1.Controllers
         }
 
         [HttpGet("{id}")]
-        public Dictionary<string, string> GetJewelries(int id)
+        public object GetJewelries(int id)
         {
             ColmanInternetiotContext _context = new ColmanInternetiotContext();
 
@@ -44,29 +44,7 @@ namespace colmanInternetStav1._1.Controllers
                     set = jwset.Name
                 };
 
-            Dictionary<string, string> dictJewelry = new Dictionary<string, string>();
-
-            Jewelry currJewelry = _context.Jewelry.FirstOrDefault(m => m.Id == id);
-            
-
-            currJewelry.Category = _context.Category.FirstOrDefault(m => m.Id == currJewelry.CategoryId);
-            currJewelry.Set = _context.JewelrySet.FirstOrDefault(m => m.Id == currJewelry.SetId);
-
-            dictJewelry.Add("id", currJewelry.Id.ToString());
-            dictJewelry.Add("amount", currJewelry.Amount.ToString());
-            dictJewelry.Add("price", currJewelry.Price.ToString());
-            dictJewelry.Add("cart", currJewelry.Cart.ToString());
-            dictJewelry.Add("name", currJewelry.Name);
-            dictJewelry.Add("description", currJewelry.Description);
-            dictJewelry.Add("imagePath", currJewelry.ImagePath);
-            dictJewelry.Add("size", currJewelry.Size.ToString());
-            dictJewelry.Add("weight", currJewelry.Weight.ToString());
-            dictJewelry.Add("categoryId", currJewelry.CategoryId.ToString());
-            dictJewelry.Add("category", currJewelry.Category.Name);
-            dictJewelry.Add("setId", currJewelry.SetId.ToString());
-            dictJewelry.Add("set", currJewelry.Set.Name);
-
-            return dictJewelry;
+            return result.FirstOrDefault();
         }
 
         [HttpGet("{setOrCatagory}/{id}")]

@@ -4,6 +4,8 @@
 
 @section scripts {
     <script>
+        this.intervalId = 0;
+
         $(function () {
             for (var i = 1; i <= 5; i++) {
                 $.ajax({
@@ -99,7 +101,11 @@
 
             getSilverGold();
 
-            setInterval(getSilverGold, 10000);
+            this.intervalId = setInterval(getSilverGold, 10000);
+        });
+
+        $(window).bind('beforeunload',function() {
+            clearInterval(this.intervalId);
         });
 
         function getSilverGold() {

@@ -16,19 +16,7 @@
                 });
             }
 
-            var silvergoldItem;
-
-            $.getJSON("/api/silvergold", function (data) {
-                silvergoldItem = data;
-
-                $("#sgImg").attr("src", silvergoldItem.image);
-                $("#sgName").text(silvergoldItem.name);
-                $("#sgDescription").text("Description: " + silvergoldItem.description);
-                $("#sgManufacturer").text("Manufacturer: " + silvergoldItem.manufacturer);
-                $("#sgPrices").text("Price from " + silvergoldItem.prices.from + "$ to " + silvergoldItem.prices.to + "$");
-
-            });
-
+            
             var canvas = document.getElementById("canvas");
             var ctx = canvas.getContext("2d");
             var radius = canvas.height / 2;
@@ -108,7 +96,26 @@
                 ctx.stroke();
                 ctx.rotate(-pos);
             }
+
+            getSilverGold();
+
+            setInterval(getSilverGold, 10000);
         });
+
+        function getSilverGold() {
+            var silvergoldItem;
+
+            $.getJSON("/api/silvergold", function (data) {
+                silvergoldItem = data;
+
+                $("#sgImg").attr("src", silvergoldItem.image);
+                $("#sgName").text(silvergoldItem.name);
+                $("#sgDescription").text("Description: " + silvergoldItem.description);
+                $("#sgManufacturer").text("Manufacturer: " + silvergoldItem.manufacturer);
+                $("#sgPrices").text("Price from " + silvergoldItem.prices.from + "$ to " + silvergoldItem.prices.to + "$");
+
+            });
+        }
     </script>
 }
 

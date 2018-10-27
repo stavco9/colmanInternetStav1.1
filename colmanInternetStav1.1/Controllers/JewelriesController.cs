@@ -162,8 +162,8 @@ namespace colmanInternetStav1._1.Controllers
 
                         int? currAmount = newContext.Jewelry.First(x => x.Id == jewelry.Id).Amount;
 
-                        newContext.Update(jewelry);
-                        await newContext.SaveChangesAsync();
+                        _context.Update(jewelry);
+                        await _context.SaveChangesAsync();
 
                         if (currAmount != null)
                         {

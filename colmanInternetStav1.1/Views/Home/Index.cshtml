@@ -16,6 +16,19 @@
                 });
             }
 
+            var silvergoldItem;
+
+            $.getJSON("/api/silvergold", function (data) {
+                silvergoldItem = data;
+
+                $("#sgImg").attr("src", silvergoldItem.image);
+                $("#sgName").text(silvergoldItem.name);
+                $("#sgDescription").text("Description: " + silvergoldItem.description);
+                $("#sgManufacturer").text("Manufacturer: " + silvergoldItem.manufacturer);
+                $("#sgPrices").text("Price from " + silvergoldItem.prices.from + "$ to " + silvergoldItem.prices.to + "$");
+
+            });
+
             var canvas = document.getElementById("canvas");
             var ctx = canvas.getContext("2d");
             var radius = canvas.height / 2;
@@ -127,19 +140,41 @@
     </style>
 }
     <div class="row">
-        <div class="col-md-9" style="height: 500px;">
+        <div class="col-md-9" style="height: 700px;">
             <h3>Welcome to ABA PICH Jewelry story</h3>
             <p>Description</p>
 
-            <h3>recomended thing in silver gold</h3>
-            <div class="row">
-                <img src=""/ >
+            <h5 style="margin-top: 30px;">Recomended thing in silver gold:</h5>
+            <div class="row" style="margin-top: 15px;">
+                <div class="col-md-4">
+                    <img id="sgImg" src="" />
+                </div>
+                <div class="col-md-8" style="padding-right: 20px;">
+                    <h6 id="sgName"></h6>                    
 
+                    <table class="table table-borderless" style="margin-top:30px;">
+                        <tbody>
+                            <tr>
+                                <td style="width: 25%;">Description:</td>
+                                <td   style="width: 75%;">
+                                    <div id="sgDescription" style=" max-height: 200px; overflow: auto;"></div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Manufacturer</td>
+                                <td  id="sgManufacturer" ></td>
+                            </tr>
+                            <tr>
+                                <td>Price:</td>
+                                <td id="sgPrices"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
 
         <div class="col-md-3">
             <canvas id="canvas" width="200" height="200"></canvas>
-
         </div>
     </div>

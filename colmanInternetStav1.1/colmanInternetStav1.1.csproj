@@ -54,9 +54,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Update="Views\Jewelries\CreateTemp.cshtml">
-      <Pack>$(IncludeRazorContentInPack)</Pack>
-    </Content>
     <Content Update="Views\Jewelries\Details.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>

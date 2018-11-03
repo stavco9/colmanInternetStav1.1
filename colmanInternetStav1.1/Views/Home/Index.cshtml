@@ -101,6 +101,13 @@
 
             getSilverGold();
 
+            $.getJSON("/api/machinelearning", function (mlresult) {
+                $("#mlImg").attr("src", mlresult.imagePath);
+                $("#mlName").text(mlresult.name);
+                $("#mlPrice").text(mlresult.price);
+
+            });
+
             this.intervalId = setInterval(getSilverGold, 10000);
         });
 
@@ -163,7 +170,7 @@
             </h6>
 
             <div class="row" style="margin-top: 30px;">
-                <div class="col-md-10" style="background-color: ghostwhite; border-radius: 15px;">
+                <div class="col-md-8" style="background-color: ghostwhite; border-radius: 15px;">
                     <h6 style="margin-top: 10px;">Recomended in SilverGold Website:</h6>
                     <div class="row" style="margin-top: 15px;">
 
@@ -191,6 +198,23 @@
                                     </tr>
                                 </tbody>
                             </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card">
+                        <div class="card-image">
+                            <figure class="image is-4by3">
+                                <img id="mlImg" />
+                            </figure>
+                        </div>
+                        <div class="card-content">
+                            <p class="title" id="mlName"></p>
+                            <div class="content">
+                                This jewrly is <b>part of a set</b>, which is recommended for you, <b>specificly!</b>.<br />
+                                And its only <span id="mlPrice"></span> dollars!<br />
+                                Check our catalog for more delails!
+                            </div>
                         </div>
                     </div>
                 </div>

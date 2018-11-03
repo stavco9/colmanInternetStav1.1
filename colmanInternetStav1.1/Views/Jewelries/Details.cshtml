@@ -91,7 +91,7 @@
                         alert("Error on making purchase");
                     })
                     .always(function () {
-                        window.location.href = "/Catalog";
+                        window.location.href = "/Jewelries";
                     });;
             }
         };
@@ -172,21 +172,18 @@
                 </tbody>
             </table>
 
-            @{ if (Account.isAdmin(User))
-                {
-                <div style="margin:5px;">
-                    <a id="btnEdit" class="btn btn-outline-warning" href="" style="width: 45%; margin-right:5%">Edit</a>
-                    <a id="btnDelete" class="btn btn-outline-danger" href="" style="width: 45%;">Delete</a>
-                </div>
+            <div style="margin:5px;">
+                @{ if (Account.isAdmin(User))
+                    {
+                        <a id="btnEdit" class="btn btn-outline-warning" href="" style="width: 45%; margin-right:5%">Edit</a>
+                        <a id="btnDelete" class="btn btn-outline-danger" href="" style="width: 45%;">Delete</a>
+                    }
                 }
-                else{
                 <button onclick="Purchase()" style="width: 30%;" type="button" class="btn btn-outline-secondary">Buy</button>
-                }
-
-            }
+            </div>
 
 
-        </div>
+            </div>
     </div>
 
     <div class="container moreInCategory">

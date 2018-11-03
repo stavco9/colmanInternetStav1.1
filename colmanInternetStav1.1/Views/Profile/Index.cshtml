@@ -21,8 +21,8 @@
             var newitem_elem = $("#history_new_item").clone();
             //newitem_elem.attr("id","h_"+id);
             newitem_elem.removeAttr('id');
-            newitem_elem.find("[approle=img]").attr("src", item.imagePath);
-            newitem_elem.find("[approle=price]").text(item.price + " $");
+            newitem_elem.find("[approle=img]").attr("src", item.imagepath);
+            newitem_elem.find("[approle=price]").text(item.summary + " $");
             newitem_elem.find("[approle=name]").text(item.name);
             newitem_elem.find("[approle=description]").text(item.description);
             newitem_elem.appendTo("#history>.content>.content");

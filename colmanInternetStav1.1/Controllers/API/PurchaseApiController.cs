@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using colmanInternetStav1._1.Models;
+using System.Reflection;
 
 namespace colmanInternetStav1._1.Controllers.API
 {
@@ -44,9 +45,9 @@ namespace colmanInternetStav1._1.Controllers.API
         }
 
         [HttpGet("{user}")]
-        public List<Jewelry> GetPurchaseByUser(string user)
+        public List<Dictionary<string, object>> GetPurchaseByUser(string user)
         {
-            List<Jewelry> jewelries = new List<Jewelry>();
+            List<Dictionary<string, object>> jewelries = new List<Dictionary<string, object>>();
 
             ColmanInternetiotContext context = new ColmanInternetiotContext();
 
@@ -54,14 +55,19 @@ namespace colmanInternetStav1._1.Controllers.API
             
             foreach(Purchase purchase in purchases)
             {
-                for(int i = 1; i <= purchase.Amount; i++)
-                {
-                    Jewelry jewelry = context.Jewelry.First(x => x.Id == purchase.JewelryId);
+                Dictionary<string, object> dictJewelry = new Dictionary<string, object>();
 
-                    jewelry.Purchase = null;
+                Jewelry jewelry = context.Jewelry.First(x => x.Id == purchase.JewelryId);
 
-                    jewelries.Add(jewelry);
-                }   
+                jewelry.Purchase = null;
+
+                dictJewelry = jewelry.GetType()
+                    .GetProperties(BindingFlags.Instance | BindingFlags.Public)
+                    .ToDictionary(prop => prop.Name.ToLower(), prop => prop.GetValue(jewelry, null));
+
+                dictJewelry.Add("summary", purchase.Amount + " X " + jewelry.Price);
+
+                jewelries.Add(dictJewelry);
             }
 
             return jewelries;

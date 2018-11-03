@@ -48,7 +48,7 @@ namespace colmanInternetStav1._1.Controllers.API
             }
         }
 
-        private async Task<string> countrycode()
+        public async Task<string> countrycode()
         {
             try
             {

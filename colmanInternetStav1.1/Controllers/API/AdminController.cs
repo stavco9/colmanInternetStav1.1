@@ -17,6 +17,11 @@ public class AdminController : Controller
         [HttpGet]
         public Dictionary<string, string> Get()
         {
+            if (!Account.isAdmin(User))
+            {
+                return (null);
+            }
+
             Dictionary<string, string> result = new Dictionary<string, string>();
 
             ColmanInternetiotContext dbcontext = new ColmanInternetiotContext();

@@ -38,7 +38,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Views\Catalog\" />
     <Folder Include="Views\Shared\" />
     <Folder Include="wwwroot\css\" />
   </ItemGroup>

@@ -1,13 +1,10 @@
 @model colmanInternetStav1._1.Models.Jewelry
-@using colmanInternetStav1._1.Controllers;
-@using colmanInternetStav1._1.Models;
+
 
 @{
     ViewData["Title"] = "Edit";
 }
 
-@{ if (Account.isAdmin(User))
-    {
 <h2>Edit Jewelry</h2>
 
     <form asp-action="Edit">
@@ -165,11 +162,8 @@
 
         </div>
     </form>
-    }
-    else{
-    <h1> Access is denied</h1>
-    }
+   
 
-}
+
 
 

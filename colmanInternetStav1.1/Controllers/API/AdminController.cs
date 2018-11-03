@@ -11,8 +11,8 @@ using Newtonsoft.Json;
 namespace colmanInternetStav1._1.Controllers.API
 {
     [Route("api/[controller]")]
-public class AdminController : Controller
-{
+    public class AdminController : Controller
+    {
         // GET: api/<controller>
         [HttpGet]
         public Dictionary<string, string> Get()
@@ -64,5 +64,5 @@ public class AdminController : Controller
 
             return (result);
         }
-}
+    }
 }

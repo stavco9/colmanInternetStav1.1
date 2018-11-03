@@ -20,7 +20,7 @@ namespace colmanInternetStav1._1.Controllers
             }
             return View();
         }
-        
+
         public IActionResult ResyncFromFacebook()
         {
             // resync from facebook, somehow,

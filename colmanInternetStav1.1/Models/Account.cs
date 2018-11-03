@@ -13,7 +13,7 @@ namespace colmanInternetStav1._1.Models
 {
     public class Account
     {
-        private static bool devMode = false;
+        private static bool devMode = true;
 
         /*
         // DBCONTEXT - NOT IN USE, DELETE THIS LATER

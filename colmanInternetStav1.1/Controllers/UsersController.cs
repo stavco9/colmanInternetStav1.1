@@ -18,13 +18,14 @@ namespace colmanInternetStav1._1.Controllers
             _context = context;
         }
 
-        public static int CreatedTodayCount()
+        public static int CreatedThisMonthCount()
         {
             ColmanInternetiotContext _context = new ColmanInternetiotContext();
 
-            int countOfCraetedToday = _context.Users.Where(c => c.CreationDate == DateTime.Today.Date).Count();
+            int countOfCraetedThisMonth = _context.Users.Where(c => c.CreationDate.Value.Year == DateTime.Today.Date.Year &&
+            c.CreationDate.Value.Month == DateTime.Today.Date.Month).Count();
 
-            return countOfCraetedToday;
+            return countOfCraetedThisMonth;
         }
 
         // GET: Users

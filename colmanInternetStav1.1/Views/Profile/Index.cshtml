@@ -84,16 +84,16 @@
                         <tr><th>Full name</th><td>@userdetails["fullname"]</td></tr>
                         <tr><th>Gender</th><td>@userdetails["gender"]</td></tr>
                         <tr><th>Email address</th><td>@userdetails["emailaddress"]</td></tr>
-                        <tr><th>Cellphone number</th><td>(+972) 50 1231234</td></tr>
                         <tr><th>Facebook profile</th><td><a href=#>@userdetails["fullname"]</a></td></tr>
-                        <tr><th></th><td><a href=# class="button is-link"><span class="icon"><i class="fas fa-sync"></i></span><span>Resync facebook profile</span></a></td></tr>
                     </tbody>
                 </table>
             </div>
         </article>
     </div>
     <div class="tile is-parent">
-        <article class="tile is-child notification" id="history">
+        <article class="tile is-child notification" id="history" style="height: 500px;
+    overflow: scroll;
+    display: grid;">
             <div class="content">
                 <p class="title">Shopping history</p>
                 <div class="content">

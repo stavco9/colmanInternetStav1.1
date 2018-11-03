@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using colmanInternetStav1._1.Models;
+using System.Net;
+using System.IO;
 
 namespace colmanInternetStav1._1.Controllers.API
 {
@@ -14,7 +16,7 @@ namespace colmanInternetStav1._1.Controllers.API
     public class PurchaseApiController : Controller
     {
         [HttpPut]
-        public IActionResult MakePurchase([FromBody] object purchaseData)
+        public async Task<IActionResult> MakePurchase([FromBody] object purchaseData)
         {
             if (Account.isLoggedIn(User))
             {
@@ -28,6 +30,8 @@ namespace colmanInternetStav1._1.Controllers.API
 
                 try
                 {
+                    string country = await countrycode();
+                    purchase.Country = country;
                     newPurchase.Create(purchase);
                 }
                 catch
@@ -40,6 +44,20 @@ namespace colmanInternetStav1._1.Controllers.API
             else
             {
                 return NotFound();
+            }
+        }
+
+        private async Task<string> countrycode()
+        {
+            try
+            {
+                WebResponse res = await HttpWebRequest.Create("https://extreme-ip-lookup.com/json/79.183.11.105").GetResponseAsync();
+                string resContent = new StreamReader(res.GetResponseStream()).ReadToEnd();
+                return JsonConvert.DeserializeObject<Dictionary<string, string>>(resContent)["countryCode"];
+            }
+            catch
+            {
+                return "IL";
             }
         }
 

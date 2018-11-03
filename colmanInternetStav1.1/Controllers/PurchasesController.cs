@@ -42,7 +42,7 @@ namespace colmanInternetStav1._1.Controllers
             return double.Parse(numOfPurchases.ToString());
         }
 
-        private double getProfitFromPurchase(int jewelryId, double amount)
+        public double getProfitFromPurchase(int jewelryId, double amount)
         {
             return (amount * new ColmanInternetiotContext().Jewelry.First(x => x.Id == jewelryId).Price);
         }

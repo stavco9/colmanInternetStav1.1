@@ -23,15 +23,32 @@
 
             $.getJSON("/api/Sets/count", function (data) {
                 listDetails = data;
-                
+
                 liorColumnGraphUpdate(Object.values(listDetails), Object.keys(listDetails), "graph2");
             });
+
+            $.getJSON("/api/admin", function (data) {
+                var lastdeals = JSON.parse(data["10_last_purchases"]);
+                for (var i = 0; i < lastdeals.length; i++) {
+                    appendHistoryItem(lastdeals[i]);
+                }
+            });
+        }
+
+        function appendHistoryItem(item) {
+            var newitem_elem = $("#history_new_item").clone();
+            //newitem_elem.attr("id","h_"+id);
+            newitem_elem.removeAttr('id');
+            newitem_elem.find("[approle=img]").attr("src", item.img);
+            newitem_elem.find("[approle=money]").text(item.money + " $");
+            newitem_elem.find("[approle=jewrley]").text(item.jewrley);
+            newitem_elem.find("[approle=client]").text(item.client);
+            newitem_elem.appendTo("#history>tbody");
         }
 
         $(function () {
             liorLineGraphCreate("graph1");
             liorColumnGraphCreate("graph2");
-            setInterval(updateData(), 20000);
             updateData(8);
         });
 
@@ -43,6 +60,10 @@
         .maintiles .is-child {
             background: #f9f9f9;
             padding: 20px;
+        }
+
+        #history .money {
+            color: #5cab00 !important;
         }
     </style>
 }
@@ -60,8 +81,8 @@
                 <p class="subtitle">@userdetails["firstname"], <b>welcome</b> to Admin panel</p>
             </article>
             <article class="tile is-child">
-                <p class="subtitle">New users today</p>
-                <p class="title">@UsersController.CreatedTodayCount()</p>
+                <p class="subtitle">New users this month</p>
+                <p class="title">@UsersController.CreatedThisMonthCount()</p>
             </article>
         </div>
         <div class="tile is-parent is-6">
@@ -83,7 +104,7 @@
             <div class="tile is-parent">
                 <article class="tile is-child">
                     <p class="subtitle">Monthly profit</p>
-                    <p class="title">@purchases.GetMonthlyProfit(DateTime.Now.Month, DateTime.Now.Year )$</p>
+                    <p class="title">@purchases.GetMonthlyProfit(DateTime.Now.Month, DateTime.Now.Year)$</p>
                 </article>
             </div>
         </div>
@@ -97,19 +118,30 @@
             </article>
         </div>
         <div class="tile is-6">
-            <div class="tile is-parent is-8">
-                <article class="tile is-child">
-                    last deals
-                </article>
-            </div>
-            <div class="tile is-parent is-vertical">
-                <article class="tile is-child">
-                    stat 5
-                </article>
-                <article class="tile is-child">
-                    stat 6
+            <div class="tile is-parent">
+                <article class="tile is-child" style="overflow: scroll;
+    height: 500px;
+    display: grid;">
+                    <p class="subtitle">Last 10 deals</p>
+                    <table id="history" class="table is-fullwidth">
+                        <tr>
+                            <th></th>
+                            <th>Client</th>
+                            <th>Jewrley</th>
+                            <th>Payment</th>
+                        </tr>
+                    </table>
                 </article>
             </div>
         </div>
     </div>
 </div>
+
+@section hidden {
+    <table><tr id="history_new_item">
+        <td><p class="image is-64x64"><img approle="img"></p></td>
+        <td approle="client"></td>
+        <td approle="jewrley"></td>
+        <td class="money" approle="money"></td>
+    </tr></table>
+}

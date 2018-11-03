@@ -30,6 +30,20 @@ namespace colmanInternetStav1._1.Controllers
             return double.Parse(numOfPurchases.ToString());
         }
 
+        public double GetSinglePurchaseProfit(int purchaseId)
+        {
+            double profit = 0;
+
+            if (PurchaseExists(purchaseId))
+            {
+                Purchase purchase = _context.Purchase.First(x => x.Id == purchaseId);
+
+                profit = getProfitFromPurchase(purchase.JewelryId, double.Parse(purchase.Amount.ToString()));
+            }
+
+            return profit;
+        }
+
         public double GetMonthlyProfit(int month, int year)
         {
             double? numOfPurchases = _context.Purchase.Where(x => x.Date.Value.Month == month && x.Date.Value.Year == year).Sum(m => getProfitFromPurchase(m.JewelryId, double.Parse(m.Amount.ToString())));
